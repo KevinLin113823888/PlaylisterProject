@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState,useContext } from "react";
 import { useHistory } from 'react-router-dom'
 import api from './auth-request-api'
 
@@ -10,13 +10,16 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
-    REGISTER_USER: "REGISTER_USER"
+    REGISTER_USER: "REGISTER_USER",
+    ACCOUNT_ERROR: "ACCOUNT_ERROR"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        accounterr: false,
+        message: ""
     });
     const history = useHistory();
 
@@ -30,25 +33,41 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    accounterr: false,
+                    message: ""
                 });
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    accounterr: false,
+                    message: ""
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false
+                    loggedIn: false,
+                    accounterr: false,
+                    message: ""
                 })
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    accounterr: false,
+                    message: ""
+                })
+            }
+            case AuthActionType.ACCOUNT_ERROR: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    accounterr: payload.err,
+                    message: payload.msg
                 })
             }
             default:
@@ -70,7 +89,9 @@ function AuthContextProvider(props) {
     }
 
     auth.registerUser = async function(firstName, lastName, email, password, passwordVerify) {
-        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);      
+        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify); 
+        console.log(response.status);     
+        console.log(response);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -80,9 +101,12 @@ function AuthContextProvider(props) {
             })
             history.push("/login");
         }
+        auth.loginUser(email,password);
     }
 
     auth.loginUser = async function(email, password) {
+        console.log("HI");
+        try{
         const response = await api.loginUser(email, password);
         if (response.status === 200) {
             authReducer({
@@ -93,8 +117,54 @@ function AuthContextProvider(props) {
             })
             history.push("/");
         }
-    }
+        } catch(err){
+            if (err.response) {
+                
+                console.log(err.response.status);
+                console.log(err.message);
 
+                console.log(err.response.errorMessage); // 👉️ {... response headers here}
+                console.log(err.response.data.errorMessage); // 👉️ {... response data here}
+                authReducer({
+                    type: AuthActionType.ACCOUNT_ERROR,
+                    payload: {
+                        err: true,
+                        msg : err.response.data.errorMessage
+                    }
+                })
+              }
+        } finally{
+          
+            /*authReducer({
+                type: AuthActionType.ACCOUNT_ERROR,
+                payload: true
+            })*/
+        }
+        
+      /*  console.log("HEY");
+        if(response.status === 401){
+            console.log("HEY");
+            authReducer({
+                type: AuthActionType.ACCOUNT_ERROR,
+                payload: null
+            })
+        }*/
+    }
+    auth.setAccountErr = function(){
+        authReducer( {
+            type: AuthActionType.ACCOUNT_ERROR,
+            payload: true
+        })
+    }
+    auth.hideAccountErr = function(){
+        authReducer( {
+            type: AuthActionType.ACCOUNT_ERROR,
+            payload: {
+                err: false,
+                msg: ""
+            }
+        })
+    }
     auth.logoutUser = async function() {
         const response = await api.logoutUser();
         if (response.status === 200) {

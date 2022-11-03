@@ -36,9 +36,7 @@ loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res
-                .status(400)
-                .json({ errorMessage: "Please enter all required fields." });
+            return res.status(400).json({ errorMessage: "Please enter all required fields." });
         }
 
         const existingUser = await User.findOne({ email: email });
@@ -95,13 +93,12 @@ logoutUser = async (req, res) => {
 }
 
 registerUser = async (req, res) => {
+    
     try {
         const { firstName, lastName, email, password, passwordVerify } = req.body;
         console.log("create user: " + firstName + " " + lastName + " " + email + " " + password + " " + passwordVerify);
         if (!firstName || !lastName || !email || !password || !passwordVerify) {
-            return res
-                .status(400)
-                .json({ errorMessage: "Please enter all required fields." });
+            return res.status(400).json({ errorMessage: "Please enter all required fields." });
         }
         console.log("all fields provided");
         if (password.length < 8) {

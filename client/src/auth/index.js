@@ -89,9 +89,9 @@ function AuthContextProvider(props) {
     }
 
     auth.registerUser = async function(firstName, lastName, email, password, passwordVerify) {
-        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify); 
-        console.log(response.status);     
-        console.log(response);
+         
+    try{
+        const response = await api.registerUser(firstName, lastName, email, password, passwordVerify);
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -102,6 +102,28 @@ function AuthContextProvider(props) {
             history.push("/login");
         }
         auth.loginUser(email,password);
+    } catch(err2){
+        if (err2.response) {
+            console.log(err2.response.status);
+            console.log(err2.message);
+            console.log(err2.response.headers); // 👉️ {... response headers here}
+            console.log(err2.response.data.errorMessage);
+            authReducer({
+                type: AuthActionType.ACCOUNT_ERROR,
+                payload: {
+                    err: true,
+                    msg : err2.response.data.errorMessage
+                }
+            })
+          }
+    }finally{
+          
+        /*authReducer({
+            type: AuthActionType.ACCOUNT_ERROR,
+            payload: true
+        })*/
+    }
+        
     }
 
     auth.loginUser = async function(email, password) {
@@ -120,11 +142,6 @@ function AuthContextProvider(props) {
         } catch(err){
             if (err.response) {
                 
-                console.log(err.response.status);
-                console.log(err.message);
-
-                console.log(err.response.errorMessage); // 👉️ {... response headers here}
-                console.log(err.response.data.errorMessage); // 👉️ {... response data here}
                 authReducer({
                     type: AuthActionType.ACCOUNT_ERROR,
                     payload: {

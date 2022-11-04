@@ -8,6 +8,7 @@ import List from '@mui/material/List';
 import { GlobalStoreContext } from '../store/index.js'
 import MUIAccessErrModal from './MUIAccessErrModal'
 import AuthContext from '../auth'
+import Statusbar from './Statusbar'
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -45,6 +46,7 @@ function WorkspaceScreen() {
             }
          </List>            
          { modalJSX }
+         <Statusbar />
          </Box>
     )
         }catch(e){

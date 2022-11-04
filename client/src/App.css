@@ -103,7 +103,7 @@ body {
   background-color: var(--swatch-primary);
 }
 
-#top5-workspace {
+#playlister-workspace {
   position: absolute;
   left: 0%;
   top: 10%;
@@ -112,7 +112,7 @@ body {
   background-color: var(--swatch-accent);
 }
 
-#top5-statusbar {
+#playlister-statusbar {
   position: absolute;
   left: 0%;
   top: 90%;
@@ -190,7 +190,7 @@ body {
 
 .list-card-button {
   float: right;
-  transform: scale(2);
+  transform: scale(1);
 }
 
 #workspace-home,

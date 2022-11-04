@@ -78,7 +78,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload.idNamePairs,
-                    currentList: payload.playlist,
+                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -544,8 +544,9 @@ function GlobalStoreContextProvider(props) {
         tps.doTransaction();
     }
     store.canAddNewSong = function() {
-        return (store.currentList !== null);
+        return (store.currentList !== null && store.currentModal=="NONE");
     }
+    
     store.canUndo = function() {
         return ((store.currentList !== null) && tps.hasTransactionToUndo());
     }
@@ -553,7 +554,7 @@ function GlobalStoreContextProvider(props) {
         return ((store.currentList !== null) && tps.hasTransactionToRedo());
     }
     store.canClose = function() {
-        return (store.currentList !== null);
+        return (store.currentList !== null && store.currentModal=="NONE");
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME

@@ -91,7 +91,7 @@ export default function AppBanner() {
         else
             return <AccountCircle />;
     }
-
+    
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">

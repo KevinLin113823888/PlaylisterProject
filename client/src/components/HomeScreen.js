@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
+import AuthContext from '../auth';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography'
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -23,6 +25,8 @@ const HomeScreen = () => {
         store.createNewList();
     }
     let listCard = "";
+    console.log("SETTING");
+    console.log(auth.user);
     if (store) {
         listCard = 
             <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>

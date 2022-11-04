@@ -273,6 +273,7 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
         tps.clearAllTransactions();
+        history.push('/');
     }
 
     // THIS FUNCTION CREATES A NEW LIST
@@ -303,6 +304,8 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
+                console.log("BRUH");
+                console.log(response.data.idNamePairs);
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -333,17 +336,31 @@ function GlobalStoreContextProvider(props) {
         getListToDelete(id);
     }
     store.deleteList = function (id) {
+        console.log("DELETING");
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
-            if (response.data.success) {
+            if (response.status === 200) {
                 store.loadIdNamePairs();
+                console.log("WHAT");
+                storeReducer({
+                    type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
+                    payload: {id: null, playlist: null}
+                });
                 history.push("/");
             }
+            //store.loadIdNamePairs();
         }
         processDelete(id);
     }
     store.deleteMarkedList = function() {
         store.deleteList(store.listIdMarkedForDeletion);
+        store.hideModals();
+    }
+    store.unmarkListForDeletion= function(){
+        storeReducer({
+            type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
+            payload: {id: null, playlist: null}
+        });
         store.hideModals();
     }
     

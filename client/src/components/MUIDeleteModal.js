@@ -3,7 +3,8 @@ import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -34,23 +35,22 @@ export default function MUIDeleteModal() {
             open={store.listMarkedForDeletion !== null}
         >
             <Box sx={style}>
-                <div className="modal-dialog">
-                <header className="dialog-header">
-                    Delete the {name} Top 5 List?
-                </header>
-                <div id="confirm-cancel-container">
-                    <button
-                        id="dialog-yes-button"
-                        className="modal-button"
-                        onClick={handleDeleteList}
-                    >Confirm</button>
-                    <button
-                        id="dialog-no-button"
-                        className="modal-button"
-                        onClick={handleCloseModal}
-                    >Cancel</button>
-                </div>
-            </div>
+
+    <header className="dialog-header">
+        
+    <Typography id="modal-modal-title"  variant="h4" component="h2">
+        Are you sure you wish to permanently delete the {name} playlist?
+    </Typography>
+    </header>
+    <div></div>
+    <div class="modal-footer" id="confirm-cancel-container">
+    <Button variant="contained" onClick={() => {
+                handleDeleteList();}}>Confirm</Button>
+    <Button variant="text" onClick={() => {
+                handleCloseModal();}}>Cancel</Button>
+    </div>
+    
+                
             </Box>
         </Modal>
     );

@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -20,16 +21,16 @@ const style = {
     p: 4,
 };
 
-export default function MUIAccErrModal() {
+export default function MUIAccessErrModal() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     let name = "";
-    if (store.listMarkedForDeletion) {
-        name = store.listMarkedForDeletion.name;
-    }
+    store.history = useHistory();
+    
+
     function handleCloseModal(event) {
         auth.hideAccountErr();
-        //store.history.push("/");
+        store.history.push("/");
     }
     console.log(auth.accounterr);
     console.log(auth.message);
@@ -37,12 +38,12 @@ export default function MUIAccErrModal() {
     return (
         
         <Modal
-            open={auth.accounterr ==true}
+            open={true}
         >
             <Box sx={style}>
-            <Alert severity="warning">
-             <AlertTitle>Warning</AlertTitle>
-             <strong>{auth.message}</strong>
+            <Alert severity="error">
+             <AlertTitle>Error</AlertTitle>
+             <strong>Authentication Error</strong>
             </Alert>
             <div id="confirm-cancel-container">
             <Button variant="outlined" color="error" onClick={() => {

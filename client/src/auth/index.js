@@ -170,7 +170,10 @@ function AuthContextProvider(props) {
     auth.setAccountErr = function(){
         authReducer( {
             type: AuthActionType.ACCOUNT_ERROR,
-            payload: true
+            payload: {
+                err: true,
+                msg: ""
+            }
         })
     }
     auth.hideAccountErr = function(){

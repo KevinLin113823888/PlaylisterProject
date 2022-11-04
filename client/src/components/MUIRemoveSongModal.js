@@ -3,6 +3,8 @@ import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 const style = {
     position: 'absolute',
@@ -28,6 +30,7 @@ export default function MUIRemoveSongModal() {
     }
     
     let modalClass = "modal";
+    console.log(store.isRemoveSongModalOpen());
     if (store.isRemoveSongModalOpen()) {
         modalClass += " is-visible";
     }
@@ -35,40 +38,34 @@ export default function MUIRemoveSongModal() {
     if (store.currentSong) {
         songTitle = store.currentSong.title;
     }
+    console.log(store.listMarkedForDeletion);
 
     return (
         <Modal
-            open={store.listMarkedForDeletion !== null}
+            open={store.currentModal == "REMOVE_SONG"}
         >
             <Box sx={style}>
-            <div
-        id="remove-song-modal"
-        className={modalClass}
-        data-animation="slideInOutLeft">
-        <div className="modal-root" id='verify-remove-song-root'>
-            <div className="modal-north">
-                Remove {songTitle}?
-            </div>
-            <div className="modal-center">
-                <div className="modal-center-content">
-                    Are you sure you wish to permanently remove {songTitle} from the playlist?
-                </div>
-            </div>
-            <div className="modal-south">
-                <input type="button" 
-                    id="remove-song-confirm-button" 
-                    className="modal-button" 
-                    onClick={handleConfirmRemoveSong} 
-                    value='Confirm' />
-                <input 
-                    type="button" 
-                    id="remove-song-cancel-button" 
-                    className="modal-button" 
-                    onClick={handleCancelRemoveSong} 
-                    value='Cancel' />
-            </div>
+
+            <header className="dialog-header">
+        <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
+            <strong>Remove {songTitle}?</strong>
+        </Typography>
+        </header>
+        <Typography id="modal-modal-title" className="modal-center" variant="h5" component="h2">
+            Are you sure you wish to permanently remove {songTitle} from the playlist?
+        </Typography>
+        
+        <div></div>
+        <div class="modal-footer" id="confirm-cancel-container">
+        <div className="modal-south">
+        <Button variant="contained" onClick={() => {
+                    handleConfirmRemoveSong();}}>Confirm</Button>
+        <Button variant="text" onClick={() => {
+                    handleCancelRemoveSong();}}>Cancel</Button>
         </div>
-    </div>
+        </div>
+        
+ 
             </Box>
         </Modal>
     );

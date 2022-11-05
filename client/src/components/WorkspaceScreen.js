@@ -50,7 +50,7 @@ function WorkspaceScreen() {
          </Box>
     )
         }catch(e){
-            
+            console.log(e);
             return (<MUIAccessErrModal/>);
         }finally{
         }

@@ -32,6 +32,9 @@ export default function AppBanner() {
         handleMenuClose();
         auth.logoutUser();
     }
+    const handleHome = () => {
+        store.closeCurrentList();
+    }
 
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
@@ -102,7 +105,7 @@ export default function AppBanner() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>⌂</Link>
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/' onClick = {handleHome}>⌂</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

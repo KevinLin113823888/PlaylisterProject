@@ -62,7 +62,7 @@ const HomeScreen = () => {
                 <MUIDeleteModal />
                 
             </div>
-            <Statusbar />
+                
         </div>
         )
 }

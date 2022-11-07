@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState,useContext } from "react";
 import { useHistory } from 'react-router-dom'
-import api from './auth-request-api'
+import api, { getLoggedIn } from './auth-request-api'
 
 const AuthContext = createContext();
 console.log("create AuthContext: " + AuthContext);
@@ -11,7 +11,8 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
-    ACCOUNT_ERROR: "ACCOUNT_ERROR"
+    ACCOUNT_ERROR: "ACCOUNT_ERROR",
+    ACCESS_ERROR: "ACCESS_ERROR"
 }
 
 function AuthContextProvider(props) {
@@ -19,7 +20,8 @@ function AuthContextProvider(props) {
         user: null,
         loggedIn: false,
         accounterr: false,
-        message: ""
+        message: "",
+        accesserr: false
     });
     const history = useHistory();
 
@@ -35,7 +37,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: payload.loggedIn,
                     accounterr: false,
-                    message: ""
+                    message: "",
+                    accesserr: false
                 });
             }
             case AuthActionType.LOGIN_USER: {
@@ -43,7 +46,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: true,
                     accounterr: false,
-                    message: ""
+                    message: "",
+                    accesserr: false
                 })
             }
             case AuthActionType.LOGOUT_USER: {
@@ -51,7 +55,8 @@ function AuthContextProvider(props) {
                     user: null,
                     loggedIn: false,
                     accounterr: false,
-                    message: ""
+                    message: "",
+                    accesserr: false
                 })
             }
             case AuthActionType.REGISTER_USER: {
@@ -59,7 +64,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: true,
                     accounterr: false,
-                    message: ""
+                    message: "",
+                    accesserr: false
                 })
             }
             case AuthActionType.ACCOUNT_ERROR: {
@@ -67,7 +73,17 @@ function AuthContextProvider(props) {
                     user: null,
                     loggedIn: false,
                     accounterr: payload.err,
-                    message: payload.msg
+                    message: payload.msg,
+                    accesserr: false
+                })
+            }
+            case AuthActionType.ACCESS_ERROR: {
+                return setAuth({
+                    user: auth.user,
+                    loggedIn: true,
+                    accounterr: false,
+                    message: "",
+                    accesserr: payload
                 })
             }
             default:
@@ -79,13 +95,26 @@ function AuthContextProvider(props) {
         const response = await api.getLoggedIn();
         if (response.status === 200) {
             authReducer({
-                type: AuthActionType.SET_LOGGED_IN,
+                type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     loggedIn: response.data.loggedIn,
                     user: response.data.user
                 }
             });
         }
+    }
+    auth.checkLoggedIn = async function () {
+      
+        try{
+            const response = await api.getLoggedIn();
+            if(response.status === 200){
+            }
+         }catch(e){
+            if(e.response){
+                console.log(e);
+                auth.getLoggedIn();
+            }
+         }
     }
 
     auth.registerUser = async function(firstName, lastName, email, password, passwordVerify) {
@@ -137,6 +166,13 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
+            /*sessionStorage.setItem("autosave", JSON.stringify( {user: response.data.user,
+                loggedIn: true,
+                accounterr: false,
+                message: ""}
+            ));
+            console.log("BRO");
+            console.log(sessionStorage.getItem("autosave"));*/
             history.push("/");
         }
         } catch(err){
@@ -185,6 +221,18 @@ function AuthContextProvider(props) {
             }
         })
     }
+    auth.hideAccessErr=function(){
+        authReducer( {
+            type: AuthActionType.ACCESS_ERROR,
+            payload: false
+        })
+    }
+    auth.setAccessErr=function(){
+        authReducer( {
+            type: AuthActionType.ACCESS_ERROR,
+            payload: true
+        })
+    }
     auth.logoutUser = async function() {
         const response = await api.logoutUser();
         if (response.status === 200) {
@@ -192,6 +240,11 @@ function AuthContextProvider(props) {
                 type: AuthActionType.LOGOUT_USER,
                 payload: null
             })
+            /*sessionStorage.setItem("autosave", JSON.stringify( {user: null,
+                loggedIn: false,
+                accounterr: false,
+                message: ""}
+            ));*/
             history.push("/");
         }
     }

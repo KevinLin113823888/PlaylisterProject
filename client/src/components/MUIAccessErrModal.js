@@ -29,8 +29,8 @@ export default function MUIAccessErrModal() {
     
 
     function handleCloseModal(event) {
-        auth.hideAccountErr();
-        store.history.push("/");
+        auth.setAccessErr();
+        //store.history.push("/");
     }
     console.log(auth.accounterr);
     console.log(auth.message);
@@ -38,12 +38,16 @@ export default function MUIAccessErrModal() {
     return (
         
         <Modal
-            open={true}
+            open={auth.accesserr==false}
         >
             <Box sx={style}>
             <Alert severity="error">
-             <AlertTitle>Error</AlertTitle>
-             <strong>Authentication Error</strong>
+             <AlertTitle>Authentication Error: Playlist not Accessible</AlertTitle>
+             
+             <strong>Click the Home Button to Return to Your Lists</strong>
+             
+             
+             
             </Alert>
             <div id="confirm-cancel-container">
             <Button variant="outlined" color="error" onClick={() => {

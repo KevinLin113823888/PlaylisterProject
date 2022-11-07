@@ -275,9 +275,17 @@ function GlobalStoreContextProvider(props) {
         tps.clearAllTransactions();
         history.push('/');
     }
+    store.resetCurrentList =function(){
+        storeReducer({
+            type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
+            payload: {}
+        });
+        tps.clearAllTransactions();
+    }
 
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
+        try{
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createPlaylist(newListName, [], auth.user.email);
         console.log("createNewList response: " + response);
@@ -296,6 +304,9 @@ function GlobalStoreContextProvider(props) {
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
         }
+    }catch(e){
+
+    }
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -304,7 +315,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
+                //console.log("BRUH");
                 console.log(response.data.idNamePairs);
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
@@ -336,12 +347,12 @@ function GlobalStoreContextProvider(props) {
         getListToDelete(id);
     }
     store.deleteList = function (id) {
-        console.log("DELETING");
+        //console.log("DELETING");
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
             if (response.status === 200) {
                 store.loadIdNamePairs();
-                console.log("WHAT");
+                //console.log("WHAT");
                 storeReducer({
                     type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
                     payload: {id: null, playlist: null}
@@ -548,10 +559,10 @@ function GlobalStoreContextProvider(props) {
     }
     
     store.canUndo = function() {
-        return ((store.currentList !== null) && tps.hasTransactionToUndo());
+        return ((store.currentList !== null) && tps.hasTransactionToUndo() && store.currentModal=="NONE");
     }
     store.canRedo = function() {
-        return ((store.currentList !== null) && tps.hasTransactionToRedo());
+        return ((store.currentList !== null) && tps.hasTransactionToRedo() && store.currentModal=="NONE");
     }
     store.canClose = function() {
         return (store.currentList !== null && store.currentModal=="NONE");

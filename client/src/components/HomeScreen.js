@@ -23,7 +23,13 @@ const HomeScreen = () => {
     }, []);
 
     function handleCreateNewList() {
+        
+        try{
+        auth.getLoggedIn();
+        
         store.createNewList();
+        }catch(e){}
+        
     }
     let listCard = "";
     console.log("SETTING");
@@ -62,7 +68,7 @@ const HomeScreen = () => {
                 <MUIDeleteModal />
                 
             </div>
-                
+            
         </div>
         )
 }

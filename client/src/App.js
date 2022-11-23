@@ -8,6 +8,7 @@ import {
     HomeWrapper,
     LoginScreen,
     RegisterScreen,
+    HomeScreen,
     Statusbar,
     WorkspaceScreen
 } from './components'
@@ -32,7 +33,8 @@ const App = () => {
                         <Route path="/" exact component={HomeWrapper} />
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
-                        <Route path="/playlist/:id" exact component={WorkspaceScreen} />
+                        <Route path="/playlist/:id" exact component={HomeScreen} />
+                        <Route path="/playlist/" exact component={HomeScreen} />
                     </Switch>
                 </GlobalStoreContextProvider>
             </AuthContextProvider>

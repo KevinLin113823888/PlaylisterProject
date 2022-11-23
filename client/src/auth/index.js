@@ -173,7 +173,7 @@ function AuthContextProvider(props) {
             ));
             console.log("BRO");
             console.log(sessionStorage.getItem("autosave"));*/
-            history.push("/");
+            history.push("/playlist/");
         }
         } catch(err){
             if (err.response) {

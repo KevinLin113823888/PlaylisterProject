@@ -3,6 +3,7 @@ import { React } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { AuthContextProvider } from './auth';
 import { GlobalStoreContextProvider } from './store'
+import YouTubePlayerExample from './components/PlaylisterYouTubePlayer.js'
 import {
     AppBanner,
     HomeWrapper,
@@ -10,7 +11,9 @@ import {
     RegisterScreen,
     HomeScreen,
     Statusbar,
-    WorkspaceScreen
+    WorkspaceScreen,
+    PlaylisterYouTubePlayer
+
 } from './components'
 /*
     This is our application's top-level component.
@@ -27,7 +30,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <AuthContextProvider>
-                <GlobalStoreContextProvider>              
+                <GlobalStoreContextProvider>            
                     <AppBanner />
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />
@@ -36,9 +39,12 @@ const App = () => {
                         <Route path="/playlist/:id" exact component={HomeScreen} />
                         <Route path="/playlist/" exact component={HomeScreen} />
                     </Switch>
+                    
                 </GlobalStoreContextProvider>
             </AuthContextProvider>
+            
         </BrowserRouter>
+        
     )
 }
 

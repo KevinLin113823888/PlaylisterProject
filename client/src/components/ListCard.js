@@ -16,6 +16,7 @@ import AddSongCard from './AddSongCard.js'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import RedoIcon from '@mui/icons-material/Redo';
 import UndoIcon from '@mui/icons-material/Undo';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
@@ -29,37 +30,52 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    const [editActive, setEditActive] = useState(false);
+    const [expandActive, setExpandActive] = useState(false);
     const [nowActive, setNowActive] = useState(-1);
     const [text, setText] = useState("");
-    const { idNamePair, selected,index2,id2 } = props;
+    const [editActive, setEditActive] = useState(false);
+    const { idNamePair, selected,index2,id2,idA,idB } = props;
     useEffect(() => {
-        setNowActive(-1);
+       
+        //document.getElementById(idA).addEventListener("click", retract);
     }, []);
-    
+    function retract() {
+        handleToggleExpandThree();
+        
+        document.getElementById("home").removeEventListener("click", retract);
+        document.getElementById("all").removeEventListener("click", retract);
+        document.getElementById("users").removeEventListener("click", retract);
+        //document.getElementById(idA).removeEventListener("click", retract);
+        //document.getElementById(idB).removeEventListener("click", retract);
+    }
+
+
+    function handleToggleEdit() {
+        
+        toggleEdit();
+    }
+
+    function toggleEdit() {
+        let newActive = !editActive;
+        if (newActive) {
+            store.setIsListNameEditActive();
+        }
+        setEditActive(newActive);
+    }
+
+
     function handleUndo() {
         store.undo();
     }
     function handleRedo() {
         store.redo();
     }
-    /*if(store.listExtend==true){
-        let newActive = !editActive;
-        if (newActive==false) {
-            setEditActive(newActive);
-            alert(editActive);
-        }
-        store.setExtend(false);
-    }*/
     
-    function handleLoadList(event) {
-        //alert(event.currentTarget.value);
-        let current = event.currentTarget.value;
-        //console.log(idNamePair._id);
-        //setNowActive(current);
-        //event.stopPropagation();
-            // CHANGE THE CURRENT LIST
+    
+    function handleLoadList() {
+        
             store.setCurrentListTwo(idNamePair._id);
+
         
     }
     function handleLoadListe(id) {
@@ -67,26 +83,34 @@ function ListCard(props) {
     }
     
 
-    function handleToggleEdit(event) {
-        //alert(event.currentTarget.value);
-    
+    function handleToggleExpand(event) {
+        //alert(event.target.id);
+        //alert(idA);
         console.log(idNamePair._id);
         event.stopPropagation();
         
         console.log("BEGIN");
         
-        toggleEditTwo();
+        toggleExpandTwo();
         handleLoadListe(idNamePair._id);
         
       
     }
-    
-    function handleToggleEditTwo(event) {
+    function handleToggleExpandThree() {
+        //handleLoadListe(idNamePair._id);
+        store.closeCurrentList();
+       
+        
+        toggleExpand();
+        
+        
+    }
+    function handleToggleExpandTwo(event) {
         //handleLoadListe(idNamePair._id);
         store.closeCurrentList();
         event.stopPropagation();
         
-        toggleEdit();
+        toggleExpand();
         
         
     }
@@ -95,30 +119,31 @@ function ListCard(props) {
         store.setPublished(id);
     }
     //let now = true;
-    function toggleEditTwo() {
-        let newActive = !editActive;
+    function toggleExpandTwo() {
+        let newActive = !expandActive;
         
         if (newActive) {
+            document.getElementById("home").addEventListener("click", retract);
+            document.getElementById("all").addEventListener("click", retract);
+            document.getElementById("users").addEventListener("click", retract);
+            
+            //document.getElementById(idA).addEventListener("click", retract);
+            
             store.setIsListNameEditActive(true);
             console.log("STARTING");
-            setEditActive(newActive);
+            setExpandActive(newActive);
  
             
         }else{
    
         }
     }
-    function toggleEdit() {
-        let newActive = !editActive;
+    function toggleExpand() {
+        let newActive = !expandActive;
         
-        /*if (newActive) {
-            store.setIsListNameEditActive(true);
-        }else{
-            setEditActive(newActive);
-           // store.setIsListNameEditActive(false);
-        }*/
-        setEditActive(false);
-        //alert(editActive);
+       
+        setExpandActive(false);
+        
     }
 
     function handleDeleteList(event, id) {
@@ -148,6 +173,22 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    function handleClick(event) {
+        switch (event.detail) {
+          case 1:
+            handleLoadList()
+            break;
+          case 2:
+            console.log("double click");
+            handleToggleEdit()
+            break;
+        }
+    };
+    function handleUserNameClick(){
+        
+        store.showPublishedListsFilteredUsers(idNamePair.userName);
+    }
+
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -160,14 +201,14 @@ function ListCard(props) {
         console.log(nowActive);
         console.log(store.listExtend);
         
-        let newActive = !editActive;
+        let newActive = !expandActive;
         
         if (!newActive) {
            console.log("HUH");
-            setEditActive(newActive);
+            setExpandActive(newActive);
            
         }
-        //store.setIsListNameEditActive(true);
+        
     }
     let hi = "#FFFFFF";
 
@@ -179,26 +220,26 @@ function ListCard(props) {
         modalJSX = <MUIRemoveSongModal />;
     }
     let cardElement = <div></div>
-
+    
     if(!idNamePair.published){
         cardElement =
         
         <ListItem
             
-            id={idNamePair._id}
+            id= {idA}
             key={idNamePair._id}
-            sx={{ height: "90px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:hi, border: 1, borderColor:"#000000"}}
+            sx={{ height: "90px",borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:hi, border: 1, borderColor:"#000000"}}
             style={{ width: '100%', fontSize: '25pt' }}
             value = {index2}
             onClick={(event) => {
-                handleLoadList(event)
+                handleClick(event)
             }}
           
         >
-         <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}>By:   {idNamePair.name}</Box></Box>
+         <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}><Link component="button" variant="body2" onClick={() => {handleUserNameClick();}}>By: {idNamePair.userName}</Link></Box></Box>
         
          <Box sx={{ paddingTop: "25px", paddingRight: "30px"}}>
-                <IconButton onClick={handleToggleEdit} id={idNamePair._id} aria-label='extend'>
+                <IconButton onClick={handleToggleExpand} id={idNamePair._id} aria-label='extend'>
                     <KeyboardDoubleArrowDownIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton>
         </Box>
@@ -210,21 +251,21 @@ function ListCard(props) {
        
         <ListItem
             
-            id={idNamePair._id}
+            id={index2}
             key={idNamePair._id}
             sx={{ height: "90px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#ABCDEF", border: 1, borderColor:"#000000"}}
             style={{ width: '100%', fontSize: '25pt' }}
             value = {index2}
             onClick={(event) => {
-                handleLoadList(event)
+                handleClick(event)
             }}
           
         >
-         <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}>By:   {idNamePair.name}</Box></Box>
+         <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}><Link component="button" variant="body2" onClick={() => {handleUserNameClick();}}>By: {idNamePair.userName}</Link></Box></Box>
          
          <Box sx={{ paddingTop: "25px", paddingRight: "30px"}}>
                 <IconButton onClick={(event) => {
-                    handleToggleEdit(event)
+                    handleToggleExpand(event)
                 }} aria-label='extend' value = {index2}>
                     <KeyboardDoubleArrowDownIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton>
@@ -234,10 +275,10 @@ function ListCard(props) {
     }
 
 
-    if (editActive && store.currentList!=null) {
+    if (expandActive && store.currentList!=null) {
         if( !idNamePair.published){
         cardElement =
-        <ClickAwayListener onClickAway={handleToggleEditTwo}>
+        
         <ListItem
             
         id={idNamePair._id}
@@ -246,7 +287,7 @@ function ListCard(props) {
         style={{ width: '100%', fontSize: '25pt' }}
        
         >
-     <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1 }}>{idNamePair.name}</Box>
+     <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}><Link component="button" variant="body2" onClick={() => {handleUserNameClick();}}>By: {idNamePair.userName}</Link></Box>
      <Box>
         <List 
             id="playlist-cards" 
@@ -316,17 +357,17 @@ function ListCard(props) {
        
     </Box>
      <Box sx={{ paddingTop: "25px", paddingLeft: "500px"}}>
-            <IconButton onClick={handleToggleEditTwo} aria-label='retract'>
+            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
                 <KeyboardDoubleArrowUpIcon style={{fontSize:'30pt', color: "#000000"}} />
             </IconButton>
     </Box>
     </Box>
        
     </ListItem>
-    </ClickAwayListener>
+    
         }else{
             cardElement =
-            <ClickAwayListener onClickAway={handleToggleEditTwo}>
+            
         <ListItem
             
         id={idNamePair._id}
@@ -335,7 +376,7 @@ function ListCard(props) {
         style={{ width: '100%', fontSize: '25pt' }}
        
         >
-     <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1 }}>{idNamePair.name}</Box>
+     <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}><Link component="button" variant="body2" onClick={() => {handleUserNameClick();}}>By: {idNamePair.userName}</Link></Box>
      <Box>
         <List 
             id="playlist-cards" 
@@ -382,15 +423,38 @@ function ListCard(props) {
        
     </Box>
      <Box sx={{ paddingTop: "25px", paddingLeft: "500px"}}>
-            <IconButton onClick={handleToggleEditTwo} aria-label='retract'>
+            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
                 <KeyboardDoubleArrowUpIcon style={{fontSize:'30pt', color: "#000000"}} />
             </IconButton>
     </Box>
     </Box>
        
     </ListItem>
-    </ClickAwayListener>
+    
         }
+
+
+        
+    }
+
+    if (editActive) {
+        cardElement =
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id={"list-" + idNamePair._id}
+                label="Playlist Name"
+                name="name"
+                autoComplete="Playlist Name"
+                className='list-card'
+                onKeyPress={handleKeyPress}
+                onChange={handleUpdateText}
+                defaultValue={idNamePair.name}
+                inputProps={{style: {fontSize: 48}}}
+                InputLabelProps={{style: {fontSize: 24}}}
+                autoFocus
+            />
     }
     return (
         cardElement

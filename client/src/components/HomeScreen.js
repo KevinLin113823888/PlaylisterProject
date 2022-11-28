@@ -14,8 +14,11 @@ import IconButton from '@mui/material/IconButton';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
+
 import InputLabel from '@mui/material/InputLabel';
 import YouTubePlayerExample from './PlaylisterYouTubePlayer.js'
+import Comments from './Comments.js'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import ListItem from '@mui/material/ListItem';
@@ -33,6 +36,7 @@ const HomeScreen = () => {
     const { auth } = useContext(AuthContext);
     const [ search, setSearch ] = useState("");
     const [ tab, setTab ] = useState(true);
+   ;
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
@@ -91,10 +95,102 @@ const HomeScreen = () => {
     let currentTab =<div></div>
     if(tab){
         currentTab = <YouTubePlayerExample />
+    }else{
+        currentTab = <Comments/>
     }
+    let commentButton = <Button 
+    disabled={false}
+    id='undo-button'
+    onClick={handleCommentsClick}
+    variant="contained"
+    style={{
+        borderRadius: "15px 15px 0px 0px",
+        fontWeight:"bold",
+        backgroundColor: "#fff",
+        border: ".1px solid #000",
+        color:"black",
+        textTransform: 'none',
+        paddingTop: "10px",
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        fontSize: "15px"
+    }}
+    >
+    
+    
+    Comments  
+     </Button>
+
+    let youtubeButton = <Button 
+    disabled={false}
+    id='undo-button'
+    onClick={handleYoutubeClick}
+    variant="contained"
+    style={{
+        borderRadius: "15px 15px 0px 0px",
+        fontWeight:"bold",
+        border: ".1px solid #000",
+        backgroundColor: "#cccccc",
+        color:"black",
+        textTransform: 'none',
+        paddingTop: "10px",
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        fontSize: "15px"
+    }}
+    >
+        
+    
+    Player  
+</Button>
+
+     if(tab){
+        commentButton = <Button 
+    disabled={false}
+    id='undo-button'
+    onClick={handleCommentsClick}
+    variant="contained"
+    style={{
+        borderRadius: "15px 15px 0px 0px",
+        fontWeight:"bold",
+        backgroundColor: "#cccccc",
+        border: ".1px solid #000",
+        color:"black",
+        textTransform: 'none',
+        paddingTop: "10px",
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        fontSize: "15px"
+    }}
+    >Comments</Button>
+
+    youtubeButton = <Button 
+    disabled={false}
+    id='undo-button'
+    onClick={handleYoutubeClick}
+    variant="contained"
+    style={{
+        borderRadius: "15px 15px 0px 0px",
+        fontWeight:"bold",
+        border: ".1px solid #000",
+        backgroundColor: "#fff",
+        color:"black",
+        textTransform: 'none',
+        paddingTop: "10px",
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        fontSize: "15px"
+    }}
+    >
+        
+    
+    Player  
+</Button>
+     }
+    
     if (store) {
         listCard = 
-            <List sx={{ width: '97%', left: '0%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '97%', left: '0%', bgcolor: '#c4c4c4' }}>
             {
                 store.idNamePairs.map((pair,index2) => (
                     <ListCard
@@ -102,6 +198,7 @@ const HomeScreen = () => {
                         idNamePair={pair}
                         selected={false}
                         index2 = {index2}
+                        userAuth = {auth.user.userName}
                         idA = {index2 + "a"}
                         idB = {index2 + "b"}
                         id2 = {pair._id}
@@ -123,22 +220,12 @@ const HomeScreen = () => {
                     <PersonOutlineOutlinedIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton></div>
 
-                <div>  <Input type="text" id="outlined-basic" label="Title:" variant="outlined" onChange={ 
-                    handleUpdateSearch} onKeyPress={handleKeyPress} />
+                <div id = "borderchange">  <TextField type="text" id="outlined-basic"  variant="outlined" size="small" onChange={ 
+                    handleUpdateSearch} onKeyPress={handleKeyPress} height="30px" placeholder="Search" style={{marginTop:"5px",marginLeft:"70px",background:"#ffffff",width:"600px"}}/>
                 </div>
                 <div>
         <div id="playlist-selector">
-            <div id="list-selector-heading">
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
-            </div>
+            
             <div id="list-selector-list">
                 {
                     listCard
@@ -149,22 +236,8 @@ const HomeScreen = () => {
             
         </div>
             <div id="youtubePlayer">
-            <Button sx={{ marginRight: 0, fontSize:"10px",fontWeight:'fontWeightMedium'}}
-                disabled={false}
-                id='undo-button'
-                onClick={handleYoutubeClick}
-                variant="contained">
-                
-                Player  
-            </Button>
-            <Button sx={{ marginRight: 0, fontSize:"10px",fontWeight:'fontWeightMedium'}}
-                disabled={false}
-                id='undo-button'
-                onClick={handleCommentsClick}
-                variant="contained">
-                
-                Comments  
-            </Button>
+            {youtubeButton}
+            {commentButton}
              
             {currentTab}
 

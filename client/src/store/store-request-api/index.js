@@ -22,14 +22,19 @@ const api = axios.create({
 // WORK, AND SOME REQUIRE DATA, WHICH WE WE WILL FORMAT HERE, FOR WHEN
 // WE NEED TO PUT THINGS INTO THE DATABASE OR IF WE HAVE SOME
 // CUSTOM FILTERS FOR QUERIES
-export const createPlaylist = (newListName, newSongs, userEmail, publish,userName) => {
+export const createPlaylist = (newListName, newSongs, userEmail, publish,userName,comments,likes,dislikes,publishDate,listens) => {
     return api.post(`/playlist/`, {
         // SPECIFY THE PAYLOAD
         userName: userName,
         name: newListName,
         songs: newSongs,
         ownerEmail: userEmail,
-        published: publish
+        published: publish,
+        comments:comments,
+        likes:likes,
+        dislikes:dislikes,
+        publishDate:publishDate,
+        listens:listens
     })
 }
 export const deletePlaylistById = (id) => api.delete(`/playlist/${id}`)

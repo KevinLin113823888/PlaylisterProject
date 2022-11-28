@@ -17,12 +17,10 @@ export default function YouTubePlayerExample() {
     // FROM ONE SONG TO THE NEXT
     const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
-    let playlist = [
-        "mqmxkGjow1A",
-        "8RbXIMZmVv8",
-        "8UbNbor3OqQ"
-    ];
-
+    const [ songNum, setSongNum ] = useState(0);
+    const [playered, setPlayered] = useState(null);
+    let playlist = getYouTubeIdsFromCurrentList();
+    
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
     let currentSong = 0;
     let player;
@@ -34,37 +32,61 @@ export default function YouTubePlayerExample() {
             autoplay: 0,
         },
     };
-
+    function getYouTubeIdsFromCurrentList(){
+        let ytplaylist = [];
+        
+        if(store.currentList){
+            ytplaylist = [];
+        let i =0;
+        
+        for(i=0;i<store.currentList.songs.length;i++){
+            ytplaylist.push(store.currentList.songs[i].youTubeId);
+            console.log(store.currentList.songs);
+        }
+        console.log(ytplaylist);
+        
+        }
+        
+        return ytplaylist;
+    }
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
     function loadAndPlayCurrentSong(player) {
         
         let song = playlist[currentSong];
+        //if(playered){
         player.loadVideoById(song);
+        
         player.playVideo();
+        //}
         
     }
     function handlePlaySong(){
-        player.playVideo();
+        playered.playVideo();
+        store.incrementListens();
     }
     function handlePauseSong(){
-        player.pauseVideo();
+        playered.pauseVideo();
     }
     function handleNextSong(){
         console.log(player);
        incSong();
        let song = playlist[currentSong];
-       player.loadVideoById(song);
+       
+       playered.loadVideoById(song);
+       
     }
     function handlePreviousSong(){
         decSong();
        let song = playlist[currentSong];
-       player.loadVideoById(song);
+       playered.loadVideoById(song);
     }
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
         currentSong++;
+        
         currentSong = currentSong % playlist.length;
+        //setSongNum(currentSong);
     }
     function decSong() {
         if(currentSong>0){
@@ -72,6 +94,7 @@ export default function YouTubePlayerExample() {
         }else{
             currentSong = playlist.length-1;
         }
+        //setSongNum(currentSong);
     }
     function nextVid(){
         player.nextVideo();
@@ -79,8 +102,11 @@ export default function YouTubePlayerExample() {
 
     function onPlayerReady(event) {
         player = event.target;
+        //setPlayered(player);
+        
         loadAndPlayCurrentSong(event.target);
         event.target.playVideo();
+        
     }
 
     // THIS IS OUR EVENT HANDLER FOR WHEN THE YOUTUBE PLAYER'S STATE
@@ -90,6 +116,7 @@ export default function YouTubePlayerExample() {
     function onPlayerStateChange(event) {
         let playerStatus = event.data;
         player = event.target;
+        setPlayered(player);
         
         if (playerStatus === -1) {
             // VIDEO UNSTARTED
@@ -164,7 +191,7 @@ export default function YouTubePlayerExample() {
         
         >
      <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: {store.currentList.name} </Box>
-     <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #: {currentSong+1} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title: {store.currentList.songs[0].title} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist: {store.currentList.songs[0].artist} </Box>
+     <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #: {songNum+1} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title: {store.currentList.songs[songNum].title} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist: {store.currentList.songs[songNum].artist} </Box>
      
      <Box
         

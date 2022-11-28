@@ -139,7 +139,13 @@ getPlaylistPairs = async (req, res) => {
                         let pair = {
                             _id: list._id,
                             name: list.name,
-                            published: list.published
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
                         };
                         pairs.push(pair);
                     }
@@ -155,6 +161,47 @@ getPublishedPlaylistPairs = async (req, res) => {
     console.log("getPublishedPlaylistPairs");
     
             await Playlist.find({ published: true }, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+getPublishedPlaylistPairsFilter = async (req, res) => {
+    console.log("getPublishedPlaylistPairsFilter");
+    const body = req.body;
+    console.log(JSON.stringify(body));
+    
+    
+            await Playlist.find({name: { $regex: req.text, $options: "i" }}, (err, playlists) => {
                 console.log("found Playlists: " + JSON.stringify(playlists));
                 if (err) {
                     return res.status(400).json({ success: false, error: err })
@@ -210,7 +257,12 @@ getPlaylists = async (req, res) => {
                         let pair = {
                             _id: list._id,
                             name: list.name,
-                            published: list.published
+                            published: list.published,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
                         };
                         pairs.push(pair);
                     }
@@ -253,6 +305,11 @@ updatePlaylist = async (req, res) => {
                     list.name = body.playlist.name;
                     list.songs = body.playlist.songs;
                     list.published = body.playlist.published;
+                    list.comments = body.playlist.comments;
+                    list.likes = body.playlist.likes;
+                    list.dislikes = body.playlist.dislikes;
+                    list.publishDate = body.playlist.publishDate;
+                    list.listens = body.playlist.listens;
                     list
                         .save()
                         .then(() => {
@@ -317,6 +374,7 @@ module.exports = {
     getPlaylistById,
     getPublishedPlaylistPairs,
     getPlaylistPairs,
+    getPublishedPlaylistPairsFilter,
     
     getPlaylists,
     updatePlaylist

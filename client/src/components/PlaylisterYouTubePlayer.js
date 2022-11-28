@@ -19,10 +19,11 @@ export default function YouTubePlayerExample() {
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     const [ songNum, setSongNum ] = useState(0);
     const [playered, setPlayered] = useState(null);
+    const [title, setTitle] = useState("");
     let playlist = getYouTubeIdsFromCurrentList();
     
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
-    let currentSong = 0;
+    //let currentSong = 0;
     let player;
     const playerOptions = {
         height: '232',
@@ -51,13 +52,21 @@ export default function YouTubePlayerExample() {
     }
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
+    let curSong;
+    if(store.currentList){
+     curSong = store.currentList.songs[songNum];
+     console.log("WHO");
+     console.log(curSong);
+    }
     function loadAndPlayCurrentSong(player) {
         
-        let song = playlist[currentSong];
+        let song = playlist[songNum];
+        
         //if(playered){
         player.loadVideoById(song);
         
         player.playVideo();
+        
         //}
         
     }
@@ -69,32 +78,40 @@ export default function YouTubePlayerExample() {
         playered.pauseVideo();
     }
     function handleNextSong(){
+        
         console.log(player);
        incSong();
-       let song = playlist[currentSong];
+       let song = playlist[songNum];
        
        playered.loadVideoById(song);
+       curSong = store.currentList.songs[songNum];
+       setTitle(store.currentList.songs[songNum].title);
+       console.log("TOOT");
+       console.log(curSong);
        
     }
     function handlePreviousSong(){
         decSong();
-       let song = playlist[currentSong];
+       let song = playlist[songNum];
        playered.loadVideoById(song);
+       curSong = store.currentList.songs[songNum];
     }
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
-        currentSong++;
+        let currentSong = songNum+1;
         
         currentSong = currentSong % playlist.length;
-        //setSongNum(currentSong);
+        setSongNum(currentSong);
+        //setSongNum();
     }
     function decSong() {
+        let currentSong = songNum;
         if(currentSong>0){
         currentSong--;
         }else{
             currentSong = playlist.length-1;
         }
-        //setSongNum(currentSong);
+        setSongNum(currentSong);
     }
     function nextVid(){
         player.nextVideo();
@@ -141,7 +158,7 @@ export default function YouTubePlayerExample() {
         }
     }
     let youTubeP = <Box> <YouTube
-    videoId={playlist[currentSong]}
+    videoId={playlist[songNum]}
     opts={playerOptions}
     onReady={onPlayerReady}
     onStateChange={onPlayerStateChange} />  <Box
@@ -180,7 +197,7 @@ export default function YouTubePlayerExample() {
 </Box></Box>;
     if(store.currentList&&store.currentList.songs.length>0){
         youTubeP = <Box> <YouTube
-        videoId={playlist[currentSong]}
+        videoId={playlist[songNum]}
         opts={playerOptions}
         onReady={onPlayerReady}
         onStateChange={onPlayerStateChange} />  <Box

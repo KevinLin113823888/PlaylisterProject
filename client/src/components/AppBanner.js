@@ -26,7 +26,12 @@ export default function AppBanner() {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
+        store.setGuestMode(false);
     };
+    const handleMenuCloseGuest=()=>{
+        store.setGuestMode(true);
+        setAnchorEl(null);
+    }
 
     const handleLogout = () => {
         handleMenuClose();
@@ -38,11 +43,31 @@ export default function AppBanner() {
     }
 
     const menuId = 'primary-search-account-menu';
+    const introMenu = <Menu
+    anchorEl={anchorEl}
+    anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+    }}
+    id={menuId}
+    keepMounted
+    transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+    }}
+    open={isMenuOpen}
+    onClose={handleMenuClose}
+>
+    
+    <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+    <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
+    <MenuItem onClick={handleMenuCloseGuest}><Link to='/playlist/'>Continue as Guest</Link></MenuItem>
+</Menu>
     const loggedOutMenu = (
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}
@@ -63,7 +88,7 @@ export default function AppBanner() {
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}
@@ -79,21 +104,47 @@ export default function AppBanner() {
         </Menu>        
 
     let editToolbar = "";
-    let menu = loggedOutMenu;
+    let menu = introMenu;
+
     if (auth.loggedIn) {
         menu = loggedInMenu;
         if (store.currentList) {
             editToolbar = <EditToolbar />;
         }
+    }else if(store.guestMode){
+        menu = loggedOutMenu;
     }
+    
     
     function getAccountMenu(loggedIn) {
         let userInitials = auth.getUserInitials();
         console.log("userInitials: " + userInitials);
         if (loggedIn) 
-            return <div>{userInitials}</div>;
+            return <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="black"
+            style={{border:"2px solid #000000", backgroundColor:"#d236df", color:"black", fontSize:"20px"}}
+        >
+            <div>{userInitials}</div>
+        </IconButton>;
         else
-            return <AccountCircle />;
+            return <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="black"
+            style={{border:"2px solid #000000",color:"black"}}
+        >
+            <AccountCircle />
+        </IconButton>;
     }
     
     return (
@@ -101,26 +152,17 @@ export default function AppBanner() {
             <AppBar position="static" style={{background: '#e0e0e0'}}>
                 <Toolbar>
                     <Typography                        
-                        variant="h4"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}                        
+                        
+                        sx={{ }}
+                        style={{fontSize:"35px", fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/' onClick = {handleHome}>⌂</Link>
+                        Playlister
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
+                        
                             { getAccountMenu(auth.loggedIn) }
-                        </IconButton>
+                        
                     </Box>
                 </Toolbar>
             </AppBar>

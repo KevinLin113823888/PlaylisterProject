@@ -27,7 +27,7 @@ export default function YouTubePlayerExample() {
     let player;
     const playerOptions = {
         height: '232',
-        width: '530',
+        width: '80%',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
@@ -102,6 +102,7 @@ export default function YouTubePlayerExample() {
         
         currentSong = currentSong % playlist.length;
         setSongNum(currentSong);
+        store.setCurrentSongInd(currentSong);
         //setSongNum();
     }
     function decSong() {
@@ -112,6 +113,7 @@ export default function YouTubePlayerExample() {
             currentSong = playlist.length-1;
         }
         setSongNum(currentSong);
+        store.setCurrentSongInd(currentSong);
     }
     function nextVid(){
         player.nextVideo();
@@ -164,29 +166,29 @@ export default function YouTubePlayerExample() {
     onStateChange={onPlayerStateChange} />  <Box
         
         
-    sx={{ height: "187px",borderRadius:"10px",marginTop: '0px', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#fff", border: 1, borderColor:"#000000"}}
-    style={{ width: '77%', fontSize: '25pt' }}
+    sx={{ height: "170px",borderRadius:"10px",marginTop: '0px', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#fff", border: 1, borderColor:"#000000"}}
+    style={{ width: '77%', fontSize: '25pt',backgroundColor:"#d4d4f5" }}
     
     >
- <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: </Box>
+ <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}} style={{fontWeight:"bold"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: </Box>
  <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #:  </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title:  </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist:  </Box>
  <Box
     
     
-    sx={{ height: "50px",borderRadius:"10px",marginLeft: '30px', display: 'flex', p: 1,justifyContent: 'center', bgcolor:"#fff", border: 1, borderColor:"#000000"}}
-    style={{ width: '80%', fontSize: '25pt' }}
+    sx={{ height: "50px",borderRadius:"10px",marginLeft: '50px', display: 'flex', p: 0,justifyContent: 'center', bgcolor:"#fff", border: 1, borderColor:"#000000"}}
+    style={{ width: '80%', fontSize: '25pt'  }}
     
     >
-        <div><IconButton onClick={handlePreviousSong} aria-label='extend' id= "users">
+        <div><IconButton onClick={handlePreviousSong} disabled={true} aria-label='extend' id= "users">
             <FastRewindIcon style={{fontSize:'30pt', color: "#000000"}} />
         </IconButton></div>
-        <div><IconButton onClick={handlePauseSong} aria-label='extend' id= "users">
+        <div><IconButton onClick={handlePauseSong} disabled={true} aria-label='extend' id= "users">
             <StopIcon style={{fontSize:'30pt', color: "#000000"}} />
         </IconButton></div>
-        <div><IconButton onClick={handlePlaySong} aria-label='extend' id= "users">
+        <div><IconButton onClick={handlePlaySong} disabled={true} aria-label='extend' id= "users">
             <PlayArrowIcon style={{fontSize:'30pt', color: "#000000"}} />
         </IconButton></div>
-        <div><IconButton onClick={handleNextSong} aria-label='extend' id= "users">
+        <div><IconButton onClick={handleNextSong} disabled={true} aria-label='extend' id= "users">
             <FastForwardIcon style={{fontSize:'30pt', color: "#000000"}} />
         </IconButton></div>
 
@@ -203,17 +205,17 @@ export default function YouTubePlayerExample() {
         onStateChange={onPlayerStateChange} />  <Box
             
             
-        sx={{ height: "187px",borderRadius:"10px",marginTop: '0px', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#fff", border: 1, borderColor:"#000000"}}
-        style={{ width: '77%', fontSize: '25pt' }}
+        sx={{ height: "170px",borderRadius:"10px",marginTop: '0px', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#fff", border: 1, borderColor:"#000000"}}
+        style={{ width: '77%', fontSize: '25pt',backgroundColor:"#d4d4f5"}}
         
         >
-     <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: {store.currentList.name} </Box>
+     <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}} style={{fontWeight:"bold"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: {store.currentList.name} </Box>
      <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #: {songNum+1} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title: {store.currentList.songs[songNum].title} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist: {store.currentList.songs[songNum].artist} </Box>
      
      <Box
         
         
-        sx={{ height: "50px",borderRadius:"10px",marginLeft: '40px', display: 'flex', p: 1,justifyContent: 'center', bgcolor:"#fff", border: 1, borderColor:"#000000"}}
+        sx={{ height: "50px",borderRadius:"10px",marginLeft: '50px', display: 'flex', p: 0,justifyContent: 'center', bgcolor:"#fff", border: 1, borderColor:"#000000"}}
         style={{ width: '80%', fontSize: '25pt' }}
         
         >

@@ -2,6 +2,7 @@ import React, { useContext, useEffect,useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
@@ -25,7 +26,12 @@ import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import YouTube from 'react-youtube';
+import SortIcon from '@mui/icons-material/Sort';
+import Sort from '@mui/icons-material/Sort';
+import { borderRadius } from '@mui/system';
 
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -36,9 +42,16 @@ const HomeScreen = () => {
     const { auth } = useContext(AuthContext);
     const [ search, setSearch ] = useState("");
     const [ tab, setTab ] = useState(true);
-   ;
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isMenuOpen = Boolean(anchorEl);
     useEffect(() => {
+        if(!store.guestMode){
+           
         store.loadIdNamePairs();
+        }else{
+            
+            store.showPublishedListsAll();
+        }
     }, []);
 
     function handleCreateNewList() {
@@ -66,7 +79,7 @@ const HomeScreen = () => {
         
     }
     function handleOwnPlaylists(){
-        store.loadIdNamePairs();
+        store.loadIdNamePairsHome();
         store.setView("home");
         //store.closeCurrentList();
     }
@@ -80,6 +93,104 @@ const HomeScreen = () => {
         setTab(false);
     }
 
+    const menuId = 'primary-search-account-menu';
+
+
+    const handleSortMenuOpen=(event)=>{
+        
+            setAnchorEl(event.currentTarget);
+        
+    }
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+    const handleMenuCloseName = () => {
+        store.showPublishedListsName();
+        setAnchorEl(null);
+    };
+    const handleMenuClosePublish = () => {
+        store.showPublishedListsDate();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseListens = () => {
+        store.showPublishedListsListens();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseLikes = () => {
+        store.showPublishedListsLikes();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseDislikes = () => {
+        store.showPublishedListsDislikes();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseOwnCreation = () => {
+        store.showListsOwnCreation();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseOwnEditDate = () => {
+        store.showListsOwnEditDate();
+        setAnchorEl(null);
+    };
+    const handleMenuCloseOwnName= () => {
+        store.showListsOwnName();
+        setAnchorEl(null);
+    };
+
+
+    const publishedMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            id="{menuId}"
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+            
+        >
+            
+            <MenuItem onClick={handleMenuCloseName} style={{border:".1px solid #000"}}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleMenuClosePublish} style={{border:".1px solid #000"}}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleMenuCloseListens} style={{border:".1px solid #000"}}>Listens (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuCloseLikes} style={{border:".1px solid #000"}}>Likes (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuCloseDislikes} style={{border:".1px solid #000"}}>Dislikes (High - Low)</MenuItem>
+        </Menu>
+    );
+    const ownMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            id="{menuId}"
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+            
+        >
+            
+            <MenuItem onClick={handleMenuCloseOwnName} style={{border:".1px solid #000"}}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleMenuCloseOwnCreation} style={{border:".1px solid #000"}}>Creation Date (Old-New)</MenuItem>
+            <MenuItem onClick={handleMenuCloseOwnEditDate} style={{border:".1px solid #000"}}>Last Edit Date (New-Old)</MenuItem>
+
+        </Menu>
+    );
+    let menu = publishedMenu;
+    if(store.view == "home"){
+        menu = ownMenu;
+    }
     function handleKeyPress(event) {
         
         if (event.code === "Enter") {
@@ -104,16 +215,20 @@ const HomeScreen = () => {
     onClick={handleCommentsClick}
     variant="contained"
     style={{
-        borderRadius: "15px 15px 0px 0px",
+        borderRadius: "10px 10px 0px 0px",
         fontWeight:"bold",
         backgroundColor: "#fff",
         border: ".1px solid #000",
         color:"black",
         textTransform: 'none',
-        paddingTop: "10px",
+        paddingTop: "0px",
+        paddingBotton: "0px",
         paddingLeft: "15px",
         paddingRight: "15px",
         fontSize: "15px"
+    }}
+    sx={{
+        paddingBottom:"0px"
     }}
     >
     
@@ -127,16 +242,21 @@ const HomeScreen = () => {
     onClick={handleYoutubeClick}
     variant="contained"
     style={{
-        borderRadius: "15px 15px 0px 0px",
+        borderRadius: "10px 10px 0px 0px",
         fontWeight:"bold",
         border: ".1px solid #000",
         backgroundColor: "#cccccc",
         color:"black",
         textTransform: 'none',
-        paddingTop: "10px",
+        paddingTop: "0px",
         paddingLeft: "15px",
         paddingRight: "15px",
         fontSize: "15px"
+    }}
+    sx={{
+        paddingBottom:"0px",
+        paddingLeft: "15px",
+        paddingRight: "15px"
     }}
     >
         
@@ -151,16 +271,19 @@ const HomeScreen = () => {
     onClick={handleCommentsClick}
     variant="contained"
     style={{
-        borderRadius: "15px 15px 0px 0px",
+        borderRadius: "10px 10px 0px 0px",
         fontWeight:"bold",
         backgroundColor: "#cccccc",
         border: ".1px solid #000",
         color:"black",
         textTransform: 'none',
-        paddingTop: "10px",
+        paddingTop: "0px",
         paddingLeft: "15px",
         paddingRight: "15px",
         fontSize: "15px"
+    }}
+    sx={{
+        paddingBottom:"0px"
     }}
     >Comments</Button>
 
@@ -170,16 +293,22 @@ const HomeScreen = () => {
     onClick={handleYoutubeClick}
     variant="contained"
     style={{
-        borderRadius: "15px 15px 0px 0px",
+        borderRadius: "10px 10px 0px 0px",
         fontWeight:"bold",
         border: ".1px solid #000",
         backgroundColor: "#fff",
         color:"black",
         textTransform: 'none',
-        paddingTop: "10px",
+        paddingTop: "0px",
         paddingLeft: "15px",
         paddingRight: "15px",
+        
         fontSize: "15px"
+    }}
+    sx={{
+        paddingBottom:"0px",
+        paddingLeft: "15px",
+        paddingRight: "15px"
     }}
     >
         
@@ -188,7 +317,8 @@ const HomeScreen = () => {
 </Button>
      }
     
-    if (store) {
+    if (store && auth ) {
+        if(auth.user){
         listCard = 
             <List sx={{ width: '97%', left: '0%', bgcolor: '#c4c4c4' }}>
             {
@@ -206,23 +336,65 @@ const HomeScreen = () => {
                 ))
             }
             </List>;
+        }else{
+            listCard =
+            <List sx={{ width: '97%', left: '0%', bgcolor: '#c4c4c4' }}>
+            {
+                store.idNamePairs.map((pair,index2) => (
+                    <ListCard
+                        key={pair._id}
+                        idNamePair={pair}
+                        selected={false}
+                        index2 = {index2}
+                        idA = {index2 + "a"}
+                        idB = {index2 + "b"}
+                        id2 = {pair._id}
+                    />
+                ))
+            }
+            </List>;
+        }
+    }
+    
+    let homeBorder = "3px solid #c4c4c4";
+    if(store.view == "home"){
+        homeBorder = "3px solid #53d333";
+    }
+    let usersBorder = "3px solid #c4c4c4";
+    if(store.view === "users"){
+        
+        usersBorder = "3px solid #53d333";
+    }
+    let allBorder = "3px solid #c4c4c4";
+
+    if(store.view == "all"){
+        
+        allBorder = "3px solid #53d333";
+    }
+    let homeColor = "#000000"
+    if(store.guestMode){
+        homeColor = "#c4c4c4";
     }
     return (
         <Box sx={{ display: 'flex' }}>
             
-            <div><IconButton onClick={handleOwnPlaylists} aria-label='extend' id= "home">
-                    <HomeOutlinedIcon style={{fontSize:'30pt', color: "#000000"}} />
+            <div><IconButton onClick={handleOwnPlaylists} style={{border:homeBorder, borderRadius:"0px",padding:"0px"}} disabled= {store.guestMode} aria-label='extend' id= "home">
+                    <HomeOutlinedIcon style={{fontSize:'30pt', color: homeColor}} />
                 </IconButton></div>
-        <div><IconButton onClick={handleAllPlaylists} aria-label='extend' id= "all">
+        <div><IconButton onClick={handleAllPlaylists} style={{border:allBorder, borderRadius:"0px",padding:"0px"}} aria-label='extend' id= "all">
                     <GroupsIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton></div>
-                <div><IconButton onClick={handleUsersPlaylists} aria-label='extend' id= "users">
+                <div><IconButton onClick={handleUsersPlaylists} style={{border:usersBorder, borderRadius:"0px",padding:"0px"}} aria-label='extend' id= "users">
                     <PersonOutlineOutlinedIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton></div>
+                
 
                 <div id = "borderchange">  <TextField type="text" id="outlined-basic"  variant="outlined" size="small" onChange={ 
                     handleUpdateSearch} onKeyPress={handleKeyPress} height="30px" placeholder="Search" style={{marginTop:"5px",marginLeft:"70px",background:"#ffffff",width:"600px"}}/>
                 </div>
+                <span><IconButton onClick={handleSortMenuOpen}  aria-label='extend' id= "users" style={{color:"#000000", borderRadius:"10px",fontSize:"15px",fontWeight:"bold"}} sx={{position:"relative", marginLeft: "320px"}}>
+                    SORT BY<SortIcon style={{fontSize:'30pt', color: "#000000"}} sx={{marginLeft:"20px"}}/>
+                </IconButton></span>
                 <div>
         <div id="playlist-selector">
             
@@ -245,7 +417,7 @@ const HomeScreen = () => {
             </div> 
         </div>
                 <Statusbar/>
-        
+        {menu}
     </Box>
         
         )

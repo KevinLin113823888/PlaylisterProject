@@ -41,8 +41,15 @@ export const deletePlaylistById = (id) => api.delete(`/playlist/${id}`)
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
 export const getPlaylists = () => api.get(`/playlistpairs/`)
 export const getPlaylistPairs = () => api.get(`/playlistpairs/`)
-
+export const getPlaylistPairsName = () => api.get(`/playlistpairsname/`)
+export const getPlaylistPairsOwnCreation = () => api.get(`/playlistpairsowncreation/`)
+export const getPlaylistPairsOwnEditDate = () => api.get(`/playlistpairsowneditdate/`)
 export const getPublishedPlaylistPairs = () => api.get(`/playlistpublishedpairs/`)
+export const getPublishedPlaylistPairsName = () => api.get(`/playlistpublishedpairsname/`)
+export const getPublishedPlaylistPairsListens = () => api.get(`/playlistpublishedpairslistens/`)
+export const getPublishedPlaylistPairsLikes = () => api.get(`/playlistpublishedpairslikes/`)
+export const getPublishedPlaylistPairsDislikes = () => api.get(`/playlistpublishedpairsdislikes/`)
+export const getPublishedPlaylistPairsDate = () => api.get(`/playlistpublishedpairsdate/`)
 export const getPublishedPlaylistPairsFilter = (text) => {
     return api.get(`/playlistpublishedpairsfiltered/`, {
         
@@ -62,9 +69,18 @@ const apis = {
     getPlaylistById,
     getPlaylists,
     getPublishedPlaylistPairs,
-    getPlaylistPairs,
+    getPlaylistPairs, 
+    getPlaylistPairsName,
+    getPlaylistPairsOwnCreation,
+    getPlaylistPairsOwnEditDate,
     updatePlaylistById,
-    getPublishedPlaylistPairsFilter
+    getPublishedPlaylistPairsFilter,
+    getPublishedPlaylistPairsListens,
+    getPublishedPlaylistPairsDate,
+    
+    getPublishedPlaylistPairsName,
+    getPublishedPlaylistPairsLikes,
+    getPublishedPlaylistPairsDislikes
 }
 
 export default apis

@@ -11,7 +11,7 @@ function AddSongCard(props) {
         store.addNewSong();
     }
 
-    let cardClass = "list-card unselected-list-card";
+    let cardClass = "unpublished-card unselected-unpublished-card";
     let cardElement = <div></div>
     if(!published){
     cardElement = <div
@@ -20,7 +20,7 @@ function AddSongCard(props) {
     className={cardClass}
     onClick={handleAddNewSong}
 >
-    <AddIcon style={{fontSize:'30pt', color: "#000000"}} />
+    <AddIcon style={{fontSize:'25pt', color: "white",fontWeight:"bold"}} />
 </div>
     }else{
 

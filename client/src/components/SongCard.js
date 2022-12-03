@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ClearIcon from '@mui/icons-material/Clear';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ draggedTo, setDraggedTo ] = useState(0);
@@ -44,8 +47,19 @@ function SongCard(props) {
             store.showEditSongModal(index, song);
         }
     }
+    let buttonClass = "list-card-button";
 
     let cardClass = "list-card unselected-list-card";
+    if(index == store.currentSongPlayed){
+        cardClass = "list-card played-list-card";
+    }
+    if(!published){
+        cardClass = "unpublished-card unselected-unpublished-card";
+    }
+    if(!published && index == store.currentSongPlayed){
+        cardClass = "unpublished-card unpublished-played-list-card";
+        buttonClass = "unpublished-list-card-button";
+    }
     let cardElement = <div></div>
     if(!published){
     cardElement = <div
@@ -60,18 +74,16 @@ function SongCard(props) {
     draggable="true"
     onClick={handleClick}
 >
-    {index + 1}.
-    <a
-        id={'song-' + index + '-link'}
-        className="song-link"
-        href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
-        {song.title} by {song.artist}
-    </a>
+    {index + 1}. {song.title} by {song.artist}
+    
+
+
     <input
+        position="absolute"
         type="button"
         id={"remove-song-" + index}
-        className="list-card-button"
-        value={"\u2715"}
+        className={buttonClass}
+        value="X"
         onClick={handleRemoveSong}
     />
 
@@ -82,21 +94,9 @@ function SongCard(props) {
     key={index}
     id={'song-' + index + '-card'}
     className={cardClass}
-    onDragStart={handleDragStart}
-    onDragOver={handleDragOver}
-    onDragEnter={handleDragEnter}
-    onDragLeave={handleDragLeave}
-    onDrop={handleDrop}
-    draggable="true"
-    onClick={handleClick}
 >
-    {index + 1}.
-    <a
-        id={'song-' + index + '-link'}
-        className="song-link"
-        href={"https://www.youtube.com/watch?v=" + song.youTubeId}>
-        {song.title} by {song.artist}
-    </a>
+    {index + 1}. {song.title} by {song.artist}
+    
     
 </div>
     }

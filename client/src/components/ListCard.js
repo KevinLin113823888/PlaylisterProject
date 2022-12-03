@@ -36,16 +36,17 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
     
-    console.log("auth: " + auth);
+   
     const [expandActive, setExpandActive] = useState(false);
     const [nowActive, setNowActive] = useState(-1);
     const [text, setText] = useState("");
     const [editActive, setEditActive] = useState(false);
     const { idNamePair, selected,index2,id2,idA,idB,userAuth } = props;
+    const [clicked,setClicked]=useState(false);
     useEffect(() => {
-       
+       //handleLoadList();
         //document.getElementById(idA).addEventListener("click", retract);
-    }, []);
+    }, [clicked]);
     function retract() {
         handleToggleExpandThree();
         
@@ -81,23 +82,18 @@ function ListCard(props) {
     
     function handleLoadList() {
         
-            store.setCurrentListTwo(idNamePair._id);
+            store.setCurrentListThree(idNamePair._id,index2);
 
         
     }
     function handleLoadListe(id) {
-            store.setCurrentList(id);
+        store.setCurrentListTwo(idNamePair._id,index2);
     }
     
 
     function handleToggleExpand(event) {
-        //alert(event.target.id);
-        //alert(idA);
-        console.log(idNamePair._id);
+   
         event.stopPropagation();
-        
-        console.log("BEGIN");
-        
         toggleExpandTwo();
         handleLoadListe(idNamePair._id);
         
@@ -122,9 +118,10 @@ function ListCard(props) {
         
     }
     function handlePublishList(event,id){
+        let ndate = new Date();
         event.stopPropagation();
         let datePublished = findUpdateDate(); 
-        store.setPublished(id,datePublished);
+        store.setPublished(id,datePublished,ndate);
     }
     //let now = true;
     function toggleExpandTwo() {
@@ -138,7 +135,7 @@ function ListCard(props) {
             //document.getElementById(idA).addEventListener("click", retract);
             
             store.setIsListNameEditActive(true);
-            console.log("STARTING");
+            
             setExpandActive(newActive);
  
             
@@ -198,11 +195,17 @@ function ListCard(props) {
     function handleClick(event) {
         switch (event.detail) {
           case 1:
-            handleLoadList()
+            //store.setListSelected(index2);
+            handleLoadList();
+            //setClicked(!clicked));
+            //store.setListSelected(index2);
+            //store.test();
             break;
           case 2:
-            console.log("double click");
+            if(!idNamePair.published){
+           
             handleToggleEdit()
+            }
             break;
         }
     };
@@ -215,7 +218,7 @@ function ListCard(props) {
     if (selected) {
         selectClass = "selected-list-card";
     }
-    
+  
     function findUpdateDate(){
         let str = "";
         let ndate = new Date();
@@ -226,21 +229,18 @@ function ListCard(props) {
         str += ", ";
         str += ndate.getFullYear();
         
-        console.log(str);
-        //console.log(idNamePair.updateDate.getFullYear());
+        
+        
         return str;
     }
    
     if (store.listNameActive && (idNamePair._id === store.listExtend) && store.currentList ) {
-        //cardStatus = true;
-        console.log("HEYY");
-        console.log(nowActive);
-        console.log(store.listExtend);
+       
         
         let newActive = !expandActive;
         
         if (!newActive) {
-           console.log("HUH");
+       
             setExpandActive(newActive);
            
         }
@@ -264,8 +264,8 @@ function ListCard(props) {
     let dislikeButton =<div></div>
     
     if(alreadyLiked()){
-        likeButton = <Box component = "span" sx={{ paddingLeft: "300px"}}>
-        <IconButton onClick={(event) => {
+        likeButton = <Box component = "span" sx={{ position:"absolute",left:"400px",top:"0px"}}>
+        <IconButton disabled= {store.guestMode} onClick={(event) => {
             handleLiked(event)
         }} aria-label='extend' value = {index2}>
             <ThumbUpIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
@@ -273,8 +273,8 @@ function ListCard(props) {
         {idNamePair.likes.length}
         </Box>
     }else{
-        likeButton = <Box component = "span" sx={{paddingLeft: "300px"}}>
-        <IconButton onClick={(event) => {
+        likeButton = <Box component = "span" sx={{ position:"absolute",left:"400px",top:"0px"}}>
+        <IconButton disabled= {store.guestMode} onClick={(event) => {
             handleLiked(event)
         }} aria-label='extend' value = {index2}>
             <ThumbUpOutlinedIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
@@ -284,17 +284,17 @@ function ListCard(props) {
     }
 
     if(alreadyDisliked()){
-        dislikeButton = <Box component = "span" sx={{paddingLeft:"40px"}}>
-        <IconButton onClick={(event) => {
+        dislikeButton = <Box component = "span" sx={{position:"absolute",left:"500px",top:"0px"}}>
+        <IconButton disabled= {store.guestMode} onClick={(event) => {
             handleDisliked(event)
         }} aria-label='extend' value = {index2}>
-            <ThumbDownIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
+            <ThumbDownIcon  style={{fontSize:'30pt', color: "black",border: "1px black"}} />
         </IconButton>
         {idNamePair.dislikes.length}
         </Box>
     }else{
-        dislikeButton = <Box component = "span" sx={{paddingLeft:"40px"}}>
-        <IconButton onClick={(event) => {
+        dislikeButton = <Box component = "span" sx={{position:"absolute",left:"500px",top:"0px"}}>
+        <IconButton disabled= {store.guestMode} onClick={(event) => {
             handleDisliked(event)
         }} aria-label='extend' value = {index2}>
             <ThumbDownOutlinedIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
@@ -304,10 +304,9 @@ function ListCard(props) {
     }
     
     function alreadyLiked(){
-        //console.log("lok");
-        //console.log(userAuth);
+  
         let i =0;
-        //console.log()
+
         for(i=0;i<idNamePair.likes.length;i++){
             if(idNamePair.likes[i].userLiked == userAuth){
                 return true;
@@ -317,10 +316,9 @@ function ListCard(props) {
         return false;
     }
     function alreadyDisliked(){
-        //console.log("lok");
-        //console.log(userAuth);
+        
         let i =0;
-        //console.log()
+       
         for(i=0;i<idNamePair.dislikes.length;i++){
             if(idNamePair.dislikes[i].userDisliked == userAuth){
                 return true;
@@ -329,14 +327,22 @@ function ListCard(props) {
        
         return false;
     }
+
+
+
+   
+   
+
     if(!idNamePair.published){
+        let bg = "#fffff1"
+        
         cardElement =
         
         <ListItem
             
             id= {idA}
             key={idNamePair._id}
-            sx={{ height: "90px",borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#fffff1", border: 1, borderColor:"#000000"}}
+            sx={{ height: "90px",borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
             style={{ width: '100%', fontSize: '25pt' }}
             value = {index2}
             onClick={(event) => {
@@ -354,14 +360,19 @@ function ListCard(props) {
         
         </ListItem>
         
+        
     }else{
+        let bg = "#d4d4f5";
+        if(store.listCardId==index2){
+            bg = "#d4af37";
+        }
         cardElement =
        
         <ListItem
             
             id={index2}
             key={idNamePair._id}
-            sx={{ height: "90px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#d4d4f5", border: 1, borderColor:"#000000"}}
+            sx={{ height: "90px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
             style={{ width: '100%', fontSize: '25pt' }}
             value = {index2}
             onClick={(event) => {
@@ -399,17 +410,17 @@ function ListCard(props) {
             
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ maxHeight: "400px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#d4af37", border: 1, borderColor:"#000000"}}
-        style={{ width: '100%', fontSize: '25pt' }}
+        sx={{ maxHeight: "460px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#fffff1", border: 1, borderColor:"#000000"}}
+        style={{ width: '100%', fontSize: '25pt',backgroundColor:"#fffff1"}}
        
         >
      <Box sx={{ flexGrow: 1 }}>{idNamePair.name}<Box sx={{flexGrow: 1,fontSize:"10px" }}><Link component="button" variant="body2" onClick={() => {handleUserNameClick();}}>By: {idNamePair.userName}</Link></Box>
      <Box>
         <List 
             id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: '#d4af37' }}
+            sx={{ width: '100%', bgcolor: '#fffff1' }}
         >
-            <div id="song-selector-list">
+            <div id="unpublished-song-selector-list">
             {
                 store.currentList.songs.map((song, index) => (
                     <SongCard
@@ -429,7 +440,9 @@ function ListCard(props) {
                 disabled={!store.canUndo()}
                 id='undo-button'
                 onClick={handleUndo}
-                variant="contained">
+                variant="contained"
+                style={{color:"black",backgroundColor:"gray"}}
+                >
                 
                 Undo   
             </Button>
@@ -482,6 +495,31 @@ function ListCard(props) {
     </ListItem>
     
         }else{
+            let deleteButton;
+            let duplicateButton;
+            
+            let margin= "500px";
+            if(store.view=="home"){
+                margin = "0px";
+                deleteButton= <Button sx={{ marginRight: 1,marginLeft: "500px", fontSize:"10px",fontWeight:'fontWeightMedium'}}
+                id='delete-button'
+                onClick={(event) => {
+                    handleDeleteList(event, idNamePair._id)
+                }}
+                variant="contained">
+                Delete
+            </Button>
+            }
+            if(!store.guestMode){
+                duplicateButton = <Button sx={{ marginRight: 1, fontSize:"10px",fontWeight:'fontWeightMedium',marginLeft:margin}}
+                id='delete-button'
+                onClick={(event) => {
+                    handleDuplicateList(event, idNamePair._id)
+                }}
+                variant="contained">
+                Duplicate
+            </Button>
+            }
             cardElement =
             
         <ListItem
@@ -517,22 +555,8 @@ function ListCard(props) {
          
             
 
-            <Button sx={{ marginRight: 1,marginLeft: "500px", fontSize:"10px",fontWeight:'fontWeightMedium'}}
-                id='delete-button'
-                onClick={(event) => {
-                    handleDeleteList(event, idNamePair._id)
-                }}
-                variant="contained">
-                Delete
-            </Button>
-            <Button sx={{ marginRight: 1, fontSize:"10px",fontWeight:'fontWeightMedium'}}
-                id='delete-button'
-                onClick={(event) => {
-                    handleDuplicateList(event, idNamePair._id)
-                }}
-                variant="contained">
-                Duplicate
-            </Button>
+            {deleteButton}
+            {duplicateButton}
         </Box>
          { modalJSX }            
          

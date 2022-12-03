@@ -38,7 +38,7 @@ export default function RegisterScreen() {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -135,7 +135,7 @@ export default function RegisterScreen() {
                     </Box>
                 </Box>
                 <MUIAccErrModal/>
-                <Copyright sx={{ mt: 5 }} />
+                
             </Container>
     );
 }

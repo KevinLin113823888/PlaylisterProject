@@ -45,7 +45,7 @@ export default function Comments() {
 
    
 </Box>
-<Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" size= "small"  onChange={ 
+<Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" size= "small" disabled={true} onChange={ 
                     handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0px",background:"#ffffff",width:"100%"}}/>
                 </Box>
 </Box>
@@ -77,7 +77,7 @@ export default function Comments() {
             </div>
          </List>
 
-       <Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" size= "small"  onChange={ 
+       <Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" disabled= {store.guestMode} size= "small"  onChange={ 
                     handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0px",background:"#ffffff",width:"100%"}}/>
                 </Box> 
 </Box>

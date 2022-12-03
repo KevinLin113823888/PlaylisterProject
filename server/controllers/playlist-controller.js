@@ -156,6 +156,140 @@ getPlaylistPairs = async (req, res) => {
         asyncFindList(user.email);
     }).catch(err => console.log(err))
 }
+getPlaylistPairsName = async (req, res) => {
+    console.log("getPlaylistPairs");
+   
+    await User.findOne({ _id: req.userId }, (err, user) => {
+        console.log("find user with id " + req.userId);
+        async function asyncFindList(email) {
+            console.log("find all Playlists owned by " + email);
+            await Playlist.find({ ownerEmail: email },null,{sort:'name'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+        }
+        asyncFindList(user.email);
+    }).catch(err => console.log(err))
+}
+
+getPlaylistPairsOwnCreation = async (req, res) => {
+    console.log("getPlaylistPairs");
+   
+    await User.findOne({ _id: req.userId }, (err, user) => {
+        console.log("find user with id " + req.userId);
+        async function asyncFindList(email) {
+            console.log("find all Playlists owned by " + email);
+            await Playlist.find({ ownerEmail: email },null,{sort:'createdAt'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+        }
+        asyncFindList(user.email);
+    }).catch(err => console.log(err))
+}
+
+getPlaylistPairsOwnEditDate = async (req, res) => {
+    console.log("getPlaylistPairs");
+   
+    await User.findOne({ _id: req.userId }, (err, user) => {
+        console.log("find user with id " + req.userId);
+        async function asyncFindList(email) {
+            console.log("find all Playlists owned by " + email);
+            await Playlist.find({ ownerEmail: email },null,{sort:'-updatedAt'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+        }
+        asyncFindList(user.email);
+    }).catch(err => console.log(err))
+}
 
 getPublishedPlaylistPairs = async (req, res) => {
     console.log("getPublishedPlaylistPairs");
@@ -195,6 +329,199 @@ getPublishedPlaylistPairs = async (req, res) => {
             }).catch(err => console.log(err))
        
 }
+getPublishedPlaylistPairsName = async (req, res) => {
+    console.log("getPublishedPlaylistPairs");
+    
+            await Playlist.find({ published: true },null,{sort:'name'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+getPublishedPlaylistPairsListens = async (req, res) => {
+    console.log("getPublishedPlaylistPairs");
+    
+            await Playlist.find({ published: true },null,{sort:'-listens'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+
+getPublishedPlaylistPairsLikes = async (req, res) => {
+    console.log("getPublishedPlaylistPairs");
+    
+            await Playlist.find({ published: true },null,{sort:'-likesNum'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+getPublishedPlaylistPairsDislikes = async (req, res) => {
+    console.log("getPublishedPlaylistPairs");
+    
+            await Playlist.find({ published: true },null,{sort:'-dislikesNum'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+
+getPublishedPlaylistPairsDate = async (req, res) => {
+    console.log("getPublishedPlaylistPairs");
+    
+            await Playlist.find({ published: true },null,{sort:'-actualPublishDate'}, (err, playlists) => {
+                console.log("found Playlists: " + JSON.stringify(playlists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!playlists) {
+                    console.log("!playlists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Playlists not found' })
+                }
+                else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            published: list.published,
+                            userName: list.userName,
+                            comments:list.comments,
+                            likes: list.likes,
+                            dislikes:list.dislikes,
+                            publishDate : list.publishDate,
+                            listens: list.listens
+                        };
+                        pairs.push(pair);
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+            }).catch(err => console.log(err))
+       
+}
+
 getPublishedPlaylistPairsFilter = async (req, res) => {
     console.log("getPublishedPlaylistPairsFilter");
     const body = req.body;
@@ -310,6 +637,9 @@ updatePlaylist = async (req, res) => {
                     list.dislikes = body.playlist.dislikes;
                     list.publishDate = body.playlist.publishDate;
                     list.listens = body.playlist.listens;
+                    list.likesNum = body.playlist.likesNum;
+                    list.dislikesNum = body.playlist.dislikesNum;
+                    list.actualPublishDate = body.playlist.actualPublishDate;
                     list
                         .save()
                         .then(() => {
@@ -374,8 +704,15 @@ module.exports = {
     getPlaylistById,
     getPublishedPlaylistPairs,
     getPlaylistPairs,
+    getPlaylistPairsName,
+    getPlaylistPairsOwnCreation,
+    getPlaylistPairsOwnEditDate,
     getPublishedPlaylistPairsFilter,
-    
+    getPublishedPlaylistPairsName,
+    getPublishedPlaylistPairsListens,
+    getPublishedPlaylistPairsLikes,
+    getPublishedPlaylistPairsDislikes,
+    getPublishedPlaylistPairsDate,
     getPlaylists,
     updatePlaylist
 }

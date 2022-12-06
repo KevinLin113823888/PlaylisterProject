@@ -192,9 +192,12 @@ const HomeScreen = () => {
         menu = ownMenu;
     }
     function handleKeyPress(event) {
-        
+        if(search != ""){
         if (event.code === "Enter") {
             store.showPublishedListsFiltered(search);
+        }
+        }else{
+            store.setIdNamePairEmpty();
         }
     }
     function handlePlaySong(){
@@ -317,7 +320,7 @@ const HomeScreen = () => {
 </Button>
      }
     
-    if (store && auth ) {
+    if (store && auth && store.idNamePairs ) {
         if(auth.user){
         listCard = 
             <List sx={{ width: '97%', left: '0%', bgcolor: '#c4c4c4' }}>

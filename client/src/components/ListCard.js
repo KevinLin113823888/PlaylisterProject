@@ -72,22 +72,24 @@ function ListCard(props) {
     }
 
 
-    function handleUndo() {
+    function handleUndo(event) {
+        event.stopPropagation();
         store.undo();
     }
-    function handleRedo() {
+    function handleRedo(event) {
+        event.stopPropagation();
         store.redo();
     }
     
     
     function handleLoadList() {
-        
-            store.setCurrentListThree(idNamePair._id,index2);
+            store.setCurrentPlayedList(idNamePair._id,index2);
+            //store.setCurrentListThree(idNamePair._id,index2);
 
         
     }
     function handleLoadListe(id) {
-        store.setCurrentListTwo(idNamePair._id,index2);
+        store.setCurrentListTwo(idNamePair._id);
     }
     
 
@@ -341,7 +343,12 @@ function ListCard(props) {
    
 
     if(!idNamePair.published){
+        
         let bg = "#fffff1"
+        if(store.listCardId===index2){
+            
+            bg = "#d4af37";
+        }
         
         cardElement =
         
@@ -411,22 +418,32 @@ function ListCard(props) {
 
 
     if (expandActive && store.currentList!=null) {
+        
         if( !idNamePair.published){
+
+            let bg = "#fffff1"
+            if(store.listCardId===index2){
+                
+                bg = "#d4af37";
+            }
+            
         cardElement =
         
         <ListItem
             
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ maxHeight: "460px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#fffff1", border: 1, borderColor:"#000000"}}
-        style={{ width: '100%', fontSize: '25pt',backgroundColor:"#fffff1"}}
-       
+        sx={{ maxHeight: "460px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
+        style={{ width: '100%', fontSize: '25pt',backgroundColor:bg}}
+        onClick={() => {
+            handleLoadList()
+        }}
         >
      <Box sx={{ flexGrow: 1 }} style = {{ fontSize:"25px",paddingLeft:"15px",fontWeight: 'bold' }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px",fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box>
      <Box>
         <List 
             id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: '#fffff1' }}
+            sx={{ width: '100%', bgcolor: '#fffff1', borderRadius:'15px'}}
         >
             <div id="unpublished-song-selector-list">
             {
@@ -436,6 +453,7 @@ function ListCard(props) {
                         key={'playlist-song-' + (index)}
                         index={index}
                         song={song}
+                        listCardInd = {index2}
                     />
                 ))  
             }
@@ -449,19 +467,22 @@ function ListCard(props) {
                     disabled={!store.canUndo()}
                     id="undo-button" 
                     class="song-button" 
-                    onClick={handleUndo}
+                    onClick={(event) => {
+                        handleUndo(event);}}
                     value='Undo' />
             <input type="button" 
                     disabled={!store.canRedo()}
                     id="redo-button" 
                     class="song-button" 
-                    onClick={handleRedo}
+                    onClick={(event) => {
+                        handleRedo(event);}}
                     value='Redo' />
              <input type="button" 
                     disabled={store.currentModal!="NONE"}
                     id="publish-button" 
                     class="song-button" 
-                    onClick={handleRedo}
+                    onClick={(event) => {
+                        handlePublishList(event);}}
                     value='Publish' />
             <input type="button" 
                     disabled={store.currentModal!="NONE"}
@@ -529,22 +550,30 @@ function ListCard(props) {
                 }}
                 value='Duplicate' />
             }
+            let bg = "#d4d4f5";
+        if(store.listCardId===index2){
+            
+            bg = "#d4af37";
+        }
+
             cardElement =
             
         <ListItem
             
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ maxHeight: "400px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:"#d4af37", border: 1, borderColor:"#000000"}}
+        sx={{ maxHeight: "400px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
         style={{ width: '100%', fontSize: '25pt' }}
-       
+        onClick={() => {
+            handleLoadList()
+        }}
         >
      <Box sx={{ flexGrow: 1 }} style={{ fontSize:"25px",paddingLeft:"15px",fontWeight: 'bold' }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name} {likeButton}{dislikeButton}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px" }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box>
      
      <Box>
         <List 
             id="playlist-cards" 
-            sx={{ width:'100%', bgcolor: '#d4af37' }}
+            sx={{ width:'100%', bgcolor: bg }}
         >
             <div id="song-selector-list">
             {
@@ -555,6 +584,7 @@ function ListCard(props) {
                         index={index}
                         song={song}
                         published = {idNamePair.published}
+                        listCardInd = {index2}
                     />
                 ))  
             }

@@ -39,19 +39,19 @@ export default function YouTubePlayerExample() {
     function getYouTubeIdsFromCurrentList(){
         let ytplaylist = [];
         
-        if(store.currentList){
+        if(store.currentPlayedList){
             ytplaylist = [];
         let i =0;
         
-        for(i=0;i<store.currentList.songs.length;i++){
-            ytplaylist.push(store.currentList.songs[i].youTubeId);
+        for(i=0;i<store.currentPlayedList.songs.length;i++){
+            ytplaylist.push(store.currentPlayedList.songs[i].youTubeId);
            
         }
-        if(store.currentList._id != curId){
-            setcurId(store.currentList._id);
+        if(store.currentPlayedList._id != curId){
+            setcurId(store.currentPlayedList._id);
             
             setSongNum(0);
-            curSong = store.currentList.songs[0];
+            curSong = store.currentPlayedList.songs[0];
             store.setCurrentSongInd(0);
         }
         
@@ -63,14 +63,14 @@ export default function YouTubePlayerExample() {
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
     
-    if(store.currentList){
-     if(store.currentList.songs.length-1>=songNum){
-        curSong = store.currentList.songs[songNum];
+    if(store.currentPlayedList){
+     if(store.currentPlayedList.songs.length-1>=songNum){
+        curSong = store.currentPlayedList.songs[songNum];
      }else{
         
-        if(store.currentList.songs.length>0){
+        if(store.currentPlayedList.songs.length>0){
             setSongNum(0);
-            curSong = store.currentList.songs[songNum];
+            curSong = store.currentPlayedList.songs[songNum];
             store.setCurrentSongInd(0);
         }
      }
@@ -103,8 +103,8 @@ export default function YouTubePlayerExample() {
        
        playered.loadVideoById(song);
        playered.playVideo();
-       curSong = store.currentList.songs[songNum];
-       setTitle(store.currentList.songs[songNum].title);
+       curSong = store.currentPlayedList.songs[songNum];
+       setTitle(store.currentPlayedList.songs[songNum].title);
        
       
     }
@@ -113,7 +113,7 @@ export default function YouTubePlayerExample() {
        let song = playlist[songNum];
        playered.loadVideoById(song);
        playered.playVideo();
-       curSong = store.currentList.songs[songNum];
+       curSong = store.currentPlayedList.songs[songNum];
     }
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
@@ -225,7 +225,7 @@ export default function YouTubePlayerExample() {
  
 
 </Box></Box>;
-    if(store.currentList&&store.currentList.songs.length>0&& (store.currentList.songs.length-1>=songNum)){
+    if(store.currentPlayedList&&store.currentPlayedList.songs.length>0&& (store.currentPlayedList.songs.length-1>=songNum)){
         youTubeP = <Box> <YouTube
         videoId={playlist[songNum]}
         opts={playerOptions}
@@ -237,8 +237,8 @@ export default function YouTubePlayerExample() {
         style={{ width: '77%', fontSize: '25pt',backgroundColor:"#d4d4f5"}}
         
         >
-     <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}} style={{fontWeight:"bold"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: {store.currentList.name} </Box>
-     <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #: {songNum+1} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title: {store.currentList.songs[songNum].title} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist: {store.currentList.songs[songNum].artist} </Box>
+     <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}} style={{fontWeight:"bold"}}><Box sx={{textAlign:"center"}}>Now Playing</Box><Box sx={{flexGrow: 1,fontSize:"20px" }}>Playlist: {store.currentPlayedList.name} </Box>
+     <Box sx={{flexGrow: 1,fontSize:"20px" }}>Song #: {songNum+1} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Title: {store.currentPlayedList.songs[songNum].title} </Box> <Box sx={{flexGrow: 1,fontSize:"20px" }}>Artist: {store.currentPlayedList.songs[songNum].artist} </Box>
      
      <Box
         

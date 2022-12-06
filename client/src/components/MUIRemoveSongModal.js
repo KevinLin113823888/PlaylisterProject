@@ -21,11 +21,13 @@ const style = {
 export default function MUIRemoveSongModal() {
     const { store } = useContext(GlobalStoreContext);
 
-    function handleConfirmRemoveSong () {
+    function handleConfirmRemoveSong (event) {
+        event.stopPropagation();
         store.addRemoveSongTransaction();
     }
 
-    function handleCancelRemoveSong () {
+    function handleCancelRemoveSong (event) {
+        event.stopPropagation();
         store.hideModals();
     }
     
@@ -63,15 +65,15 @@ export default function MUIRemoveSongModal() {
                  
                  id="confirm-button" 
                  class="modal-button" 
-                 onClick={() => {
-                     handleConfirmRemoveSong();}}
+                 onClick={(event) => {
+                     handleConfirmRemoveSong(event);}}
                  value='Confirm' />
      <input type="button" 
               
               id="confirm-button" 
               class="modal-button" 
-              onClick={() => {
-                 handleCancelRemoveSong();}}
+              onClick={(event) => {
+                 handleCancelRemoveSong(event);}}
               value='Cancel' />
         </div>
         </div>

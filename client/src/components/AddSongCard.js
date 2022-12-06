@@ -7,7 +7,8 @@ function AddSongCard(props) {
     const [ draggedTo, setDraggedTo ] = useState(0);
     const { song, index,published} = props;
 
-    function handleAddNewSong() {
+    function handleAddNewSong(event) {
+        event.stopPropagation();
         store.addNewSong();
     }
 
@@ -18,7 +19,8 @@ function AddSongCard(props) {
     key={index}
     id={'addsongcard'}
     className={cardClass}
-    onClick={handleAddNewSong}
+    onClick={(event) => {
+        handleAddNewSong(event);}}
 >
     <AddIcon style={{fontSize:'25pt', color: "white",fontWeight:"bold"}} />
 </div>
@@ -28,7 +30,8 @@ function AddSongCard(props) {
     key={index}
     id={'song-' + index + '-card'}
     className={cardClass}
-    onClick={handleAddNewSong}
+    onClick={(event) => {
+        handleAddNewSong(event);}}
 >
     {index + 1}.
     <a

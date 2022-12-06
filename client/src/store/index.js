@@ -43,7 +43,8 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS_TWO: "LOAD_ID_NAME_PAIRS_TWO",
     SET_LIST_SELECTED: "SET_LIST_SELECTED",
     SET_GUEST_MODE:"SET_GUEST_MODE",
-    SET_CURRENT_SONG_PLAYED:"SET_CURRENT_SONG_PLAYED"
+    SET_CURRENT_SONG_PLAYED:"SET_CURRENT_SONG_PLAYED",
+    SET_CURRENT_PLAYED_LIST:"SET_CURRENT_PLAYED_LIST"
 
 }
 
@@ -77,7 +78,8 @@ function GlobalStoreContextProvider(props) {
         view: "home",
         listCardId: "",
         guestMode: false,
-        currentSongPlayed : 0
+        currentSongPlayed : 0,
+        currentPlayedList: null
     });
     const history = useHistory();
 
@@ -108,7 +110,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                     
                 });
             }
@@ -127,7 +130,8 @@ function GlobalStoreContextProvider(props) {
                     view: payload.stri,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                     
                     
                 });
@@ -148,7 +152,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 })
             }
             // CREATE A NEW LIST
@@ -167,7 +172,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -186,7 +192,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_HOME: {
@@ -204,7 +211,8 @@ function GlobalStoreContextProvider(props) {
                     view: "home",
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_TWO: {
@@ -222,7 +230,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_USERS: {
@@ -240,7 +249,8 @@ function GlobalStoreContextProvider(props) {
                     view: "users",
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_ALL: {
@@ -258,7 +268,8 @@ function GlobalStoreContextProvider(props) {
                     view: "all",
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -277,7 +288,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: payload,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
@@ -295,7 +307,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.DELETE_LIST_MARKED: {
@@ -313,7 +326,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             // UPDATE A LIST
@@ -332,7 +346,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.SET_CURRENT_LIST_TWO: {
@@ -350,7 +365,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: payload.ind,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             // START EDITING A LIST NAME
@@ -369,7 +385,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             // 
@@ -388,7 +405,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -406,7 +424,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -424,7 +443,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.ACCOUNT_ERROR: {
@@ -442,7 +462,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.SET_EXTEND: {
@@ -460,7 +481,8 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.SET_GUEST_MODE: {
@@ -478,7 +500,8 @@ function GlobalStoreContextProvider(props) {
                     view: "all",
                     listCardId: store.listCardId,
                     guestMode: payload,
-                    currentSongPlayed : store.currentSongPlayed
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList
                 });
             }
             case GlobalStoreActionType.SET_CURRENT_SONG_PLAYED: {
@@ -496,7 +519,27 @@ function GlobalStoreContextProvider(props) {
                     view: store.view,
                     listCardId: store.listCardId,
                     guestMode: store.guestMode,
-                    currentSongPlayed : payload
+                    currentSongPlayed : payload,
+                    currentPlayedList: store.currentPlayedList
+                });
+            }
+            case GlobalStoreActionType.SET_CURRENT_PLAYED_LIST: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: store.currentSongIndex,
+                    currentSong: store.currentSong,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
+                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    listExtend: store.listExtend,
+                    view: store.view,
+                    listCardId: payload.ind,
+                    guestMode: store.guestMode,
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: payload.playlist
                 });
             }
 
@@ -612,8 +655,13 @@ function GlobalStoreContextProvider(props) {
 
     }
     }
+    store.setIdNamePairEmpty = function(){
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: null
+        });
+    }
     
-
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
@@ -805,7 +853,7 @@ function GlobalStoreContextProvider(props) {
         alert(store.listCardId);
         
     }
-    store.setCurrentListTwo = function (id,ind) {
+    store.setCurrentListTwo = function (id) {
         async function asyncSetCurrentListTwo(id) {
             let response = await api.getPlaylistById(id);
             if (response.status === 200) {
@@ -819,7 +867,7 @@ function GlobalStoreContextProvider(props) {
                         type: GlobalStoreActionType.SET_CURRENT_LIST_TWO,
                         payload: {
                             playlist:playlist,
-                            ind:ind,
+                            ind: store.listCardId,
                             id:id
                         }
                     });
@@ -850,6 +898,30 @@ function GlobalStoreContextProvider(props) {
                     });
                     tps.clearAllTransactions();
                     history.push("/playlist/" + playlist._id);
+                }
+            }
+        }
+        asyncSetCurrentListTwo(id);
+    }
+    store.setCurrentPlayedList = function(id,ind){
+        async function asyncSetCurrentListTwo(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.status === 200) {
+                let playlist = response.data.playlist;
+
+                response = await api.updatePlaylistById(playlist._id, playlist);
+                if (response.status === 200) {
+                    //store.loadIdNamePairs();
+                  
+                    storeReducer({
+                        type: GlobalStoreActionType.SET_CURRENT_PLAYED_LIST,
+                        payload: {  
+                                    playlist:playlist,
+                                    ind:ind
+                                 }
+                    });
+                    //tps.clearAllTransactions();
+                    //history.push("/playlist/" + playlist._id);
                 }
             }
         }
@@ -1376,7 +1448,25 @@ function GlobalStoreContextProvider(props) {
         }
         asyncUpdateCurrentList();
     }
-
+    store.updateCurrentPlayedList= function(){
+        async function asyncUpdateCurrentList() {
+           
+            const response = await api.updatePlaylistById(store.currentPlayedList._id, store.currentPlayedList);
+            if (response.data.success) {
+                
+                if(store.view=="home"){
+                    store.loadIdNamePairsWithCurrent();
+                }else if(store.view =="all"){
+                    store.showPublishedListsAll();
+                }else if(store.view =="users"){
+                    store.showPublishedListsUsers();
+                }
+               
+               
+            }
+        }
+        asyncUpdateCurrentList();
+    }
 
     store.setPublished = function(id,pdate,ndate){
   
@@ -1390,9 +1480,9 @@ function GlobalStoreContextProvider(props) {
        
     }
     store.incrementListens= function(){
-        let list = store.currentList;
+        let list = store.currentPlayedList;
         list.listens++;
-        store.updateCurrentList();
+        store.updateCurrentPlayedList();
     }
     store.incrementCopy=function(){
         let list = store.currentList;

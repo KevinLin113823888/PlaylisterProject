@@ -26,7 +26,7 @@ function Statusbar() {
         statusbar = 
         <Box>
         <div id="playlister-statusbar">
-            <IconButton onClick={handleCreateNewList} aria-label='extend'>
+            <IconButton onClick={handleCreateNewList} disabled={store.guestMode} aria-label='extend'>
                     <AddIcon style={{fontSize:'30pt', color: "#000000"}} />
                 </IconButton>
             <Typography variant="h4">Your Lists</Typography>

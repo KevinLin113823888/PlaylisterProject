@@ -69,20 +69,20 @@ const HomeScreen = () => {
         //store.setView("users");
         store.showPublishedListsUsers();
         //store.setView("users");
-        //store.closeCurrentList();
+        store.closeCurrentList();
         
     }
     function handleAllPlaylists() {
         //store.setView("all");
         store.showPublishedListsAll();
         //store.setView("all");
-        //store.closeCurrentList();
+        store.closeCurrentList();
         
     }
     function handleOwnPlaylists(){
         store.loadIdNamePairsHome();
         store.setView("home");
-        //store.closeCurrentList();
+        store.closeCurrentList();
     }
     function handleUpdateSearch(event) {
         setSearch(event.target.value);
@@ -195,7 +195,11 @@ const HomeScreen = () => {
     function handleKeyPress(event) {
         if(search != ""){
         if (event.code === "Enter") {
+            if(store.view!="home"){
             store.showPublishedListsFiltered(search);
+            }else{
+                store.showUnpublishedListsFiltered(search);
+            }
         }
         }else{
             store.setIdNamePairEmpty();

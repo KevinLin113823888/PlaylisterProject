@@ -230,7 +230,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -239,7 +239,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     listExtend: store.listExtend,
                     view: "home",
-                    listCardId: store.listCardId,
+                    listCardId: -1,
                     guestMode: store.guestMode,
                     currentSongPlayed : store.currentSongPlayed,
                     currentPlayedList: store.currentPlayedList,
@@ -270,7 +270,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -279,7 +279,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     listExtend: store.listExtend,
                     view: "users",
-                    listCardId: store.listCardId,
+                    listCardId: -1,
                     guestMode: store.guestMode,
                     currentSongPlayed : store.currentSongPlayed,
                     currentPlayedList: store.currentPlayedList,
@@ -290,7 +290,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -299,7 +299,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     listExtend: store.listExtend,
                     view: "all",
-                    listCardId: store.listCardId,
+                    listCardId: -1,
                     guestMode: store.guestMode,
                     currentSongPlayed : store.currentSongPlayed,
                     currentPlayedList: store.currentPlayedList,
@@ -717,7 +717,7 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         try{
         let newListName = "Untitled" + store.newListCounter ;
-        const response = await api.createPlaylist(newListName, [], auth.user.email,false,auth.user.userName,[],[],[],"",0,0);
+        const response = await api.createPlaylist(newListName, [], auth.user.email,false,auth.user.userName,[],[],[],"",0,0,0,0);
         
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -1068,13 +1068,35 @@ function GlobalStoreContextProvider(props) {
         let list = store.currentPlayedList;
         let newComment = {comment:comment,user:auth.user.userName};
         list.comments.splice(list.comments.length, 0, newComment);
-        store.updateCurrentPlayedList();
+        async function asyncUpdateCurrentList() {
+           
+            const response = await api.updatePlaylistById(store.currentPlayedList._id, store.currentPlayedList);
+            if (response.data.success) {
+                
+                let pairs = store.idNamePairs;
+                let i = 0;
+                for(i=0;i<pairs.length;i++){
+                    if(pairs[i]._id==store.currentPlayedList._id){
+                        pairs[i].comments.splice(list.comments.length, 0, newComment);
+                    }
+                }
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairs
+                });
+
+               
+            }
+        }
+        asyncUpdateCurrentList();
+        
 
     }
     
     store.incrementLikes = function (id) {
         async function asyncSetCurrentListLikes(id) {
             let response = await api.getPlaylistById(id);
+        
             if (response.status === 200) {
                 let playlist = response.data.playlist;
                 let newLike = {userLiked:auth.user.userName};
@@ -1104,15 +1126,22 @@ function GlobalStoreContextProvider(props) {
             playlist.likesNum= playlist.likes.length;
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.status === 200) {
-                    if(store.view=="home"){
-                        store.loadIdNamePairsWithCurrent();
-                    }else if(store.view =="all"){
-                        store.showPublishedListsAll();
-                    }else if(store.view =="users"){
-                        store.showPublishedListsUsers();
+                    let pairs = store.idNamePairs;
+                    let i = 0;
+                    for(i=0;i<pairs.length;i++){
+                        if(pairs[i]._id==playlist._id){
+                            if(found==false){
+                            pairs[i].likes.splice(playlist.likes.length, 0, newLike);
+                            }else{
+                                pairs[i].likes.splice(index,1);
+                            }
+                        }
                     }
-                    
-                    tps.clearAllTransactions();
+                    storeReducer({
+                        type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                        payload: pairs
+                    });
+                  
                     history.push("/playlist/" + playlist._id);
                 }
             }
@@ -1152,16 +1181,21 @@ function GlobalStoreContextProvider(props) {
             playlist.dislikesNum= playlist.dislikes.length;
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.status === 200) {
-                    if(store.view=="home"){
-                        store.loadIdNamePairsWithCurrent();
-                    }else if(store.view =="all"){
-                        store.showPublishedListsAll();
-                    }else if(store.view =="users"){
-                        store.showPublishedListsUsers();
+                    let pairs = store.idNamePairs;
+                    let i = 0;
+                    for(i=0;i<pairs.length;i++){
+                        if(pairs[i]._id==playlist._id){
+                            if(found==false){
+                            pairs[i].dislikes.splice(playlist.likes.length, 0, newDislike);
+                            }else{
+                                pairs[i].dislikes.splice(index,1);
+                            }
+                        }
                     }
-                    
-                    tps.clearAllTransactions();
-                    history.push("/playlist/" + playlist._id);
+                    storeReducer({
+                        type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                        payload: pairs
+                    });
                 }
             }
         }
@@ -1212,156 +1246,98 @@ function GlobalStoreContextProvider(props) {
         store.updateCurrentList();
     }
     store.showListsOwnName= function(){
-        async function asyncLoadIdNamePairs() {
-            const response = await api.getPlaylistPairsName();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadIdNamePairs();
+        let pairs = store.idNamePairs;
+        pairs.sort((a, b) => a.name.localeCompare(b.name));
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: pairs
+        });
+      
     }
 
     store.showListsOwnCreation= function(){
-        async function asyncLoadIdNamePairs() {
-            const response = await api.getPlaylistPairsOwnCreation();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadIdNamePairs();
+        let pairs = store.idNamePairs;
+        pairs.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: pairs
+        });
+        
     }
 
     store.showListsOwnEditDate= function(){
-        async function asyncLoadIdNamePairs() {
-            const response = await api.getPlaylistPairsOwnEditDate();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadIdNamePairs();
+        let pairs = store.idNamePairs;
+        pairs.sort(function(a,b){
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+          });
+       
     }
 
 
     store.showPublishedListsName= function(){
-        async function asyncLoadPublishedIdNamePairs() {
-            const response = await api.getPublishedPlaylistPairsName();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadPublishedIdNamePairs();
+        let pairs = store.idNamePairs;
+        console.log(pairs);
+        pairs.sort((a, b) => a.name.localeCompare(b.name));
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: pairs
+        });
     }
     store.showPublishedListsListens= function(){
-        async function asyncLoadPublishedIdNamePairs() {
-            const response = await api.getPublishedPlaylistPairsListens();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
+        let pairs = store.idNamePairs;
+        console.log(pairs);
+  
+        for(let i = 0; i < pairs.length - 1; i++){
+
+            //Loop after the i till the last element
+            for(let j = i + 1; j < pairs.length; j++){
+      
+               //if jth element is less than the ith element then swap
+               //change < to > for sorting in descending order
+               if(pairs[j].listens > pairs[i].listens){
+                 let temp = pairs[i];
+                 pairs[i] = pairs[j];
+                 pairs[j] = temp;
+               }
+      
             }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadPublishedIdNamePairs();
+      
+         }
+         
+         
+        
+        storeReducer({
+            type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+            payload: pairs
+        });
     }
 
     store.showPublishedListsLikes= function(){
-        async function asyncLoadPublishedIdNamePairs() {
-            const response = await api.getPublishedPlaylistPairsLikes();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadPublishedIdNamePairs();
+
+        let pairs = store.idNamePairs;
+        pairs.sort(function(a, b){return b.likesNum - a.likesNum});
+        
+        
     }
 
 
     store.showPublishedListsDislikes= function(){
-        async function asyncLoadPublishedIdNamePairs() {
-            const response = await api.getPublishedPlaylistPairsDislikes();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadPublishedIdNamePairs();
+        let pairs = store.idNamePairs;
+        pairs.sort(function(a, b){return b.dislikesNum - a.dislikesNum});
+        
     }
 
     store.showPublishedListsDate= function(){
-        async function asyncLoadPublishedIdNamePairs() {
-            const response = await api.getPublishedPlaylistPairsDate();
-            if (response.data.success) {
-                let pairsArray = response.data.idNamePairs;
-                
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
-                //store.loadIdNamePairs();
-            }
-            else {
-                console.log("API FAILED TO GET THE LIST PAIRS");
-            }
-        }
-        asyncLoadPublishedIdNamePairs();
+        let pairs = store.idNamePairs;
+        pairs.sort(function(a,b){
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.actualPublishDate) - new Date(a.actualPublishDate);
+          });
+       
+        
     }
 
     store.showPublishedListsUsers= function(){
@@ -1464,6 +1440,7 @@ function GlobalStoreContextProvider(props) {
                     if(store.view =="users"){
                         updatedPairs = store.filterPairsArrayByUser(text,pairsArray);
                     }
+                    
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: updatedPairs
@@ -1475,6 +1452,32 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncLoadPublishedIdNamePairsFiltered();
+    }
+
+    store.showUnpublishedListsFiltered= function(text){
+        async function asyncLoadUnpublishedIdNamePairsFiltered() {
+            
+            const response = await api.getPlaylistPairs();
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                let updatedPairs = pairsArray;
+            
+                    updatedPairs = store.filterPairsArrayByName(text,pairsArray);
+                    
+                       
+                    
+                    
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: updatedPairs
+                });
+                //store.loadIdNamePairs();
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncLoadUnpublishedIdNamePairsFiltered();
     }
     
     store.filterPairsArrayByName = (text,pairsArray)=>{
@@ -1546,13 +1549,13 @@ function GlobalStoreContextProvider(props) {
             const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
             if (response.data.success) {
                 
-                if(store.view=="home"){
+                /*if(store.view=="home"){
                     store.loadIdNamePairsWithCurrent();
                 }else if(store.view =="all"){
                     store.showPublishedListsAll();
                 }else if(store.view =="users"){
                     store.showPublishedListsUsers();
-                }
+                }*/
                
                 storeReducer({
                     type: GlobalStoreActionType.SET_CURRENT_LIST,
@@ -1599,7 +1602,28 @@ function GlobalStoreContextProvider(props) {
     store.incrementListens= function(){
         let list = store.currentPlayedList;
         list.listens++;
-        store.updateCurrentPlayedList();
+        //store.updateCurrentPlayedList();
+        async function asyncUpdateCurrentList() {
+           
+            const response = await api.updatePlaylistById(store.currentPlayedList._id, store.currentPlayedList);
+            if (response.data.success) {
+                
+                let pairs = store.idNamePairs;
+                let i = 0;
+                for(i=0;i<pairs.length;i++){
+                    if(pairs[i]._id==store.currentPlayedList._id){
+                        pairs[i].listens++;
+                    }
+                }
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairs
+                });
+
+               
+            }
+        }
+        asyncUpdateCurrentList();
     }
     store.incrementCopy=function(){
         let list = store.currentList;
@@ -1617,7 +1641,7 @@ function GlobalStoreContextProvider(props) {
     store.duplicateList = async function(){
             let newListName = "Untitled" + store.newListCounter ;
             store.incrementCopy();
-            const response = await api.createPlaylist(store.currentList.name + " ("+ store.currentList.copied + ")", store.currentList.songs, auth.user.email,false,auth.user.userName,store.currentList.comments,store.currentList.likes,store.currentList.dislikes,"",0,0);
+            const response = await api.createPlaylist(store.currentList.name + " ("+ store.currentList.copied + ")", store.currentList.songs, auth.user.email,false,auth.user.userName,store.currentList.comments,store.currentList.likes,store.currentList.dislikes,"",0,0,0,0);
             
             if (response.status === 201) {
                 tps.clearAllTransactions();
@@ -1629,8 +1653,9 @@ function GlobalStoreContextProvider(props) {
                 );
     
                 // IF IT'S A VALID LIST THEN LET'S START EDITING IT
-                history.push("/playlist/");
-                store.loadIdNamePairs();
+                //history.push("/playlist/");
+                //store.loadIdNamePairs();
+                
             }
             else {
                 console.log("API FAILED TO CREATE A NEW LIST");

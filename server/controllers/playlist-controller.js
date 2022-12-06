@@ -159,7 +159,12 @@ getPlaylistPairs = async (req, res) => {
                             likes: list.likes,
                             dislikes: list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            createdAt:list.createdAt,
+                            updatedAt:list.updatedAt,
+                            likesNum: list.likesNum,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -203,7 +208,10 @@ getPlaylistPairsName = async (req, res) => {
                             likes: list.likes,
                             dislikes: list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            likesNum: list.likesNum,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -248,7 +256,10 @@ getPlaylistPairsOwnCreation = async (req, res) => {
                             likes: list.likes,
                             dislikes: list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            likesNum: list.likesNum,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -293,7 +304,10 @@ getPlaylistPairsOwnEditDate = async (req, res) => {
                             likes: list.likes,
                             dislikes: list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            likesNum: list.likesNum,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -334,7 +348,10 @@ getPublishedPlaylistPairs = async (req, res) => {
                             likes: list.likes,
                             dislikes:list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            likesNum: list.likesNum,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -372,7 +389,8 @@ getPublishedPlaylistPairsName = async (req, res) => {
                             likes: list.likes,
                             dislikes:list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }
@@ -410,7 +428,9 @@ getPublishedPlaylistPairsListens = async (req, res) => {
                             likes: list.likes,
                             dislikes:list.dislikes,
                             publishDate : list.publishDate,
-                            listens: list.listens
+                            listens: list.listens,
+                            dislikesNum:list.dislikesNum,
+                            actualPublishDate:list.actualPublishDate
                         };
                         pairs.push(pair);
                     }

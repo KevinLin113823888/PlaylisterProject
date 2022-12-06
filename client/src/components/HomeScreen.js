@@ -2,6 +2,7 @@ import React, { useContext, useEffect,useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import MUIEditError from './MUIEditError'
 import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
@@ -406,6 +407,7 @@ const HomeScreen = () => {
                     listCard
                 }
                 <MUIDeleteModal />
+                <MUIEditError/>
                 
             </div>
             

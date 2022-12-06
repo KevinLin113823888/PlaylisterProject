@@ -45,7 +45,8 @@ export const GlobalStoreActionType = {
     SET_GUEST_MODE:"SET_GUEST_MODE",
     SET_CURRENT_SONG_PLAYED:"SET_CURRENT_SONG_PLAYED",
     SET_CURRENT_PLAYED_LIST:"SET_CURRENT_PLAYED_LIST",
-    LOAD_ID_NAME_PAIRS_NEW:"LOAD_ID_NAME_PAIRS_NEW"
+    LOAD_ID_NAME_PAIRS_NEW:"LOAD_ID_NAME_PAIRS_NEW",
+    SHOW_EDIT_ERROR:"SHOW_EDIT_ERROR"
 
 }
 
@@ -57,7 +58,8 @@ const CurrentModal = {
     DELETE_LIST : "DELETE_LIST",
     EDIT_SONG : "EDIT_SONG",
     REMOVE_SONG : "REMOVE_SONG",
-    ACCOUNT_ERROR: "ACCOUNT_ERROR"
+    ACCOUNT_ERROR: "ACCOUNT_ERROR",
+    EDIT_ERROR:"EDIT_ERROR"
     
 }
 
@@ -468,6 +470,27 @@ function GlobalStoreContextProvider(props) {
                     currentListInd:store.currentListInd
                 });
             }
+            case GlobalStoreActionType.SHOW_EDIT_ERROR: {
+                return setStore({
+                    currentModal : CurrentModal.EDIT_ERROR,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: store.currentSongIndex,
+                    currentSong: store.currentSong,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    listExtend: store.listExtend,
+                    view: store.view,
+                    listCardId: store.listCardId,
+                    guestMode: store.guestMode,
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList,
+                    currentListInd:store.currentListInd
+                });
+            }
+            
             case GlobalStoreActionType.HIDE_MODALS: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
@@ -616,7 +639,7 @@ function GlobalStoreContextProvider(props) {
                 console.log(store.idNamePairs);
                 if(bool==true){
                 playlist.name = newName;
-                }
+                
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
@@ -637,6 +660,10 @@ function GlobalStoreContextProvider(props) {
                     }
                 }
                 updateList(playlist);
+                }else{
+                    //alert("HI");
+                    store.showEditErrorModal();
+                }
             }
         }
         asyncChangeListName(id);
@@ -875,6 +902,13 @@ function GlobalStoreContextProvider(props) {
             payload: {currentSongIndex: songIndex, currentSong: songToRemove}
         });        
     }
+    store.showEditErrorModal = ()=>{
+        storeReducer({
+            type: GlobalStoreActionType.SHOW_EDIT_ERROR,
+            payload:null
+        }); 
+    }
+    
     store.hideModals = () => {
         storeReducer({
             type: GlobalStoreActionType.HIDE_MODALS,
@@ -1031,10 +1065,10 @@ function GlobalStoreContextProvider(props) {
 
 
     store.addComment = function(comment){
-        let list = store.currentList;
+        let list = store.currentPlayedList;
         let newComment = {comment:comment,user:auth.user.userName};
         list.comments.splice(list.comments.length, 0, newComment);
-        store.updateCurrentList();
+        store.updateCurrentPlayedList();
 
     }
     

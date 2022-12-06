@@ -49,7 +49,7 @@ export default function Comments() {
                     handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0px",background:"#ffffff",width:"100%"}}/>
                 </Box>
 </Box>
-    if(store.currentList){
+    if(store.currentPlayedList){
         comments = <Box
             
             
@@ -65,7 +65,7 @@ export default function Comments() {
         >
             <div id="comment-selector-list">
             {
-                store.currentList.comments.map((commentObj, index) => (
+                store.currentPlayedList.comments.map((commentObj, index) => (
                     <CommentCard
                         key={'playlist-comment-' + (index)}
                         index={index}

@@ -16,7 +16,7 @@ function CommentCard(props) {
 
     let cardClass = "comment-card";
     let cardElement = <div></div>
-    if(store.currentList){
+    if(store.currentPlayedList){
     cardElement = <Box>
     <div
     key={index}

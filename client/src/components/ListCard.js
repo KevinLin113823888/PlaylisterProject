@@ -43,19 +43,7 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const { idNamePair, selected,index2,id2,idA,idB,userAuth } = props;
     const [clicked,setClicked]=useState(false);
-    useEffect(() => {
-       //handleLoadList();
-        //document.getElementById(idA).addEventListener("click", retract);
-    }, [clicked]);
-    function retract() {
-        handleToggleExpandThree();
-        
-        document.getElementById("home").removeEventListener("click", retract);
-        document.getElementById("all").removeEventListener("click", retract);
-        document.getElementById("users").removeEventListener("click", retract);
-        //document.getElementById(idA).removeEventListener("click", retract);
-        //document.getElementById(idB).removeEventListener("click", retract);
-    }
+   
 
 
     function handleToggleEdit() {
@@ -89,33 +77,25 @@ function ListCard(props) {
         
     }
     function handleLoadListe(id) {
-        store.setCurrentListTwo(idNamePair._id);
+        store.setCurrentListTwo(idNamePair._id,index2);
     }
     
 
     function handleToggleExpand(event) {
    
         event.stopPropagation();
-        toggleExpandTwo();
+      
         handleLoadListe(idNamePair._id);
         
       
     }
-    function handleToggleExpandThree() {
-        //handleLoadListe(idNamePair._id);
-        store.closeCurrentList();
-       
-        
-        toggleExpand();
-        
-        
-    }
+   
     function handleToggleExpandTwo(event) {
         //handleLoadListe(idNamePair._id);
         store.closeCurrentList();
         event.stopPropagation();
         
-        toggleExpand();
+      
         
         
     }
@@ -126,32 +106,8 @@ function ListCard(props) {
         store.setPublished(id,datePublished,ndate);
     }
     //let now = true;
-    function toggleExpandTwo() {
-        let newActive = !expandActive;
-        
-        if (newActive) {
-            document.getElementById("home").addEventListener("click", retract);
-            document.getElementById("all").addEventListener("click", retract);
-            document.getElementById("users").addEventListener("click", retract);
-            
-            //document.getElementById(idA).addEventListener("click", retract);
-            
-            store.setIsListNameEditActive(true);
-            
-            setExpandActive(newActive);
- 
-            
-        }else{
    
-        }
-    }
-    function toggleExpand() {
-        let newActive = !expandActive;
-        
-       
-        setExpandActive(false);
-        
-    }
+   
 
     function handleDeleteList(event, id) {
         event.stopPropagation();
@@ -237,18 +193,7 @@ function ListCard(props) {
         return str;
     }
    
-    if (store.listNameActive && (idNamePair._id === store.listExtend) && store.currentList ) {
-       
-        
-        let newActive = !expandActive;
-        
-        if (!newActive) {
-       
-            setExpandActive(newActive);
-           
-        }
-        
-    }
+   
 
 
     let hi = "#FFFFFF";
@@ -267,7 +212,7 @@ function ListCard(props) {
     let dislikeButton =<div></div>
     let likeLeft = "400px";
     let dislikeLeft = "500px";
-    if(expandActive && store.currentList!=null){
+    if(store.currentListInd==index2 &&store.currentList!=null){
         likeLeft="500px";
         dislikeLeft = "600px";
     }
@@ -417,7 +362,7 @@ function ListCard(props) {
     }
 
 
-    if (expandActive && store.currentList!=null) {
+    if (store.currentListInd==index2 && store.currentList!=null) {
         
         if( !idNamePair.published){
 

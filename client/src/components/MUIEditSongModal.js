@@ -44,13 +44,13 @@ export default function MUIEditSongModal() {
     }
 
     function handleUpdateTitle(event) {
-        
+        event.stopPropagation();
         
         setTitle(event.target.value);
     }
 
     function handleUpdateArtist(event) {
-        
+        event.stopPropagation();
         setArtist(event.target.value);
     }
 
@@ -58,12 +58,19 @@ export default function MUIEditSongModal() {
         
         setYouTubeId(event.target.value);
     }
+    function handleClick(event) {
+        event.stopPropagation();
+        
+    }
 
     return (
         <Modal
             open={store.currentModal == "EDIT_SONG"}
+            onClick={(event) => {
+                handleClick(event);}}
         >
-            <Box sx={style}>
+            <Box sx={style} onClick={(event) => {
+                        handleClick(event);}}>
             <header className="dialog-header">
             <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
         <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
@@ -88,8 +95,8 @@ export default function MUIEditSongModal() {
         <InputLabel htmlFor="input-with-icon-adornment">
           You Tube Id:
         </InputLabel>
-        <Input type="text" id="outlined-basic" label="You Tube Id:" variant="outlined" defaultValue={youTubeId} onChange={ 
-                    handleUpdateYouTubeId}/>
+        <Input type="text" id="outlined-basic" label="You Tube Id:" variant="outlined" defaultValue={youTubeId} onChange={(event) => { 
+                    handleUpdateYouTubeId(event);}}/>
         </div>
         <div class="modal-footer" id="confirm-cancel-container">
         <div className="modal-south">

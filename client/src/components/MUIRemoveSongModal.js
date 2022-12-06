@@ -41,10 +41,16 @@ export default function MUIRemoveSongModal() {
         songTitle = store.currentSong.title;
     }
     console.log(store.listMarkedForDeletion);
+    function handleClick(event) {
+        event.stopPropagation();
+        
+    }
 
     return (
         <Modal
             open={store.currentModal == "REMOVE_SONG"}
+            onClick={(event) => {
+                handleClick(event);}}
         >
             <Box sx={style}>
 

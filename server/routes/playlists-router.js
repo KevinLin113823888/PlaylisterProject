@@ -14,6 +14,7 @@ router.delete('/playlist/:id', auth.verify, PlaylistController.deletePlaylist)
 router.get('/playlist/:id', PlaylistController.getPlaylistById)
 
 
+
 router.get('/playlistpairs', auth.verify, PlaylistController.getPlaylistPairs)
 router.get('/playlistpairsname', auth.verify, PlaylistController.getPlaylistPairsName)
 router.get('/playlistpairsowncreation', auth.verify, PlaylistController.getPlaylistPairsOwnCreation)

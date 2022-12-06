@@ -38,8 +38,15 @@ export const createPlaylist = (newListName, newSongs, userEmail, publish,userNam
         copied:copied
     })
 }
+export const getPlaylistByName = (text) => {
+    return api.get(`/playlistname/`, {
+        // SPECIFY THE PAYLOAD
+        text:text
+    })
+}
 export const deletePlaylistById = (id) => api.delete(`/playlist/${id}`)
 export const getPlaylistById = (id) => api.get(`/playlist/${id}`)
+
 export const getPlaylists = () => api.get(`/playlistpairs/`)
 export const getPlaylistPairs = () => api.get(`/playlistpairs/`)
 export const getPlaylistPairsName = () => api.get(`/playlistpairsname/`)

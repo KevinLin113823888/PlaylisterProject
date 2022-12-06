@@ -130,7 +130,7 @@ function AuthContextProvider(props) {
             })
             history.push("/login");
         }
-        auth.loginUser(email,password);
+        //auth.loginUser(email,password);
     } catch(err2){
         if (err2.response) {
             console.log(err2.response.status);

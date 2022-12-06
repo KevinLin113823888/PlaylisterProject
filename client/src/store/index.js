@@ -44,7 +44,8 @@ export const GlobalStoreActionType = {
     SET_LIST_SELECTED: "SET_LIST_SELECTED",
     SET_GUEST_MODE:"SET_GUEST_MODE",
     SET_CURRENT_SONG_PLAYED:"SET_CURRENT_SONG_PLAYED",
-    SET_CURRENT_PLAYED_LIST:"SET_CURRENT_PLAYED_LIST"
+    SET_CURRENT_PLAYED_LIST:"SET_CURRENT_PLAYED_LIST",
+    LOAD_ID_NAME_PAIRS_NEW:"LOAD_ID_NAME_PAIRS_NEW"
 
 }
 
@@ -201,6 +202,26 @@ function GlobalStoreContextProvider(props) {
                     currentSongPlayed : store.currentSongPlayed,
                     currentPlayedList: store.currentPlayedList,
                     currentListInd:store.currentListInd
+                });
+            }
+            case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_NEW: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload.pairsArray,
+                    currentList: payload.nlist,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    listExtend: store.listExtend,
+                    view: store.view,
+                    listCardId: store.listCardId,
+                    guestMode: store.guestMode,
+                    currentSongPlayed : store.currentSongPlayed,
+                    currentPlayedList: store.currentPlayedList,
+                    currentListInd:payload.ind
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_HOME: {
@@ -584,7 +605,18 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
+                console.log("HERE");
+                let i=0;
+                let bool = true;
+                for(i=0;i<store.idNamePairs.length;i++){
+                    if(store.idNamePairs[i].name===newName){
+                        bool = false;
+                    }
+                }
+                console.log(store.idNamePairs);
+                if(bool==true){
                 playlist.name = newName;
+                }
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
@@ -671,7 +703,7 @@ function GlobalStoreContextProvider(props) {
 
             // IF IT'S A VALID LIST THEN LET'S START EDITING IT
             history.push("/playlist/" + newList._id);
-            store.loadIdNamePairs();
+            store.loadIdNamePairsWithNewList(newList);
         }
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
@@ -680,6 +712,7 @@ function GlobalStoreContextProvider(props) {
 
     }
     }
+   
     store.setIdNamePairEmpty = function(){
         storeReducer({
             type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
@@ -705,6 +738,29 @@ function GlobalStoreContextProvider(props) {
         }
         asyncLoadIdNamePairs();
     }
+
+    store.loadIdNamePairsWithNewList=function(nlist){
+        async function asyncLoadIdNamePairs() {
+            const response = await api.getPlaylistPairs();
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                let ind=pairsArray.length-1;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_NEW,
+                    payload: {pairsArray:pairsArray,
+                             nlist:nlist,
+                            ind:ind}
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncLoadIdNamePairs();
+    };
+
+
+
     store.loadIdNamePairsHome = function () {
         async function asyncLoadIdNamePairs() {
             const response = await api.getPlaylistPairs();

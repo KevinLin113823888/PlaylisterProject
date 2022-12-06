@@ -16,7 +16,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
+    bgcolor: '#d4d4f5',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
@@ -59,11 +59,12 @@ export default function MUIEditSongModal() {
         >
             <Box sx={style}>
             <header className="dialog-header">
+            <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
         <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
             <strong>Edit Song?</strong>
-        </Typography>
+        </Typography></Box>
         </header>
-        <div id="title-prompt" className="modal-prompt">
+        <div id="title-prompt" className="modal-prompt" >
         <InputLabel htmlFor="input-with-icon-adornment">
           Title:
         </InputLabel>
@@ -86,10 +87,21 @@ export default function MUIEditSongModal() {
         </div>
         <div class="modal-footer" id="confirm-cancel-container">
         <div className="modal-south">
-        <Button variant="contained" onClick={() => {
-                    handleConfirmEditSong();}}>Confirm</Button>
-        <Button variant="text" onClick={() => {
-                    handleCancelEditSong();}}>Cancel</Button>
+        <input type="button" 
+                 
+                    id="confirm-button" 
+                    class="modal-button" 
+                    onClick={() => {
+                        handleConfirmEditSong();}}
+                    value='Confirm' />
+        <input type="button" 
+                 
+                 id="confirm-button" 
+                 class="modal-button" 
+                 onClick={() => {
+                    handleCancelEditSong();}}
+                 value='Cancel' />
+        
         </div>
         </div>
             

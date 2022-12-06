@@ -107,6 +107,20 @@ getPlaylistById = async (req, res) => {
         asyncFindUser(list);*/
     }).catch(err => console.log(err))
 }
+getPlaylistByName = async (req, res) => {
+    console.log("Find Playlist with id: " + JSON.stringify(req.params.id));
+
+    await Playlist.findById({ name: req.params.name, ownerEmail: req.params.email }, (err, list) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err });
+        }else{
+            return res.status(200).json({ success: true, playlist: list })
+        }
+        
+        console.log("Found list: " + JSON.stringify(list));
+
+    }).catch(err => console.log(err))
+}
 
 
 
@@ -640,6 +654,7 @@ updatePlaylist = async (req, res) => {
                     list.likesNum = body.playlist.likesNum;
                     list.dislikesNum = body.playlist.dislikesNum;
                     list.actualPublishDate = body.playlist.actualPublishDate;
+                    list.copied = body.playlist.copied;
                     list
                         .save()
                         .then(() => {

@@ -590,8 +590,8 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         try{
         let newListName = "Untitled" + store.newListCounter ;
-        const response = await api.createPlaylist(newListName, [], auth.user.email,false,auth.user.userName,[],[],[],"",0);
-        console.log("createNewList response: " + response);
+        const response = await api.createPlaylist(newListName, [], auth.user.email,false,auth.user.userName,[],[],[],"",0,0);
+        
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -620,8 +620,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                //console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -638,8 +637,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                //console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_HOME,
                     payload: pairsArray
@@ -657,8 +655,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                //console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_TWO,
                     payload: pairsArray
@@ -689,12 +686,12 @@ function GlobalStoreContextProvider(props) {
         getListToDelete(id);
     }
     store.deleteList = function (id) {
-        //console.log("DELETING");
+        
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
             if (response.status === 200) {
                 store.loadIdNamePairs();
-                //console.log("WHAT");
+                
                 storeReducer({
                     type: GlobalStoreActionType.DELETE_LIST_MARKED,
                     payload: {id: null, playlist: null}
@@ -881,7 +878,7 @@ function GlobalStoreContextProvider(props) {
     store.addComment = function(comment){
         let list = store.currentList;
         let newComment = {comment:comment,user:auth.user.userName};
-        list.comments.splice(this.getPlaylistSize(), 0, newComment);
+        list.comments.splice(list.comments.length, 0, newComment);
         store.updateCurrentList();
 
     }
@@ -1030,8 +1027,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairsName();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1050,8 +1046,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairsOwnCreation();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1070,8 +1065,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairsOwnEditDate();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1091,8 +1085,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPublishedPlaylistPairsName();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1110,8 +1103,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPublishedPlaylistPairsListens();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1130,8 +1122,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPublishedPlaylistPairsLikes();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -1189,8 +1180,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPublishedPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_USERS,
                     payload: pairsArray
@@ -1208,8 +1198,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPublishedPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                console.log("BRUH");
-                console.log(response.data.idNamePairs);
+                
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_ALL,
                     payload: pairsArray
@@ -1235,7 +1224,7 @@ function GlobalStoreContextProvider(props) {
                     updatedPairs = store.filterPairsArrayByUser(text,pairsArray);
                    
                 storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS_USERS,
                     payload: updatedPairs
                 });
                 //store.loadIdNamePairs();
@@ -1302,28 +1291,26 @@ function GlobalStoreContextProvider(props) {
     store.filterPairsArrayByName = (text,pairsArray)=>{
         let pairs = [];
         let i= 0;
-        console.log(pairsArray);
+        
         for( i=0;i<pairsArray.length;i++){
             if(pairsArray[i].name.indexOf(text)>-1){
                 pairs.push(pairsArray[i]);
             }
         }
-        console.log("UPDATE");
-        console.log(pairs);
+        
         return pairs;
     }
 
     store.filterPairsArrayByUser = (text,pairsArray)=>{
         let pairs = [];
         let i= 0;
-        console.log(pairsArray);
+        
         for( i=0;i<pairsArray.length;i++){
             if(pairsArray[i].userName.indexOf(text)>-1){
                 pairs.push(pairsArray[i]);
             }
         }
-        console.log("UPDATE");
-        console.log(pairs);
+       
         return pairs;
     }
 
@@ -1366,13 +1353,10 @@ function GlobalStoreContextProvider(props) {
     }
     store.updateCurrentList = function() {
         async function asyncUpdateCurrentList() {
-            console.log(store.currentList._id);
-            console.log(store.currentList._id);
-            console.log(store.currentList._id);
-            console.log(store.currentList);
+           
             const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
             if (response.data.success) {
-                console.log("BURH");
+                
                 if(store.view=="home"){
                     store.loadIdNamePairsWithCurrent();
                 }else if(store.view =="all"){
@@ -1410,16 +1394,24 @@ function GlobalStoreContextProvider(props) {
         list.listens++;
         store.updateCurrentList();
     }
+    store.incrementCopy=function(){
+        let list = store.currentList;
+        list.copied++;
+
+        store.updateCurrentList();
+    }
     store.setCurrentSongInd=function(ind){
         storeReducer({
             type: GlobalStoreActionType.SET_CURRENT_SONG_PLAYED,
             payload: ind
         });
     }
+  
     store.duplicateList = async function(){
             let newListName = "Untitled" + store.newListCounter ;
-            const response = await api.createPlaylist(store.currentList.name, store.currentList.songs, auth.user.email,false,auth.user.userName,store.currentList.comments,store.currentList.likes,store.currentList.dislikes,"",0);
-            console.log("createNewList response: " + response);
+            store.incrementCopy();
+            const response = await api.createPlaylist(store.currentList.name + " ("+ store.currentList.copied + ")", store.currentList.songs, auth.user.email,false,auth.user.userName,store.currentList.comments,store.currentList.likes,store.currentList.dislikes,"",0,0);
+            
             if (response.status === 201) {
                 tps.clearAllTransactions();
                 let newList = response.data.playlist;

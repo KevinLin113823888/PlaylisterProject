@@ -12,7 +12,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
+    bgcolor: '#d4d4f5',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
@@ -47,21 +47,32 @@ export default function MUIRemoveSongModal() {
             <Box sx={style}>
 
             <header className="dialog-header">
+            <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
         <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
             <strong>Remove {songTitle}?</strong>
-        </Typography>
+        </Typography></Box>
         </header>
-        <Typography id="modal-modal-title" className="modal-center" variant="h5" component="h2">
-            Are you sure you wish to permanently remove {songTitle} from the playlist?
+        <Typography id="modal-modal-title" className="modal-center" variant="h5" component="h2" paddingTop="20px">
+        <strong>Are you sure you wish to remove "{songTitle}" from the playlist?</strong>
         </Typography>
         
         <div></div>
         <div class="modal-footer" id="confirm-cancel-container">
         <div className="modal-south">
-        <Button variant="contained" onClick={() => {
-                    handleConfirmRemoveSong();}}>Confirm</Button>
-        <Button variant="text" onClick={() => {
-                    handleCancelRemoveSong();}}>Cancel</Button>
+        <input type="button" 
+                 
+                 id="confirm-button" 
+                 class="modal-button" 
+                 onClick={() => {
+                     handleConfirmRemoveSong();}}
+                 value='Confirm' />
+     <input type="button" 
+              
+              id="confirm-button" 
+              class="modal-button" 
+              onClick={() => {
+                 handleCancelRemoveSong();}}
+              value='Cancel' />
         </div>
         </div>
         

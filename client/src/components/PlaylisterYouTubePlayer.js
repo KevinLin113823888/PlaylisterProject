@@ -18,8 +18,10 @@ export default function YouTubePlayerExample() {
     const { store } = useContext(GlobalStoreContext);
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     const [ songNum, setSongNum ] = useState(0);
+    const [curId,setcurId]= useState("");
     const [playered, setPlayered] = useState(null);
     const [title, setTitle] = useState("");
+    let curSong;
     let playlist = getYouTubeIdsFromCurrentList();
     
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
@@ -33,6 +35,7 @@ export default function YouTubePlayerExample() {
             autoplay: 0,
         },
     };
+    
     function getYouTubeIdsFromCurrentList(){
         let ytplaylist = [];
         
@@ -42,9 +45,16 @@ export default function YouTubePlayerExample() {
         
         for(i=0;i<store.currentList.songs.length;i++){
             ytplaylist.push(store.currentList.songs[i].youTubeId);
-            console.log(store.currentList.songs);
+           
         }
-        console.log(ytplaylist);
+        if(store.currentList._id != curId){
+            setcurId(store.currentList._id);
+            
+            setSongNum(0);
+            curSong = store.currentList.songs[0];
+            store.setCurrentSongInd(0);
+        }
+        
         
         }
         
@@ -52,11 +62,19 @@ export default function YouTubePlayerExample() {
     }
     // THIS FUNCTION LOADS THE CURRENT SONG INTO
     // THE PLAYER AND PLAYS IT
-    let curSong;
+    
     if(store.currentList){
-     curSong = store.currentList.songs[songNum];
-     console.log("WHO");
-     console.log(curSong);
+     if(store.currentList.songs.length-1>=songNum){
+        curSong = store.currentList.songs[songNum];
+     }else{
+        
+        if(store.currentList.songs.length>0){
+            setSongNum(0);
+            curSong = store.currentList.songs[songNum];
+            store.setCurrentSongInd(0);
+        }
+     }
+
     }
     function loadAndPlayCurrentSong(player) {
         
@@ -79,21 +97,22 @@ export default function YouTubePlayerExample() {
     }
     function handleNextSong(){
         
-        console.log(player);
+     
        incSong();
        let song = playlist[songNum];
        
        playered.loadVideoById(song);
+       playered.playVideo();
        curSong = store.currentList.songs[songNum];
        setTitle(store.currentList.songs[songNum].title);
-       console.log("TOOT");
-       console.log(curSong);
        
+      
     }
     function handlePreviousSong(){
         decSong();
        let song = playlist[songNum];
        playered.loadVideoById(song);
+       playered.playVideo();
        curSong = store.currentList.songs[songNum];
     }
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
@@ -103,6 +122,8 @@ export default function YouTubePlayerExample() {
         currentSong = currentSong % playlist.length;
         setSongNum(currentSong);
         store.setCurrentSongInd(currentSong);
+
+        playered.playVideo();
         //setSongNum();
     }
     function decSong() {
@@ -120,6 +141,7 @@ export default function YouTubePlayerExample() {
     }
 
     function onPlayerReady(event) {
+       
         player = event.target;
         //setPlayered(player);
         
@@ -135,6 +157,7 @@ export default function YouTubePlayerExample() {
     function onPlayerStateChange(event) {
         let playerStatus = event.data;
         player = event.target;
+        console.log(player);
         setPlayered(player);
         
         if (playerStatus === -1) {
@@ -143,8 +166,9 @@ export default function YouTubePlayerExample() {
         } else if (playerStatus === 0) {
             // THE VIDEO HAS COMPLETED PLAYING
             console.log("0 Video ended");
+            //playered.playVideo();
             incSong();
-            loadAndPlayCurrentSong(player);
+            //playered.playVideo();
         } else if (playerStatus === 1) {
             // THE VIDEO IS PLAYED
             console.log("1 Video played");
@@ -157,6 +181,10 @@ export default function YouTubePlayerExample() {
         } else if (playerStatus === 5) {
             // THE VIDEO HAS BEEN CUED
             console.log("5 Video cued");
+            if(songNum!=0){
+            player.playVideo();
+            }
+            
         }
     }
     let youTubeP = <Box> <YouTube
@@ -197,7 +225,7 @@ export default function YouTubePlayerExample() {
  
 
 </Box></Box>;
-    if(store.currentList&&store.currentList.songs.length>0){
+    if(store.currentList&&store.currentList.songs.length>0&& (store.currentList.songs.length-1>=songNum)){
         youTubeP = <Box> <YouTube
         videoId={playlist[songNum]}
         opts={playerOptions}

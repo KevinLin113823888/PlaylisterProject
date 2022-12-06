@@ -19,6 +19,7 @@
 
 body {
   background-color: var(--swatch-foundation);
+   
 }
 
 #root {
@@ -29,7 +30,10 @@ body {
   left: 10%;
   height: 90%;
   top: 5%;
+  
+  
 }
+
 
 #app-root {
   position: absolute;
@@ -37,6 +41,7 @@ body {
   height: 100%;
   top: 0%;
   left: 0%;
+  
 }
 
 #top5-banner {
@@ -162,12 +167,13 @@ body {
   background-color: #c4c4c4;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-x: hidden;
+  
 }
 
 #song-selector-list {
   position: relative;
-  left: 2%;
+  left: 1%;
   top: 0%;
   width: 96%;
   
@@ -175,14 +181,14 @@ body {
   max-height: 210px;
   border-radius: 10px;
   background-color: #c4c4c4;
-
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-x: hidden;
 }
+
 #unpublished-song-selector-list {
   position: relative;
-  left: 2%;
+  left: 1%;
   top: 0%;
   width: 96%;
   
@@ -193,14 +199,14 @@ body {
 
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .unpublished-card,.unselected-unpublished-card {
   font-size: 18pt;
   margin-bottom: 5px;
   padding-top: 12px;
-  padding-left: 12px;
+  padding-left: 10px;
   width: 98.5%;
   border-radius: 10px;
   
@@ -219,7 +225,7 @@ body {
 
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-x: hidden;
 }
 #addsongcard{
   text-align: center;
@@ -277,7 +283,33 @@ body {
   background-color: var(--swatch-contrast);
   color: white;
 }
-
+.song-button{
+  font-size:15px;
+  width:80px;
+  border:1px solid black;
+  border-radius: 5px;
+  font-weight: 800;
+  margin-right: 8px;
+}
+.modal-button{
+  margin-top: 40px;
+  margin-right: 20px;
+}
+#title-prompt{
+  padding-top: 20px;
+}
+#confirm-button{
+  margin-right: 10px;
+}
+#publish-button{
+  margin-left: 200px;
+}
+#remove-button{
+  margin-left: 470px;
+}
+#copy-button{
+  margin-left: 550px;
+}
 .selected-list-card {
   background-color: var(--swatch-accent);
   color: white;

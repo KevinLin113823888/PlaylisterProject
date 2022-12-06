@@ -77,7 +77,7 @@ export default function AppBanner() {
                 horizontal: 'right',
             }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
+            onClose={handleMenuCloseGuest}
         >
             
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
@@ -157,6 +157,13 @@ export default function AppBanner() {
                         style={{fontSize:"35px", fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}                        
                     >
                         Playlister
+                    </Typography>
+                    <Typography                        
+                        
+                        sx={{ paddingLeft:"135px" }}
+                        style={{fontSize:"20px",color:"black",fontWeight:"bold"}}                        
+                    >
+                        *Note: Please zoom out to 80%
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

@@ -23,7 +23,7 @@ function CommentCard(props) {
     id={'song-' + index + '-card'}
     className={cardClass}>
     <Box sx={{flexGrow: 1,fontSize:"5px",paddingTop:"5px",paddingLeft:"5px"}}><Link component="button" variant="body2" color="#3b31c8"onClick={() => {handleUserNameClick();}}>By: {commentObj.user}</Link></Box>
-    <Box sx={{flexGrow: 1,fontSize:"20px",paddingTop:"10px",paddingLeft:"5px", width:"450px",wordWrap:"break-word"}}>{commentObj.comment}</Box>
+    <Box sx={{flexGrow: 1,fontSize:"20px",paddingTop:"10px",paddingLeft:"5px", width:"440px",wordWrap:"break-word"}}>{commentObj.comment}</Box>
    
     
 

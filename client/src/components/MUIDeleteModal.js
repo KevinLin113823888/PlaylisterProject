@@ -11,7 +11,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
+    bgcolor: '#d4d4f5',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
@@ -39,17 +39,31 @@ export default function MUIDeleteModal() {
             <Box sx={style}>
 
     <header className="dialog-header">
-        
-    <Typography id="modal-modal-title"  variant="h4" component="h2">
-        Are you sure you wish to permanently delete the {name} playlist?
+        <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
+    <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
+            <strong>Delete Playlist?</strong>
+        </Typography>
+        </Box>
+    <Typography id="modal-modal-title"  variant="h4" component="h2" paddingTop="20px">
+    <strong> Are you sure you wish to delete the "{name}" playlist?</strong>
     </Typography>
     </header>
     <div></div>
     <div class="modal-footer" id="confirm-cancel-container">
-    <Button variant="contained" onClick={() => {
-                handleDeleteList();}}>Confirm</Button>
-    <Button variant="text" onClick={() => {
-                handleCloseModal();}}>Cancel</Button>
+    <input type="button" 
+                 
+                 id="confirm-button" 
+                 class="modal-button" 
+                 onClick={() => {
+                     handleDeleteList();}}
+                 value='Confirm' />
+     <input type="button" 
+              
+              id="confirm-button" 
+              class="modal-button" 
+              onClick={() => {
+                 handleCloseModal();}}
+              value='Cancel' />
     </div>
     
                 

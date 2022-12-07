@@ -64,14 +64,14 @@ export default function SplashScreen() {
         
         id="intro-card1"
         className="intro-card">
-        <Box sx={{position:"relative",flexGrow: 1,fontSize:"25px",paddingTop:"10px",paddingLeft:"0px", width:"100%",wordWrap:"break-word"}}>
+        <Box sx={{position:"relative",flexGrow: 1,fontSize:"20px",paddingTop:"10px",paddingLeft:"0px", width:"100%",wordWrap:"break-word"}}>
             <Box component = "span">The </Box> <Box component = "span" style={{fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}>Playlister </Box>
             app is a free and easy to use playlist creator and player. Create, edit, and play your own playlists as well as share your playlists so that other people around the world can then play and comment on them. Play your favorite songs through a built in YouTube player and filter through the endless playlists of other users through multiple search criterias.</Box>
     
 
         </div>
         </Box>
-        <Box sx={{fontSize:"18px",paddingTop:"20px",paddingRight:"70px"}}>
+        <Box sx={{position:"absolute",fontSize:"18px",paddingTop:"20px",paddingRight:"70px", left:"43%"}}>
            Developed By Kevin Lin</Box>
         
                 

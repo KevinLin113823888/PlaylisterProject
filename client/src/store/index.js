@@ -675,27 +675,7 @@ function GlobalStoreContextProvider(props) {
             payload: bool
         });
     }
-    // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
-    /*store.setExtend = function(id){
-        //alert(ex);
-        async function asyncSetCurrentList(id) {
-            let response = await api.getPlaylistById(id);
-            if (response.status === 200) {
-                let playlist = response.data.playlist;
-                    
-                    //store.loadIdNamePairs();
-                    storeReducer({
-                        type: GlobalStoreActionType.SET_EXTEND,
-                        payload: id
-                    });
-                    //history.push("/playlist/" + playlist._id);
-                
-            }
-        }
-        asyncSetCurrentList(id);
-        
-        
-    }*/
+    
     
     store.closeCurrentList = function () {
         storeReducer({
@@ -1037,8 +1017,7 @@ function GlobalStoreContextProvider(props) {
                                     ind:ind
                                  }
                     });
-                    //tps.clearAllTransactions();
-                    //history.push("/playlist/" + playlist._id);
+                    
                 }
             }
         }

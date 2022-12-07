@@ -127,7 +127,6 @@ export default function AppBanner() {
             aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
-            color="black"
             style={{border:"2px solid #000000", backgroundColor:"#d236df", color:"black", fontSize:"20px"}}
         >
             <div>{userInitials}</div>
@@ -140,7 +139,6 @@ export default function AppBanner() {
             aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
-            color="black"
             style={{border:"2px solid #000000",color:"black"}}
         >
             <AccountCircle />

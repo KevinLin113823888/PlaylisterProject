@@ -1528,13 +1528,9 @@ function GlobalStoreContextProvider(props) {
             const response = await api.updatePlaylistById(store.currentList._id, store.currentList);
             if (response.data.success) {
                 
-                /*if(store.view=="home"){
+               
                     store.loadIdNamePairsWithCurrent();
-                }else if(store.view =="all"){
-                    store.showPublishedListsAll();
-                }else if(store.view =="users"){
-                    store.showPublishedListsUsers();
-                }*/
+               
                
                 storeReducer({
                     type: GlobalStoreActionType.SET_CURRENT_LIST,

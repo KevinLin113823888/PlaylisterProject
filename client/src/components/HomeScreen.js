@@ -66,16 +66,16 @@ const HomeScreen = () => {
     }
     function handleUsersPlaylists() {
         console.log("Hey");
-        //store.setView("users");
+       
         store.showPublishedListsUsers();
-        //store.setView("users");
+
         store.closeCurrentList();
         
     }
     function handleAllPlaylists() {
-        //store.setView("all");
+
         store.showPublishedListsAll();
-        //store.setView("all");
+
         store.closeCurrentList();
         
     }
@@ -400,7 +400,7 @@ const HomeScreen = () => {
                 <div id = "borderchange">  <TextField type="text" id="outlined-basic"  variant="outlined" size="small" onChange={ 
                     handleUpdateSearch} onKeyPress={handleKeyPress} height="30px" placeholder="Search" style={{marginTop:"5px",marginLeft:"70px",background:"#ffffff",width:"600px"}}/>
                 </div>
-                <span><IconButton onClick={handleSortMenuOpen}  aria-label='extend' id= "users" style={{color:"#000000", borderRadius:"10px",fontSize:"15px",fontWeight:"bold"}} sx={{position:"absolute",left:"87%"}}>
+                <span><IconButton onClick={handleSortMenuOpen}  aria-label='extend' id= "users" style={{borderRadius:"10px",fontSize:"15px",fontWeight:"bold"}} sx={{position:"absolute",left:"87%"}}>
                     SORT BY<SortIcon style={{fontSize:'30pt', color: "#000000"}} sx={{marginLeft:"20px"}}/>
                 </IconButton></span>
                 <div>

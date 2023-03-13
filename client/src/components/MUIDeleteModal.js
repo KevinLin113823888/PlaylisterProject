@@ -10,11 +10,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 300,
     bgcolor: '#d4d4f5',
-    border: '2px solid #000',
+    border: '.16vw solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 2,
 };
 
 export default function MUIDeleteModal() {
@@ -39,12 +39,12 @@ export default function MUIDeleteModal() {
             <Box sx={style}>
 
     <header className="dialog-header">
-        <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
-    <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
+        <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"1.2vw",paddingBottom:".8vw",paddingLeft:"1.2vw"}}>
+    <Typography id="modal-modal-title" className="modal-north" variant="h5" component="h2">
             <strong>Delete Playlist?</strong>
         </Typography>
         </Box>
-    <Typography id="modal-modal-title"  variant="h4" component="h2" paddingTop="20px">
+    <Typography id="modal-modal-title"  variant="h5" component="h2" paddingTop="1.6vw">
     <strong> Are you sure you wish to delete the "{name}" playlist?</strong>
     </Typography>
     </header>

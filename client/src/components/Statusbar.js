@@ -27,9 +27,9 @@ function Statusbar() {
         <Box>
         <div id="playlister-statusbar">
             <IconButton onClick={handleCreateNewList} disabled={store.guestMode} aria-label='extend'>
-                    <AddIcon style={{fontSize:'30pt', color: "#000000"}} />
+                    <AddIcon style={{fontSize:'2.5vw', color: "#000000"}} />
                 </IconButton>
-            <Typography variant="h4">Your Lists</Typography>
+            <Typography variant="h5">Your Lists</Typography>
         </div>
         </Box>
     }else{
@@ -37,7 +37,7 @@ function Statusbar() {
         <Box>
         <div id="playlister-statusbar">
            
-            <Typography variant="h4">{text}</Typography>
+            <Typography variant="h5">{text}</Typography>
         </div>
         </Box>
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -35,49 +35,50 @@ export default function SplashScreen() {
     const history = useHistory();
     const handleGuestMode = () => {
         store.setGuestMode(true);
-        
+
         //store.resetCurrentList();
         history.push("/playlist/");
-        
+
     }
     const handleLogin = () => {
         //store.setGuestMode(true);
-        
+
         //store.resetCurrentList();
         //history.push("/playlist/");
-        
+
     }
     return (
         <div id="splash-screen">
-        <Box>
-        <Box>
-        <Typography                        
+            <Box>
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="10vh">
+                    <div>
+                        <Typography
+                            style={{ fontSize: "4vw", fontFamily: "Satisfy", color: "#b81f1e", fontWeight: "bold" }}
+                        >
+                            Playlister
+                        </Typography>
+                    </div>
+                    <div
+                            id="intro-card1"
+                            className="intro-card">
+                    <Box>
                         
-                        sx={{marginRight:"100px"}}
-                        style={{fontSize:"72px", fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}                        
-                    >
-                        Playlister
-        </Typography>
-        </Box>
-        <Box>
-        <div
-        
-        id="intro-card1"
-        className="intro-card">
-        <Box sx={{position:"relative",flexGrow: 1,fontSize:"20px",paddingTop:"10px",paddingLeft:"0px", width:"100%",wordWrap:"break-word"}}>
-            <Box component = "span">The </Box> <Box component = "span" style={{fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}>Playlister </Box>
-            app is a free and easy to use playlist creator and player. Create, edit, and play your own playlists as well as share your playlists so that other people around the world can then play and comment on them. Play your favorite songs through a built in YouTube player and filter through the endless playlists of other users through multiple search criterias.</Box>
-    
+                            <Box sx={{ fontSize: "1.3vw", paddingTop: "1vw", paddingLeft: "0vw", wordWrap: "break-word" }}>
+                                <Box component="span">The </Box> <Box component="span" style={{ fontFamily: "Satisfy", color: "#b81f1e", fontWeight: "bold" }}>Playlister </Box>
+                                app is a free and easy to use playlist creator and player. Create, edit, and play your own playlists as well as share your playlists so that other people around the world can then play and comment on them. Play your favorite songs through a built in YouTube player and filter through the endless playlists of other users through multiple search criterias.</Box>
+                    </Box>
+                    </div>
 
-        </div>
-        </Box>
-        <Box sx={{position:"absolute",fontSize:"18px",paddingTop:"20px",paddingRight:"70px", left:"43%"}}>
-           Developed By Kevin Lin</Box>
-        
-                
-           
-        
-        </Box>
+                    <Box sx={{ fontSize: "1.2vw" }}>
+                        Developed By Kevin Lin</Box>
+
+                </Box>
+            </Box>
         </div>
     )
 }

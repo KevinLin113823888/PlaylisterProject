@@ -121,25 +121,25 @@ export default function AppBanner() {
         console.log("userInitials: " + userInitials);
         if (loggedIn) 
             return <IconButton
-            size="large"
+            size="medium"
             edge="end"
             aria-label="account of current user"
             aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
-            style={{border:"2px solid #000000", backgroundColor:"#d236df", color:"black", fontSize:"20px"}}
+            style={{border:".16vw solid #000000", backgroundColor:"#d236df", color:"black", fontSize:"1.2vw"}}
         >
             <div>{userInitials}</div>
         </IconButton>;
         else
             return <IconButton
-            size="large"
+            size="medium"
             edge="end"
             aria-label="account of current user"
             aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
-            style={{border:"2px solid #000000",color:"black"}}
+            style={{border:".16vw solid #000000",color:"black"}}
         >
             <AccountCircle />
         </IconButton>;
@@ -147,22 +147,16 @@ export default function AppBanner() {
     
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" style={{background: '#e0e0e0'}}>
-                <Toolbar>
+            <AppBar position="static" style={{background: '#e0e0e0'}} >
+                <Toolbar variant = "dense">
+                    
                     <Typography                        
                         
-                        sx={{ }}
-                        style={{fontSize:"35px", fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}                        
+                        style={{fontSize:"2vw", fontFamily:"Satisfy" ,color:"#b81f1e",fontWeight:"bold"}}                        
                     >
                         Playlister
                     </Typography>
-                    <Typography                        
-                        
-                        sx={{ paddingLeft:"135px" }}
-                        style={{fontSize:"20px",color:"black",fontWeight:"bold"}}                        
-                    >
-                        *Note: Please zoom out to 80%
-                    </Typography>
+                    
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         

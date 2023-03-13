@@ -14,7 +14,7 @@ const style = {
     bgcolor: '#d4d4f5',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 2,
 };
 
 export default function MUIEditError() {
@@ -32,12 +32,12 @@ export default function MUIEditError() {
             <Box sx={style}>
 
     <header className="dialog-header">
-        <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"15px",paddingBottom:"10px",paddingLeft:"15px"}}>
-    <Typography id="modal-modal-title" className="modal-north" variant="h4" component="h2">
+        <Box style={{backgroundColor:"#2c2f70", color:"white",paddingTop:"1.2vw",paddingBottom:".8vw",paddingLeft:"1.2vw"}}>
+    <Typography id="modal-modal-title" className="modal-north" variant="h5" component="h2">
             <strong>Edit Name Error</strong>
         </Typography>
         </Box>
-    <Typography id="modal-modal-title"  variant="h4" component="h2" paddingTop="20px">
+    <Typography id="modal-modal-title"  variant="h5" component="h2" paddingTop="1.6vw">
     <strong> This list name was already used. Please choose a different name.</strong>
     </Typography>
     </header>

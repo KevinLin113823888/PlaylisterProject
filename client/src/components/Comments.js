@@ -25,15 +25,15 @@ export default function Comments() {
     let comments = <Box
             
             
-    sx={{ height: "92%",borderRadius:"10px",marginTop: '0px',justifyContent: 'center', p: 1, bgcolor:"#d4d4f5", border: 1, borderColor:"#000000"}}
+    sx={{ height: "24vw",borderRadius:".8vw",marginTop: '0vw',justifyContent: 'center', p: 1, bgcolor:"#d4d4f5", border: 1, borderColor:"#000000"}}
     style={{ width: '77%', fontSize: '25pt' }}
     
     >
-    <Box sx={{ justifyContent: 'center' ,fontSize:"20px"}}>
+    <Box sx={{ justifyContent: 'center' ,fontSize:"1.6vw"}}>
 
 <List 
         id="playlist-cards" 
-        sx={{ width: '100%', bgcolor: '#d4d4f5' }}
+        sx={{ width: '80%', bgcolor: '#d4d4f5' }}
     >
         <div id="comment-selector-list">
         {
@@ -45,23 +45,23 @@ export default function Comments() {
 
    
 </Box>
-<Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" size= "small" disabled={true} onChange={ 
-                    handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0px",background:"#ffffff",width:"100%"}}/>
+<Box sx={{position:"absolute",top:"77%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" size= "small" disabled={true} onChange={ 
+                    handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0vw",background:"#ffffff",width:"100%"}}/>
                 </Box>
 </Box>
     if(store.currentPlayedList){
         comments = <Box
             
             
-        sx={{ height: "92%",borderRadius:"10px",marginTop: '0px', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#d4d4f5", border: 1, borderColor:"#000000"}}
+        sx={{ height: "24vw",borderRadius:".8vw",marginTop: '0vw', display: 'flex',justifyContent: 'center', p: 1, bgcolor:"#d4d4f5", border: 1, borderColor:"#000000"}}
         style={{ width: '77%', fontSize: '25pt' }}
         
         >
-        <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"20px"}}>
+        <Box sx={{ flexGrow: 1,justifyContent: 'center' ,fontSize:"1.6vw"}}>
 
  <List 
             id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: '#d4d4f5' }}
+            sx={{ width: '95%', bgcolor: '#d4d4f5',left:"3%", height:"80%" }}
         >
             <div id="comment-selector-list">
             {
@@ -77,8 +77,8 @@ export default function Comments() {
             </div>
          </List>
 
-       <Box sx={{position:"absolute",top:"90%",width:"77%"}}><TextField type="text" id="outlined-basic"  variant="outlined" disabled= {store.guestMode} size= "small"  onChange={ 
-                    handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0px",background:"#ffffff",width:"100%"}}/>
+       <Box sx={{position:"absolute",top:"77%",width:"77%",left:"2%"}}><TextField type="text" id="outlined-basic"  variant="outlined" disabled= {store.guestMode} size= "small"  onChange={ 
+                    handleUpdateSearch} onKeyPress={handleKeyPress} placeholder="Add Comment" style={{marginLeft:"0vw",background:"#ffffff",width:"100%"}}/>
                 </Box> 
 </Box>
 

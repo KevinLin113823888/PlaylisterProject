@@ -40,16 +40,15 @@ export default function RegisterScreen() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        fontSize: '1vw',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
+
+                    <Typography component="h3" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2, fontSize:"1vw" }}>
+                        <Grid container spacing={1}>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -120,7 +119,7 @@ export default function RegisterScreen() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 2, mb: 1 }}
                         >
                             Sign Up
                         </Button>

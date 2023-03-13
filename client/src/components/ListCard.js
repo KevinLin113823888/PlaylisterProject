@@ -1,4 +1,4 @@
-import { useContext, useState,useEffect, Component } from 'react'
+import { useContext, useState, useEffect, Component } from 'react'
 import { GlobalStoreContext } from '../store'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,19 +35,19 @@ import AuthContext from '../auth';
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
-    
-   
+
+
     const [expandActive, setExpandActive] = useState(false);
     const [nowActive, setNowActive] = useState(-1);
     const [text, setText] = useState("");
     const [editActive, setEditActive] = useState(false);
-    const { idNamePair, selected,index2,id2,idA,idB,userAuth } = props;
-    const [clicked,setClicked]=useState(false);
-   
+    const { idNamePair, selected, index2, id2, idA, idB, userAuth } = props;
+    const [clicked, setClicked] = useState(false);
+
 
 
     function handleToggleEdit() {
-        
+
         toggleEdit();
     }
 
@@ -68,46 +68,46 @@ function ListCard(props) {
         event.stopPropagation();
         store.redo();
     }
-    
-    
-    function handleLoadList() {
-            store.setCurrentPlayedList(idNamePair._id,index2);
-            //store.setCurrentListThree(idNamePair._id,index2);
 
-        
+
+    function handleLoadList() {
+        store.setCurrentPlayedList(idNamePair._id, index2);
+        //store.setCurrentListThree(idNamePair._id,index2);
+
+
     }
     function handleLoadListe(id) {
-        store.setCurrentListTwo(idNamePair._id,index2);
+        store.setCurrentListTwo(idNamePair._id, index2);
     }
-    
+
 
     function handleToggleExpand(event) {
-   
+
         event.stopPropagation();
-      
+
         handleLoadListe(idNamePair._id);
-        
-      
+
+
     }
-   
+
     function handleToggleExpandTwo(event) {
         //handleLoadListe(idNamePair._id);
         store.closeCurrentList();
         event.stopPropagation();
-        
-      
-        
-        
+
+
+
+
     }
-    function handlePublishList(event,id){
+    function handlePublishList(event, id) {
         let ndate = new Date();
         event.stopPropagation();
-        let datePublished = findUpdateDate(); 
-        store.setPublished(id,datePublished,ndate);
+        let datePublished = findUpdateDate();
+        store.setPublished(id, datePublished, ndate);
     }
     //let now = true;
-   
-   
+
+
 
     function handleDeleteList(event, id) {
         event.stopPropagation();
@@ -117,19 +117,19 @@ function ListCard(props) {
     }
     function handleDuplicateList(event, id) {
         event.stopPropagation();
-       store.duplicateList(id);
+        store.duplicateList(id);
     }
-    function handleLiked(event){
+    function handleLiked(event) {
         event.stopPropagation();
-        
+
         //handleLoadList();
         //alert(idNamePair._id);
         store.incrementLikes(idNamePair._id);
     }
-    
-    function handleDisliked(event){
+
+    function handleDisliked(event) {
         event.stopPropagation();
-        
+
         //handleLoadList();
         //alert(idNamePair._id);
         store.incrementDislikes(idNamePair._id);
@@ -137,37 +137,37 @@ function ListCard(props) {
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
-            if(text == ""){
+            if (text == "") {
                 store.changeListName(id, idNamePair.name);
-            }else{
+            } else {
                 store.changeListName(id, text);
             }
 
             toggleEdit();
         }
-    }   
+    }
     function handleUpdateText(event) {
         setText(event.target.value);
     }
 
     function handleClick(event) {
         switch (event.detail) {
-          case 1:
-            //store.setListSelected(index2);
-            handleLoadList();
-            //setClicked(!clicked));
-            //store.setListSelected(index2);
-            //store.test();
-            break;
-          case 2:
-            if(!idNamePair.published){
-           
-            handleToggleEdit()
-            }
-            break;
+            case 1:
+                //store.setListSelected(index2);
+                handleLoadList();
+                //setClicked(!clicked));
+                //store.setListSelected(index2);
+                //store.test();
+                break;
+            case 2:
+                if (!idNamePair.published) {
+
+                    handleToggleEdit()
+                }
+                break;
         }
     };
-    function handleUserNameClick(event){
+    function handleUserNameClick(event) {
         event.stopPropagation();
         store.showPublishedListsFilteredUsers(idNamePair.userName);
         store.setView("users");
@@ -177,8 +177,8 @@ function ListCard(props) {
     if (selected) {
         selectClass = "selected-list-card";
     }
-  
-    function findUpdateDate(){
+
+    function findUpdateDate() {
         let str = "";
         let ndate = new Date();
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -187,13 +187,13 @@ function ListCard(props) {
         str += ndate.getDate();
         str += ", ";
         str += ndate.getFullYear();
-        
-        
-        
+
+
+
         return str;
     }
-   
-   
+
+
 
 
     let hi = "#FFFFFF";
@@ -205,366 +205,371 @@ function ListCard(props) {
     else if (store.isRemoveSongModalOpen()) {
         modalJSX = <MUIRemoveSongModal />;
     }
-    
+
     let cardElement = <div></div>
 
     let likeButton = <div></div>
-    let dislikeButton =<div></div>
-    let likeLeft = "400px";
-    let dislikeLeft = "500px";
-    if(store.currentListInd==index2 &&store.currentList!=null){
-        likeLeft="500px";
-        dislikeLeft = "600px";
+    let dislikeButton = <div></div>
+    let likeLeft = "27.5vw";
+    let dislikeLeft = "34vw";
+    if (store.currentListInd == index2 && store.currentList != null) {
+        likeLeft = "31.5vw";
+        dislikeLeft = "38vw";
     }
-    
-    if(alreadyLiked()){
-        likeButton = <Box component = "span" sx={{ position:"absolute",left:likeLeft,top:"0px"}}>
-        <IconButton disabled= {store.guestMode} onClick={(event) => {
-            handleLiked(event)
-        }} aria-label='extend' value = {index2}>
-            <ThumbUpIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
-        </IconButton>
-        {idNamePair.likes.length}
+
+    if (alreadyLiked()) {
+        likeButton = <Box component="span" sx={{ position: "absolute", left: likeLeft, top: "0vw" }}>
+            <IconButton disabled={store.guestMode} onClick={(event) => {
+                handleLiked(event)
+            }} aria-label='extend' value={index2}>
+                <ThumbUpIcon style={{ fontSize: '2vw', color: "black", border: ".1vw black" }} />
+            </IconButton>
+            {idNamePair.likes.length}
         </Box>
-    }else{
-        likeButton = <Box component = "span" sx={{ position:"absolute",left:likeLeft,top:"0px"}}>
-        <IconButton disabled= {store.guestMode} onClick={(event) => {
-            handleLiked(event)
-        }} aria-label='extend' value = {index2}>
-            <ThumbUpOutlinedIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
-        </IconButton>
-        {idNamePair.likes.length}
+    } else {
+        likeButton = <Box component="span" sx={{ position: "absolute", left: likeLeft, top: "0vw" }}>
+            <IconButton disabled={store.guestMode} onClick={(event) => {
+                handleLiked(event)
+            }} aria-label='extend' value={index2}>
+                <ThumbUpOutlinedIcon style={{ fontSize: '2vw', color: "black", border: ".1vw black" }} />
+            </IconButton>
+            {idNamePair.likes.length}
         </Box>
     }
 
-    if(alreadyDisliked()){
-        dislikeButton = <Box component = "span" sx={{position:"absolute",left:dislikeLeft,top:"0px"}}>
-        <IconButton disabled= {store.guestMode} onClick={(event) => {
-            handleDisliked(event)
-        }} aria-label='extend' value = {index2}>
-            <ThumbDownIcon  style={{fontSize:'30pt', color: "black",border: "1px black"}} />
-        </IconButton>
-        {idNamePair.dislikes.length}
+    if (alreadyDisliked()) {
+        dislikeButton = <Box component="span" sx={{ position: "absolute", left: dislikeLeft, top: "0vw" }}>
+            <IconButton disabled={store.guestMode} onClick={(event) => {
+                handleDisliked(event)
+            }} aria-label='extend' value={index2}>
+                <ThumbDownIcon style={{ fontSize: '2vw', color: "black", border: ".1vw black" }} />
+            </IconButton>
+            {idNamePair.dislikes.length}
         </Box>
-    }else{
-        dislikeButton = <Box component = "span" sx={{position:"absolute",left:dislikeLeft,top:"0px"}}>
-        <IconButton disabled= {store.guestMode} onClick={(event) => {
-            handleDisliked(event)
-        }} aria-label='extend' value = {index2}>
-            <ThumbDownOutlinedIcon style={{fontSize:'30pt', color: "black",border: "1px black"}} />
-        </IconButton>
-        {idNamePair.dislikes.length}
+    } else {
+        dislikeButton = <Box component="span" sx={{ position: "absolute", left: dislikeLeft, top: "0vw" }}>
+            <IconButton disabled={store.guestMode} onClick={(event) => {
+                handleDisliked(event)
+            }} aria-label='extend' value={index2}>
+                <ThumbDownOutlinedIcon style={{ fontSize: '2vw', color: "black", border: ".1vw black" }} />
+            </IconButton>
+            {idNamePair.dislikes.length}
         </Box>
     }
-    
-    function alreadyLiked(){
-  
-        let i =0;
 
-        for(i=0;i<idNamePair.likes.length;i++){
-            if(idNamePair.likes[i].userLiked == userAuth){
+    function alreadyLiked() {
+
+        let i = 0;
+
+        for (i = 0; i < idNamePair.likes.length; i++) {
+            if (idNamePair.likes[i].userLiked == userAuth) {
                 return true;
             }
         }
-       
+
         return false;
     }
-    function alreadyDisliked(){
-        
-        let i =0;
-       
-        for(i=0;i<idNamePair.dislikes.length;i++){
-            if(idNamePair.dislikes[i].userDisliked == userAuth){
+    function alreadyDisliked() {
+
+        let i = 0;
+
+        for (i = 0; i < idNamePair.dislikes.length; i++) {
+            if (idNamePair.dislikes[i].userDisliked == userAuth) {
                 return true;
             }
         }
-       
+
         return false;
     }
 
 
 
-   
-   
 
-    if(!idNamePair.published){
-        
+
+
+    if (!idNamePair.published) {
+
         let bg = "#fffff1"
-        if(store.listCardId===index2){
-            
-            bg = "#d4af37";
-        }
-        
-        cardElement =
-        
-        <ListItem
-            
-            id= {idA}
-            key={idNamePair._id}
-            sx={{ height: "90px",borderRadius:"10px",marginTop: '5px', display: 'flex', paddingLeft: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
-            style={{ width: '100%', fontSize: '25pt' }}
-            value = {index2}
-            onClick={(event) => {
-                handleClick(event)
-            }}
-          
-        >
-         <Box sx={{ flexGrow: 1 }} style={{ fontSize:"25px",paddingLeft:"15px" }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px",fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box></Box>
-        
-         <Box sx={{ paddingTop: "25px", paddingRight: "0px"}}>
-                <IconButton onClick={handleToggleExpand} id={idNamePair._id} aria-label='extend'>
-                    <KeyboardDoubleArrowDownIcon style={{fontSize:'30pt', color: "#000000"}} />
-                </IconButton>
-        </Box>
-        
-        </ListItem>
-        
-        
-    }else{
-        let bg = "#d4d4f5";
-        if(store.listCardId===index2){
-            
-            bg = "#d4af37";
-        }
-        cardElement =
-       
-        <ListItem
-            
-            id={index2}
-            key={idNamePair._id}
-            sx={{ height: "90px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
-            style={{ width: '100%', fontSize: '25pt' }}
-            value = {index2}
-            onClick={(event) => {
-                handleClick(event)
-            }}
-          
-        >
-         <Box sx={{ flexGrow: 1, fontSize:"25px",paddingLeft:"15px" }} style={{ fontSize:"25px",paddingLeft:"15px" }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name} {likeButton}{dislikeButton}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px",fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box>
-         <Box sx={{flexGrow: 1,fontSize:"12px",paddingTop: "5px", fontWeight: 'bold'}}> Published: <Box component="span" sx={{fontSize:"12px",color: "green",paddingLeft:"10px"}}>{idNamePair.publishDate}</Box> 
-         <Box component="span" sx={{position: "absolute", fontSize:"12px",left:"410px",fontWeight: 'bold'}}>Listens: </Box><Box component="span" sx={{position:"absolute",fontSize:"12px",color: "red",left:"460px",fontWeight: 'bold'}}>{idNamePair.listens}</Box> </Box>
-         
-         </Box>
-         
-         
-         
+        if (store.listCardId === index2) {
 
-         
-         <Box sx={{ paddingTop: "25px", paddingRight: "7px"}}>
-                <IconButton onClick={(event) => {
-                    handleToggleExpand(event)
-                }} aria-label='extend' value = {index2}>
-                    <KeyboardDoubleArrowDownIcon style={{fontSize:'30pt', color: "#000000"}} />
-                </IconButton>
-        </Box>
-        </ListItem>
-       
+            bg = "#d4af37";
+        }
+
+        cardElement =
+
+            <ListItem
+
+                id={idA}
+                key={idNamePair._id}
+                sx={{ height: "6vw", borderRadius: ".8vw", marginTop: '.4vw', display: 'flex', paddingLeft: 1, bgcolor: bg, border: 1, borderColor: "#000000" }}
+                style={{ width: '100%', fontSize: '25pt' }}
+                value={index2}
+                onClick={(event) => {
+                    handleClick(event)
+                }}
+
+            >
+                <Box sx={{ flexGrow: 1 }} style={{ fontSize: "2vw", paddingLeft: "1.2vw" }}><Box sx={{ fontWeight: 'bold' }}>{idNamePair.name}</Box><Box sx={{ flexGrow: 1, fontSize: ".96vw", paddingRight: ".8vw", fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize=".8vw" color="#3838fd" sx={{ paddingLeft: ".8vw", fontWeight: 'bold' }} onClick={(event) => { handleUserNameClick(event); }}>{idNamePair.userName}</Link></Box></Box>
+
+                <Box sx={{ paddingTop: "2vw", paddingRight: "0vw" }}>
+                    <IconButton onClick={handleToggleExpand} id={idNamePair._id} aria-label='extend'>
+                        <KeyboardDoubleArrowDownIcon style={{ fontSize: '2vw', color: "#000000" }} />
+                    </IconButton>
+                </Box>
+
+            </ListItem>
+
+
+    } else {
+        let bg = "#d4d4f5";
+        if (store.listCardId === index2) {
+
+            bg = "#d4af37";
+        }
+        cardElement =
+
+            <ListItem
+
+                id={index2}
+                key={idNamePair._id}
+                sx={{ height: "6vw", borderRadius: ".8vw", marginTop: '.4vw', display: 'flex', p: 1, bgcolor: bg, border: 1, borderColor: "#000000" }}
+                style={{ width: '100%', fontSize: '20pt' }}
+                value={index2}
+                onClick={(event) => {
+                    handleClick(event)
+                }}
+
+            >
+                <Box sx={{ flexGrow: 1 }} style={{ fontSize: "1.5vw", paddingLeft: "1vw" }}>
+                    <Box sx={{ fontWeight: 'bold' }}>{idNamePair.name} {likeButton}{dislikeButton}</Box><Box sx={{ flexGrow: 1, fontSize: "1vw", paddingRight: "1vw", fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="1vw" color="#3838fd" sx={{ paddingLeft: "1vw", fontWeight: 'bold' }} onClick={(event) => { handleUserNameClick(event); }}>{idNamePair.userName}</Link></Box>
+                    <Box sx={{ flexGrow: 1, fontSize: "1vw", fontWeight: 'bold' }}> Published: <Box component="span" sx={{ fontSize: "1vw", color: "green", paddingLeft: "1vw" }}>{idNamePair.publishDate}</Box>
+                        <Box component="span" sx={{ position: "absolute", fontSize: "1vw", left: "28vw", fontWeight: 'bold' }}>Listens: </Box><Box component="span" sx={{ position: "absolute", fontSize: "1vw", color: "red", left: "32vw", fontWeight: 'bold' }}>{idNamePair.listens}</Box> </Box>
+
+                </Box>
+
+
+
+
+
+                <Box sx={{ paddingTop: "3vw" }}>
+                    <IconButton onClick={(event) => {
+                        handleToggleExpand(event)
+                    }} aria-label='extend' value={index2}>
+                        <KeyboardDoubleArrowDownIcon style={{ fontSize: '2vw', color: "#000000" }} />
+                    </IconButton>
+                </Box>
+            </ListItem>
+
     }
 
 
-    if (store.currentListInd==index2 && store.currentList!=null) {
-        
-        if( !idNamePair.published){
+    if (store.currentListInd == index2 && store.currentList != null) {
+
+        if (!idNamePair.published) {
 
             let bg = "#fffff1"
-            if(store.listCardId===index2){
-                
+            if (store.listCardId === index2) {
+
                 bg = "#d4af37";
             }
-            
-        cardElement =
-        
-        <ListItem
-            
-        id={idNamePair._id}
-        key={idNamePair._id}
-        sx={{ maxHeight: "460px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
-        style={{ width: '100%', fontSize: '25pt',backgroundColor:bg}}
-        onClick={() => {
-            handleLoadList()
-        }}
-        >
-     <Box sx={{ flexGrow: 1 }} style = {{ fontSize:"25px",paddingLeft:"15px",fontWeight: 'bold' }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px",fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box>
-     <Box>
-        <List 
-            id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: '#fffff1', borderRadius:'15px'}}
-        >
-            <div id="unpublished-song-selector-list">
-            {
-                store.currentList.songs.map((song, index) => (
-                    <SongCard
-                        id={'playlist-song-' + (index)}
-                        key={'playlist-song-' + (index)}
-                        index={index}
-                        song={song}
-                        listCardInd = {index2}
-                    />
-                ))  
-            }
-            <AddSongCard/>
 
-            </div>
-         </List>
-         <Box > 
-         
-            <input type="button" 
-                    disabled={!store.canUndo()}
-                    id="undo-button" 
-                    class="song-button" 
-                    onClick={(event) => {
-                        handleUndo(event);}}
-                    value='Undo' />
-            <input type="button" 
-                    disabled={!store.canRedo()}
-                    id="redo-button" 
-                    class="song-button" 
-                    onClick={(event) => {
-                        handleRedo(event);}}
-                    value='Redo' />
-             <input type="button" 
-                    disabled={store.currentModal!="NONE"}
-                    id="publish-button" 
-                    class="song-button" 
-                    onClick={(event) => {
-                        handlePublishList(event);}}
-                    value='Publish' />
-            <input type="button" 
-                    disabled={store.currentModal!="NONE"}
-                    id="delete-button" 
-                    class="song-button" 
+            cardElement =
+
+                <ListItem
+
+                    id={idNamePair._id}
+                    key={idNamePair._id}
+                    sx={{ maxHeight: "30vw", borderRadius: ".8vw", marginTop: '.4vw', display: 'flex', p: 1, bgcolor: bg, border: 1, borderColor: "#000000" }}
+                    style={{ width: '100%', fontSize: '1.5vw', backgroundColor: bg }}
+                    onClick={() => {
+                        handleLoadList()
+                    }}
+                >
+                    <Box sx={{ flexGrow: 1 }} style={{ fontSize: "1.5vw", paddingLeft: "1.3vw", fontWeight: 'bold' }}><Box sx={{ fontWeight: 'bold' }}>{idNamePair.name}</Box><Box sx={{ flexGrow: 1, fontSize: "1vw", paddingRight: ".8vw", fontWeight: 'bold' }}>By: <Link component="button" variant="body2" fontSize="1vw" color="#3838fd" sx={{ paddingLeft: "1vw", fontWeight: 'bold' }} onClick={(event) => { handleUserNameClick(event); }}>{idNamePair.userName}</Link></Box>
+                        <Box>
+                            <List
+                                id="playlist-cards"
+                                sx={{ width: '100%', bgcolor: '#fffff1', borderRadius: '1vw' }}
+                            >
+                                <div id="unpublished-song-selector-list">
+                                    {
+                                        store.currentList.songs.map((song, index) => (
+                                            <SongCard
+                                                id={'playlist-song-' + (index)}
+                                                key={'playlist-song-' + (index)}
+                                                index={index}
+                                                song={song}
+                                                listCardInd={index2}
+                                            />
+                                        ))
+                                    }
+                                    <AddSongCard />
+
+                                </div>
+                            </List>
+                            <Box >
+
+                                <input type="button"
+                                    disabled={!store.canUndo()}
+                                    id="undo-button"
+                                    class="song-button"
+                                    onClick={(event) => {
+                                        handleUndo(event);
+                                    }}
+                                    value='Undo' />
+                                <input type="button"
+                                    disabled={!store.canRedo()}
+                                    id="redo-button"
+                                    class="song-button"
+                                    onClick={(event) => {
+                                        handleRedo(event);
+                                    }}
+                                    value='Redo' />
+                                <input type="button"
+                                    disabled={store.currentModal != "NONE"}
+                                    id="publish-button"
+                                    class="song-button"
+                                    onClick={(event) => {
+                                        handlePublishList(event);
+                                    }}
+                                    value='Publish' />
+                                <input type="button"
+                                    disabled={store.currentModal != "NONE"}
+                                    id="delete-button"
+                                    class="song-button"
+                                    onClick={(event) => {
+                                        handleDeleteList(event, idNamePair._id)
+                                    }}
+                                    value='Delete' />
+
+                                <input type="button"
+                                    disabled={store.currentModal != "NONE"}
+                                    id="duplicate-button"
+                                    class="song-button"
+                                    onClick={(event) => {
+                                        handleDuplicateList(event, idNamePair._id)
+                                    }}
+                                    value='Duplicate' />
+
+
+
+                            </Box>
+
+                            {modalJSX}
+
+
+                        </Box>
+                        <Box sx={{ position: "relative", top: "72.5%", left: "91%" }}>
+                            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
+                                <KeyboardDoubleArrowUpIcon style={{ fontSize: '2vw', color: "#000000" }} />
+                            </IconButton>
+                        </Box>
+                    </Box>
+
+                </ListItem>
+
+        } else {
+            let deleteButton;
+            let duplicateButton;
+
+            let margin = "30vw";
+            let duplicateClass = "duplicate-button";
+            if (store.view == "home") {
+                duplicateClass = "duplicate-button";
+                margin = "0vw";
+                deleteButton = <input type="button"
+                    disabled={store.currentModal != "NONE"}
+                    id="remove-button"
+                    class="song-button"
                     onClick={(event) => {
                         handleDeleteList(event, idNamePair._id)
                     }}
                     value='Delete' />
+            } else {
+                duplicateClass = "copy-button";
+            }
+            if (!store.guestMode) {
 
-            <input type="button" 
-                    disabled={store.currentModal!="NONE"}
-                    id="duplicate-button" 
-                    class="song-button" 
+                duplicateButton = <input type="button"
+                    disabled={store.currentModal != "NONE"}
+                    id={duplicateClass}
+                    class="song-button"
                     onClick={(event) => {
                         handleDuplicateList(event, idNamePair._id)
                     }}
                     value='Duplicate' />
-
-            
-            
-        </Box>
-        
-         { modalJSX }            
-         
-       
-    </Box>
-     <Box sx={{ position:"relative", top:"72.5%", left: "91%"}}>
-            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
-                <KeyboardDoubleArrowUpIcon style={{fontSize:'30pt', color: "#000000"}} />
-            </IconButton>
-    </Box>
-    </Box>
-       
-    </ListItem>
-    
-        }else{
-            let deleteButton;
-            let duplicateButton;
-            
-            let margin= "550px";
-            let duplicateClass = "duplicate-button";
-            if(store.view=="home"){
-                duplicateClass = "duplicate-button";
-                margin = "0px";
-                deleteButton= <input type="button" 
-                disabled={store.currentModal!="NONE"}
-                id="remove-button" 
-                class="song-button" 
-                onClick={(event) => {
-                    handleDeleteList(event, idNamePair._id)
-                }}
-                value='Delete' />
-            }else{
-                duplicateClass = "copy-button";
-            }
-            if(!store.guestMode){
-                
-                duplicateButton = <input type="button" 
-                disabled={store.currentModal!="NONE"}
-                id={duplicateClass}
-                class="song-button" 
-                onClick={(event) => {
-                    handleDuplicateList(event, idNamePair._id)
-                }}
-                value='Duplicate' />
             }
             let bg = "#d4d4f5";
-        if(store.listCardId===index2){
-            
-            bg = "#d4af37";
-        }
+            if (store.listCardId === index2) {
 
-            cardElement =
-            
-        <ListItem
-            
-        id={idNamePair._id}
-        key={idNamePair._id}
-        sx={{ maxHeight: "400px", borderRadius:"10px",marginTop: '5px', display: 'flex', p: 1, bgcolor:bg, border: 1, borderColor:"#000000"}}
-        style={{ width: '100%', fontSize: '25pt' }}
-        onClick={() => {
-            handleLoadList()
-        }}
-        >
-     <Box sx={{ flexGrow: 1 }} style={{ fontSize:"25px",paddingLeft:"15px",fontWeight: 'bold' }}><Box sx={{fontWeight: 'bold'}}>{idNamePair.name} {likeButton}{dislikeButton}</Box><Box sx={{flexGrow: 1,fontSize:"12px",paddingRight:"10px" }}>By: <Link component="button" variant="body2" fontSize="10px" color="#3838fd" sx={{paddingLeft:"10px",fontWeight: 'bold'}} onClick={(event) => {handleUserNameClick(event);}}>{idNamePair.userName}</Link></Box>
-     
-     <Box>
-        <List 
-            id="playlist-cards" 
-            sx={{ width:'100%', bgcolor: bg }}
-        >
-            <div id="song-selector-list">
-            {
-                store.currentList.songs.map((song, index) => (
-                    <SongCard
-                        id={'playlist-song-' + (index)}
-                        key={'playlist-song-' + (index)}
-                        index={index}
-                        song={song}
-                        published = {idNamePair.published}
-                        listCardInd = {index2}
-                    />
-                ))  
+                bg = "#d4af37";
             }
 
-            </div>
-         </List>
-         <Box > 
-         
-            
+            cardElement =
 
-            {deleteButton}
-            {duplicateButton}
-        </Box>
-         { modalJSX }            
-         
-       
-    </Box>
-    <Box sx={{flexGrow: 1,fontSize:"12px",paddingTop: "15px", fontWeight: 'bold'}}> Published: <Box component="span" sx={{fontSize:"12px",color: "green",paddingLeft:"10px"}}>{idNamePair.publishDate}</Box> 
-         <Box component="span" sx={{position: "absolute", fontSize:"12px",left:"410px",fontWeight: 'bold'}}>Listens: </Box><Box component="span" sx={{position:"absolute",fontSize:"12px",color: "red",left:"460px",fontWeight: 'bold'}}>{idNamePair.listens}</Box> 
-         
-    </Box>
-    <Box component="span" sx={{ position:"relative", top:"72.5%", left: "91%"}}>
-            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
-                <KeyboardDoubleArrowUpIcon style={{fontSize:'30pt', color: "#000000"}} />
-            </IconButton>
-    </Box>
-    
-    </Box>
-       
-    </ListItem>
-    
+                <ListItem
+
+                    id={idNamePair._id}
+                    key={idNamePair._id}
+                    sx={{ maxHeight: "32vw", borderRadius: ".8vw", marginTop: '.4vw', display: 'flex', p: 1, bgcolor: bg, border: 1, borderColor: "#000000" }}
+                    style={{ width: '100%', fontSize: '1.5vw' }}
+                    onClick={() => {
+                        handleLoadList()
+                    }}
+                >
+                    <Box sx={{ flexGrow: 1 }} style={{ fontSize: "1.5vw", fontWeight: 'bold' }}><Box sx={{ fontWeight: 'bold' }}>{idNamePair.name} {likeButton}{dislikeButton}</Box><Box sx={{ flexGrow: 1, fontSize: "1vw", paddingRight: ".8vw" }}>By: <Link component="button" variant="body2" fontSize="1vw" color="#3838fd" sx={{ paddingLeft: ".8vw", fontWeight: 'bold' }} onClick={(event) => { handleUserNameClick(event); }}>{idNamePair.userName}</Link></Box>
+
+                        <Box>
+                            <List
+                                id="playlist-cards"
+                                sx={{ width: '41vw', bgcolor: bg }}
+                            >
+                                <div id="song-selector-list">
+                                    {
+                                        store.currentList.songs.map((song, index) => (
+                                            <SongCard
+                                                id={'playlist-song-' + (index)}
+                                                key={'playlist-song-' + (index)}
+                                                index={index}
+                                                song={song}
+                                                published={idNamePair.published}
+                                                listCardInd={index2}
+                                            />
+                                        ))
+                                    }
+
+                                </div>
+                            </List>
+                            <Box >
+
+
+
+                                {deleteButton}
+                                {duplicateButton}
+                                
+                            </Box>
+                            {modalJSX}
+
+
+                        </Box>
+                        <Box sx={{ flexGrow: 1, fontSize: "1vw", paddingTop: "1.2vw", fontWeight: 'bold' }}> Published: <Box component="span" sx={{ fontSize: "1vw", color: "green", paddingLeft: ".8vw" }}>{idNamePair.publishDate}</Box>
+                            <Box component="span" sx={{ position: "absolute", fontSize: "1vw", left: "32.8vw", fontWeight: 'bold' }}>Listens: </Box><Box component="span" sx={{ position: "absolute", fontSize: "1vw", color: "red", left: "37vw", fontWeight: 'bold' }}>{idNamePair.listens}</Box>
+
+                        </Box>
+                        <Box component="span" sx={{ position: "relative", top: "72.5%", left: "91%" }}>
+                            <IconButton onClick={handleToggleExpandTwo} aria-label='retract'>
+                                <KeyboardDoubleArrowUpIcon style={{ fontSize: '2vw', color: "#000000" }} />
+                            </IconButton>
+                        </Box>
+
+                    </Box>
+
+                </ListItem>
+
         }
 
 
-        
+
     }
 
     if (editActive) {
@@ -581,8 +586,8 @@ function ListCard(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
+                inputProps={{ style: { fontSize: 48 } }}
+                InputLabelProps={{ style: { fontSize: 24 } }}
                 autoFocus
             />
     }

@@ -157,11 +157,11 @@ const HomeScreen = () => {
             
         >
             
-            <MenuItem onClick={handleMenuCloseName} style={{border:".1px solid #000"}}>Name (A-Z)</MenuItem>
-            <MenuItem onClick={handleMenuClosePublish} style={{border:".1px solid #000"}}>Publish Date (Newest)</MenuItem>
-            <MenuItem onClick={handleMenuCloseListens} style={{border:".1px solid #000"}}>Listens (High - Low)</MenuItem>
-            <MenuItem onClick={handleMenuCloseLikes} style={{border:".1px solid #000"}}>Likes (High - Low)</MenuItem>
-            <MenuItem onClick={handleMenuCloseDislikes} style={{border:".1px solid #000"}}>Dislikes (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuCloseName} style={{border:".008vw solid #000",fontSize:"1vw"}}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleMenuClosePublish} style={{border:".008vw solid #000",fontSize:"1vw"}}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleMenuCloseListens} style={{border:".008vw solid #000",fontSize:"1vw"}}>Listens (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuCloseLikes} style={{border:".008vw solid #000",fontSize:"1vw"}}>Likes (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuCloseDislikes} style={{border:".008vw solid #000",fontSize:"1vw"}}>Dislikes (High - Low)</MenuItem>
         </Menu>
     );
     const ownMenu = (
@@ -182,9 +182,9 @@ const HomeScreen = () => {
             
         >
             
-            <MenuItem onClick={handleMenuCloseOwnName} style={{border:".1px solid #000"}}>Name (A-Z)</MenuItem>
-            <MenuItem onClick={handleMenuCloseOwnCreation} style={{border:".1px solid #000"}}>Creation Date (Old-New)</MenuItem>
-            <MenuItem onClick={handleMenuCloseOwnEditDate} style={{border:".1px solid #000"}}>Last Edit Date (New-Old)</MenuItem>
+            <MenuItem onClick={handleMenuCloseOwnName} style={{border:".008vw solid #000",fontSize:"1vw"}}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleMenuCloseOwnCreation} style={{border:".008vw solid #000",fontSize:"1vw"}}>Creation Date (Old-New)</MenuItem>
+            <MenuItem onClick={handleMenuCloseOwnEditDate} style={{border:".008vw solid #000",fontSize:"1vw"}}>Last Edit Date (New-Old)</MenuItem>
 
         </Menu>
     );
@@ -219,24 +219,23 @@ const HomeScreen = () => {
     }
     let commentButton = <Button 
     disabled={false}
-    id='undo-button'
     onClick={handleCommentsClick}
     variant="contained"
     style={{
-        borderRadius: "10px 10px 0px 0px",
+        borderRadius: ".8vw .8vw 0vw 0vw",
         fontWeight:"bold",
         backgroundColor: "#fff",
-        border: ".1px solid #000",
+        border: ".01vw solid #000",
         color:"black",
         textTransform: 'none',
-        paddingTop: "0px",
-        paddingBotton: "0px",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        fontSize: "15px"
+        paddingTop: "0vw",
+        paddingBotton: "0vw",
+        paddingLeft: "1vw",
+        paddingRight: "1vw",
+        fontSize: "1vw"
     }}
     sx={{
-        paddingBottom:"0px"
+        paddingBottom:"0vw"
     }}
     >
     
@@ -246,25 +245,25 @@ const HomeScreen = () => {
 
     let youtubeButton = <Button 
     disabled={false}
-    id='undo-button'
     onClick={handleYoutubeClick}
     variant="contained"
     style={{
-        borderRadius: "10px 10px 0px 0px",
+        borderRadius: ".8vw .8vw 0vw 0vw",
         fontWeight:"bold",
-        border: ".1px solid #000",
+        border: ".01vw solid #000",
         backgroundColor: "#cccccc",
         color:"black",
         textTransform: 'none',
-        paddingTop: "0px",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        fontSize: "15px"
+        paddingTop: "0vw",
+        paddingBottom:"0vw",
+        paddingLeft: "1vw",
+        paddingRight: "1vw",
+        fontSize: "1vw"
     }}
     sx={{
-        paddingBottom:"0px",
-        paddingLeft: "15px",
-        paddingRight: "15px"
+        paddingBottom:"0vw",
+        paddingLeft: "1vw",
+        paddingRight: "1vw"
     }}
     >
         
@@ -275,48 +274,45 @@ const HomeScreen = () => {
      if(tab){
         commentButton = <Button 
     disabled={false}
-    id='undo-button'
     onClick={handleCommentsClick}
     variant="contained"
     style={{
-        borderRadius: "10px 10px 0px 0px",
+        borderRadius: ".8vw .8vw 0vw 0vw",
         fontWeight:"bold",
         backgroundColor: "#cccccc",
-        border: ".1px solid #000",
+        border: ".01vw solid #000",
         color:"black",
         textTransform: 'none',
-        paddingTop: "0px",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        fontSize: "15px"
+        paddingTop: "0vw",
+        paddingLeft: "1vw",
+        paddingRight: "1vw",
+        fontSize: "1vw"
     }}
     sx={{
-        paddingBottom:"0px"
+        paddingBottom:"0vw"
     }}
     >Comments</Button>
 
     youtubeButton = <Button 
     disabled={false}
-    id='undo-button'
     onClick={handleYoutubeClick}
     variant="contained"
     style={{
-        borderRadius: "10px 10px 0px 0px",
+        borderRadius: ".8vw .8vw 0vw 0vw",
         fontWeight:"bold",
-        border: ".1px solid #000",
+        border: ".01vw solid #000",
         backgroundColor: "#fff",
         color:"black",
         textTransform: 'none',
-        paddingTop: "0px",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        
-        fontSize: "15px"
+        paddingLeft: "1vw",
+        paddingRight: "1vw",
+        paddingTop: "0vw",
+        fontSize: "1vw"
     }}
     sx={{
-        paddingBottom:"0px",
-        paddingLeft: "15px",
-        paddingRight: "15px"
+        paddingBottom:"0vw",
+        paddingLeft: "1vw",
+        paddingRight: "1vw"
     }}
     >
         
@@ -364,20 +360,20 @@ const HomeScreen = () => {
         }
     }
     
-    let homeBorder = "3px solid #c4c4c4";
+    let homeBorder = ".24vw solid #c4c4c4";
     if(store.view == "home"){
-        homeBorder = "3px solid #53d333";
+        homeBorder = ".24vw solid #53d333";
     }
-    let usersBorder = "3px solid #c4c4c4";
+    let usersBorder = ".24vw solid #c4c4c4";
     if(store.view === "users"){
         
-        usersBorder = "3px solid #53d333";
+        usersBorder = ".24vw solid #53d333";
     }
-    let allBorder = "3px solid #c4c4c4";
+    let allBorder = ".24vw solid #c4c4c4";
 
     if(store.view == "all"){
         
-        allBorder = "3px solid #53d333";
+        allBorder = ".24vw solid #53d333";
     }
     let homeColor = "#000000"
     if(store.guestMode){
@@ -386,22 +382,27 @@ const HomeScreen = () => {
     return (
         <Box sx={{ display: 'flex' }}>
             
-            <div><IconButton onClick={handleOwnPlaylists} style={{border:homeBorder, borderRadius:"0px",padding:"0px"}} disabled= {store.guestMode} aria-label='extend' id= "home">
-                    <HomeOutlinedIcon style={{fontSize:'30pt', color: homeColor}} />
+            <div><IconButton onClick={handleOwnPlaylists} style={{border:homeBorder, borderRadius:"0vw",padding:"0vw"}} disabled= {store.guestMode} aria-label='extend' id= "home">
+                    <HomeOutlinedIcon style={{fontSize:'2.5vw', color: homeColor}} />
                 </IconButton></div>
-        <div><IconButton onClick={handleAllPlaylists} style={{border:allBorder, borderRadius:"0px",padding:"0px"}} aria-label='extend' id= "all">
-                    <GroupsIcon style={{fontSize:'30pt', color: "#000000"}} />
+        <div><IconButton onClick={handleAllPlaylists} style={{border:allBorder, borderRadius:"0vw",padding:"0vw"}} aria-label='extend' id= "all">
+                    <GroupsIcon style={{fontSize:'2.5vw', color: "#000000"}} />
                 </IconButton></div>
-                <div><IconButton onClick={handleUsersPlaylists} style={{border:usersBorder, borderRadius:"0px",padding:"0px"}} aria-label='extend' id= "users">
-                    <PersonOutlineOutlinedIcon style={{fontSize:'30pt', color: "#000000"}} />
+                <div><IconButton onClick={handleUsersPlaylists} style={{border:usersBorder, borderRadius:"0vw",padding:"0vw"}} aria-label='extend' id= "users">
+                    <PersonOutlineOutlinedIcon style={{fontSize:'2.5vw', color: "#000000"}} />
                 </IconButton></div>
                 
 
-                <div id = "borderchange">  <TextField type="text" id="outlined-basic"  variant="outlined" size="small" onChange={ 
-                    handleUpdateSearch} onKeyPress={handleKeyPress} height="30px" placeholder="Search" style={{marginTop:"5px",marginLeft:"70px",background:"#ffffff",width:"600px"}}/>
+                <div id = "borderchange">  <TextField type="text" id="outlined-basic"  variant="outlined" onChange={ 
+                    handleUpdateSearch} onKeyPress={handleKeyPress} height="2.2vw" placeholder="Search" style={{marginTop:"0.1vw",marginLeft:"5vw",background:"#ffffff",width:"45vw"}} 
+                    inputProps={{
+                        style: {
+                          fontSize:"1vw",
+                          height: "0vw"
+                        }}} />
                 </div>
-                <span><IconButton onClick={handleSortMenuOpen}  aria-label='extend' id= "users" style={{borderRadius:"10px",fontSize:"15px",fontWeight:"bold"}} sx={{position:"absolute",left:"87%"}}>
-                    SORT BY<SortIcon style={{fontSize:'30pt', color: "#000000"}} sx={{marginLeft:"20px"}}/>
+                <span><IconButton onClick={handleSortMenuOpen}  aria-label='extend' id= "users" style={{borderRadius:".8vw",fontSize:"1vw",fontWeight:"bold"}} sx={{position:"absolute",left:"87%"}}>
+                    SORT BY<SortIcon style={{fontSize:'2vw', color: "#000000"}} sx={{marginLeft:"1.3vw"}}/>
                 </IconButton></span>
                 <div>
         <div id="playlist-selector">
